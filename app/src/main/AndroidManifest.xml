@@ -14,9 +14,11 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.DIAL" />
             </intent-filter>
         </activity>
+        <activity android:name=".MenuDetail"></activity>
     </application>
 
 </manifest>
