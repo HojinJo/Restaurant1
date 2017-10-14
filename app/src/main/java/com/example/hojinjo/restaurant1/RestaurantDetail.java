@@ -34,9 +34,9 @@ public class RestaurantDetail extends AppCompatActivity {
         final ArrayList<MyItem> data = new ArrayList<MyItem>();
         data.add(new MyItem(R.drawable.dosirak, "도시락 정식", "7500"));
         data.add(new MyItem(R.drawable.chicken, "닭고기 정식", "7500"));
-        data.add(new MyItem(R.drawable.curry, "카레 라이스", "7500"));
+        data.add(new MyItem(R.drawable.curry, "카레라이스", "7500"));
         data.add(new MyItem(R.drawable.omu, "오므라이스", "7500"));
-        data.add(new MyItem(R.drawable.hamburg, "함박 스테이크", "8500"));
+        data.add(new MyItem(R.drawable.hamburg, "함박스테이크", "8500"));
 
 
         final MyAdapter adapter = new MyAdapter(this, R.layout.list_food, data);
@@ -60,7 +60,7 @@ public class RestaurantDetail extends AppCompatActivity {
                 else if(data.get(position).nMenu.equals("닭고기 정식")){
                     intent.putExtra("score", "3.9");
                 }
-                else if(data.get(position).nMenu.equals("카레 라이스")){
+                else if(data.get(position).nMenu.equals("카레라이스")){
                     intent.putExtra("score", "4.2");
                 }
                 else if(data.get(position).nMenu.equals("오므라이스")){
@@ -83,9 +83,6 @@ public class RestaurantDetail extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
 
 }
@@ -144,7 +141,7 @@ class MyItem {
     String nPrice;  // price
 
 
-    MyItem(int aIcon, String aMenu, String aPrice/*, String aReview*/) {
+    MyItem(int aIcon, String aMenu, String aPrice) {
         mIcon = aIcon;
         nMenu = aMenu;
         nPrice = aPrice;
