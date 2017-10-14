@@ -18,7 +18,8 @@
                 <action android:name="android.intent.action.DIAL" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuDetail"></activity>
+        <activity android:name=".MenuDetail"
+            android:parentActivityName=".RestaurantDetail"></activity>
     </application>
 
 </manifest>
