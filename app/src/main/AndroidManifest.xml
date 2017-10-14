@@ -18,9 +18,7 @@
                 <action android:name="android.intent.action.DIAL" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuDetail"
-            android:parentActivityName=".RestaurantDetail">//부모액티비티등록
-            </activity>
+        <activity android:name=".MenuDetail"></activity>
     </application>
 
 </manifest>
