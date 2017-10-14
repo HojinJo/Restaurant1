@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import static android.R.attr.data;
 
 public class RestaurantDetail extends AppCompatActivity {
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,21 @@ public class RestaurantDetail extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(),MenuDetail.class);
 
                 intent.putExtra("menu",data.get(position).nMenu);
+                if(data.get(position).nMenu.equals("도시락 정식")){
+                    intent.putExtra("score", "3.5");
+                }
+                else if(data.get(position).nMenu.equals("닭고기 정식")){
+                    intent.putExtra("score", "3.9");
+                }
+                else if(data.get(position).nMenu.equals("카레 라이스")){
+                    intent.putExtra("score", "4.2");
+                }
+                else if(data.get(position).nMenu.equals("오므라이스")){
+                    intent.putExtra("score", "4.9");
+                }
+                else{
+                    intent.putExtra("score", "3.3");
+                }
                 intent.putExtra("price",data.get(position).nPrice);
                 intent.putExtra("img",data.get(position).mIcon);
 
@@ -65,8 +83,6 @@ public class RestaurantDetail extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
 
 
@@ -127,10 +143,12 @@ class MyItem {
     String nMenu; // menu
     String nPrice;  // price
 
-    MyItem(int aIcon, String aMenu, String aPrice) {
+
+    MyItem(int aIcon, String aMenu, String aPrice/*, String aReview*/) {
         mIcon = aIcon;
         nMenu = aMenu;
         nPrice = aPrice;
+
     }
 }
 

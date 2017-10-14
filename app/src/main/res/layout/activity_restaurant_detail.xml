@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <TextView
         android:id="@+id/textView4"
@@ -11,12 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/R_name"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:background="@color/green"
         >
 
         <ImageView
@@ -24,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/front"/>
+            android:src="@drawable/front" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -73,17 +76,21 @@
 
     </LinearLayout>
 
+
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/type"
-        android:textSize="@dimen/text_size2" />
+        android:textSize="@dimen/text_size2"
+
+        />
     />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/grey"/>
 </LinearLayout>

@@ -20,6 +20,9 @@ public class MenuDetail extends AppCompatActivity {
 
         TextView tvprice = (TextView)findViewById(R.id.textView2);
 
+        TextView review=(TextView)findViewById(R.id.textView5);//평점
+
+        TextView score=(TextView)findViewById(R.id.textView6);//점수
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -27,6 +30,8 @@ public class MenuDetail extends AppCompatActivity {
         }
         Intent intent = getIntent();
 
+
+        score.setText(intent.getStringExtra("score"));
         tvmenu.setText(intent.getStringExtra("menu"));
         tvprice.setText(intent.getStringExtra("price"));
         ivimg.setImageResource(intent.getIntExtra("img",0));
