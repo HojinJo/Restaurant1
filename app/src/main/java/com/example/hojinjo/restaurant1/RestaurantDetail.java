@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,13 +20,15 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.R.attr.data;
+
 public class RestaurantDetail extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_detail);
 
-        ArrayList<MyItem> data = new ArrayList<MyItem>();
+        final ArrayList<MyItem> data = new ArrayList<MyItem>();
         data.add(new MyItem(R.drawable.dosirak, "도시락 정식", "7500"));
         data.add(new MyItem(R.drawable.chicken, "닭고기 정식", "7500"));
         data.add(new MyItem(R.drawable.curry, "카레 라이스", "7500"));
@@ -45,12 +48,14 @@ public class RestaurantDetail extends AppCompatActivity {
         {
             public void onItemClick (AdapterView < ? > parent, View vClicked,
                                      int position, long id){
-                //   String name = (String) ((TextView)vClicked.findViewById(R.id.textItem1)).getText();
-                String name = ((MyItem) adapter.getItem(position)).nMenu;
-                Toast.makeText(RestaurantDetail.this, name + " selected",
-                        Toast.LENGTH_SHORT).show();
-            }
+                Intent intent = new Intent(getApplicationContext(),MenuDetail.class);
 
+                intent.putExtra("menu",data.get(position).nMenu);
+                intent.putExtra("price",data.get(position).nPrice);
+                intent.putExtra("img",data.get(position).mIcon);
+
+                startActivity(intent);
+            }
         });
         ImageButton btn = (ImageButton)findViewById(R.id.dialButton);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +65,8 @@ public class RestaurantDetail extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
 
 
