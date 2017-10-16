@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/iconItem"
@@ -27,8 +26,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="menu1"
-            android:textSize="@dimen/text_size1"
-            />
+            android:textSize="@dimen/text_size1" />
 
         <TextView
             android:id="@+id/textItem2"
@@ -37,8 +35,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:text="price"
-            android:textSize="@dimen/text_size2"
-            />
+            android:textSize="@dimen/text_size2" />
 
     </LinearLayout>
 
