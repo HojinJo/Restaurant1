@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Restaurant</string>
-    <string name="tel">02-123-4567</string>
+    <string name="tel">02&#8211;123&#8211;4567</string>
     <string name="R_name">다바타식당</string>
     <string name="address">서울특별시 성북구 삼선교로16길 54</string>
     <string name="time">오전11시~오후10시</string>
