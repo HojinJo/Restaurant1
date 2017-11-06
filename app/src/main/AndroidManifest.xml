@@ -19,8 +19,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuDetail"/>
-            <!--android:parentActivityName=".RestaurantDetail" />-->
+            android:name=".MenuDetail"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

@@ -40,7 +40,9 @@ public class RestaurantDetail extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View rootView = (View) inflater.inflate(R.layout.activity_restaurant_detail, container, false);
+
         final ArrayList<MyItem> data = new ArrayList<MyItem>();
         data.add(new MyItem(R.drawable.dosirak, "도시락 정식", "7500"));
         data.add(new MyItem(R.drawable.chicken, "닭고기 정식", "7500"));
@@ -63,29 +65,7 @@ public class RestaurantDetail extends Fragment {
                                     int i, long id) {
                 mCurCheckPosition = i;
                 Activity activity = getActivity();
-
                 ((OnTitleSelectedListener) activity).onTitleSelected(i);
-/*
-                intent.putExtra("menu",data.get(position).nMenu);
-                if(data.get(position).nMenu.equals("도시락 정식")){
-                    intent.putExtra("score", "3.5");
-                }
-                else if(data.get(position).nMenu.equals("닭고기 정식")){
-                    intent.putExtra("score", "3.9");
-                }
-                else if(data.get(position).nMenu.equals("카레라이스")){
-                    intent.putExtra("score", "4.2");
-                }
-                else if(data.get(position).nMenu.equals("오므라이스")){
-                    intent.putExtra("score", "4.9");
-                }
-                else{
-                    intent.putExtra("score", "3.3");
-                }
-                intent.putExtra("price",data.get(position).nPrice);
-                intent.putExtra("img",data.get(position).mIcon);
-
-                startActivity(intent);*/
             }
         });
         ImageButton btn = (ImageButton)rootView.findViewById(R.id.dialButton);
@@ -149,7 +129,6 @@ public class RestaurantDetail extends Fragment {
             return convertView;
         }
     }
-
     class MyItem {
         int mIcon; // image
         String nMenu; // menu

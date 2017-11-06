@@ -31,22 +31,21 @@ public class DetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
 
+        ImageView ivimg = (ImageView) view.findViewById(R.id.imageView);
+        TextView tvmenu = (TextView) view.findViewById(R.id.textView1);
+        TextView tvprice = (TextView) view.findViewById(R.id.textView2);
+        TextView score = (TextView) view.findViewById(R.id.textView6);//점수
+
         if(index>=0) {
-            ImageView ivimg = (ImageView) view.findViewById(R.id.imageView);
-            TextView tvmenu = (TextView) view.findViewById(R.id.textView1);
-            TextView tvprice = (TextView) view.findViewById(R.id.textView2);
-            TextView score = (TextView) view.findViewById(R.id.textView6);//점수
+            ivimg.setImageResource(Menu.IMAGE[index]);
+            tvmenu.setText(Menu.MENU[index]);
+            tvprice.setText(Menu.PRICE[index]);
+            score.setText(Menu.SCORE[index]);
         }
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        /*Intent intent = getIntent();*//*
-
-        score.setText(intent.getStringExtra("score"));
-        tvmenu.setText(intent.getStringExtra("menu"));
-        tvprice.setText(intent.getStringExtra("price"));
-        ivimg.setImageResource(intent.getIntExtra("img",0));*/
     return view;
     }
 

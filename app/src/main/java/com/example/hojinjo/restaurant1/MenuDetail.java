@@ -37,12 +37,6 @@ public class MenuDetail extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        Intent intent = getIntent();
-
-        score.setText(intent.getStringExtra("score"));
-        tvmenu.setText(intent.getStringExtra("menu"));
-        tvprice.setText(intent.getStringExtra("price"));
-        ivimg.setImageResource(intent.getIntExtra("img",0));
 
     }
 }

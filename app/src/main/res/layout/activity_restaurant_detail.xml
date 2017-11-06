@@ -73,11 +73,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/time"
                 android:textSize="@dimen/text_size2" />
-
         </LinearLayout>
-
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/textView7"
@@ -87,7 +84,6 @@
         android:text="@string/type"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size2"
-
         />
 
     <ListView
