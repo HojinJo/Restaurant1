@@ -25,23 +25,21 @@ import java.util.ArrayList;
 
 import static android.R.attr.data;
 
+
 public class RestaurantDetail extends Fragment {
     int mCurCheckPosition = -1;
 
     public interface OnTitleSelectedListener {
-        public void onTitleSelected(int i);
+        public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
     }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
+    public RestaurantDetail() {
+        // Required empty public constructor
     }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        View rootView = (View) inflater.inflate(R.layout.activity_restaurant_detail, container, false);
+        View rootView = inflater.inflate(R.layout.activity_restaurant_detail, container, false);
 
         final ArrayList<MyItem> data = new ArrayList<MyItem>();
         data.add(new MyItem(R.drawable.dosirak, "도시락 정식", "7500"));
@@ -50,22 +48,16 @@ public class RestaurantDetail extends Fragment {
         data.add(new MyItem(R.drawable.omu, "오므라이스", "7500"));
         data.add(new MyItem(R.drawable.hamburg, "함박스테이크", "8500"));
 
-
         final MyAdapter adapter = new MyAdapter(getActivity(), R.layout.list_food, data);
 
-
-        ListView listView = (ListView)rootView.findViewById(R.id.listView);
-        listView.setAdapter(adapter);
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-
-        {
-            public void onItemClick(AdapterView<?> parent, View vClicked,
-                                    int i, long id) {
+        ListView listview = rootView.findViewById(R.id.listView);
+        listview.setAdapter(adapter);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override         //리스트에서 항목을 선택했을 때 호출
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mCurCheckPosition = i;
                 Activity activity = getActivity();
-                ((OnTitleSelectedListener) activity).onTitleSelected(i);
+                ((OnTitleSelectedListener)activity).onTitleSelected(i);    //TitlesFragment 와 연결된 액티비티
             }
         });
         ImageButton btn = (ImageButton)rootView.findViewById(R.id.dialButton);
@@ -76,10 +68,9 @@ public class RestaurantDetail extends Fragment {
                 startActivity(intent);
             }
         });
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         return rootView;
     }
-
 
     class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
         private Context mContext;
@@ -143,4 +134,3 @@ public class RestaurantDetail extends Fragment {
         }
     }
 }
-

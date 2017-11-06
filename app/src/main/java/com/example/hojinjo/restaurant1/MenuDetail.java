@@ -15,28 +15,18 @@ public class MenuDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_detail);
 
-        if (getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE) {
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             finish();
             return;
-        }
+        }       //가로방향에선 DetailActivity 실행안함
 
         DetailsFragment details = new DetailsFragment();
-        details.setSelection(getIntent().getIntExtra("index",-1));
-        getSupportFragmentManager().beginTransaction().replace(R.id.details, details).commit();
-
-        ImageView ivimg = (ImageView)findViewById(R.id.imageView);
-
-        TextView tvmenu = (TextView)findViewById(R.id.textView1);
-
-        TextView tvprice = (TextView)findViewById(R.id.textView2);
-
-        TextView score=(TextView)findViewById(R.id.textView6);//점수
+        details.setSelection(getIntent().getIntExtra("index",-1));      //리스트 뷰 항목 번호를 DetailFragment 객체로 전달
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, details).commit();   //동적 교체
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 }

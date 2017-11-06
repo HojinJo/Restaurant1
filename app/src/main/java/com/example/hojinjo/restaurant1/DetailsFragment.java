@@ -16,39 +16,32 @@ import android.widget.TextView;
  * A simple {@link Fragment} subclass.
  */
 public class DetailsFragment extends Fragment {
-
-    static int index=-1;
+    int index;
 
     public DetailsFragment() {
         // Required empty public constructor
     }
 
-    public void setSelection(int i) { index = i; }
-
+    public void setSelection(int i) {
+        index = i;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_details, container, false);
+        TextView tv1 = (TextView)view.findViewById(R.id.textView1);
+        TextView tv2 = (TextView)view.findViewById(R.id.textView2);
+        TextView tv3 = (TextView)view.findViewById(R.id.textView5);
+        TextView tv4 = (TextView)view.findViewById(R.id.textView6);
 
-        ImageView ivimg = (ImageView) view.findViewById(R.id.imageView);
-        TextView tvmenu = (TextView) view.findViewById(R.id.textView1);
-        TextView tvprice = (TextView) view.findViewById(R.id.textView2);
-        TextView score = (TextView) view.findViewById(R.id.textView6);//점수
+        ImageView image = view.findViewById(R.id.imageView);
 
-        if(index>=0) {
-            ivimg.setImageResource(Menu.IMAGE[index]);
-            tvmenu.setText(Menu.MENU[index]);
-            tvprice.setText(Menu.PRICE[index]);
-            score.setText(Menu.SCORE[index]);
-        }
-        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    return view;
+        tv1.setText(Menu.MENU[index]);
+        tv2.setText(Menu.PRICE[index]);
+        tv4.setText(Menu.SCORE[index]);
+        image.setImageResource(Menu.IMAGE[index]);
+
+        return view;
     }
-
-
-
 }
