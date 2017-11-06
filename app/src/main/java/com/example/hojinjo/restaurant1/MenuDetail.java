@@ -1,6 +1,7 @@
 package com.example.hojinjo.restaurant1;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,16 @@ public class MenuDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_detail);
+
+        if (getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE) {
+            finish();
+            return;
+        }
+
+        DetailsFragment details = new DetailsFragment();
+        details.setSelection(getIntent().getIntExtra("index",-1));
+        getSupportFragmentManager().beginTransaction().replace(R.id.details, details).commit();
 
         ImageView ivimg = (ImageView)findViewById(R.id.imageView);
 
