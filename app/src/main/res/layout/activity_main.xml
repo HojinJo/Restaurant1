@@ -7,7 +7,7 @@
     tools:context="com.example.hojinjo.restaurant1.MainActivity"
     android:orientation="vertical">
 <fragment
-    android:name="com.example.hojinjo.restaurant1.TitlesFragment"
+    android:name="com.example.hojinjo.restaurant1.RestaurantDetail"
     android:id="@+id/titles"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

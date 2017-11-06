@@ -3,7 +3,7 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 <fragment
-    android:name="com.example.hojinjo.restaurant1.TitlesFragment"
+    android:name="com.example.hojinjo.restaurant1.RestaurantDetail"
     android:layout_width="0px"
     android:layout_height="match_parent"
     android:layout_weight="1"

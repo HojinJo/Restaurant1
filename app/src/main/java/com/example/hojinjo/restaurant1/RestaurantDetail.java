@@ -52,7 +52,7 @@ public class RestaurantDetail extends Fragment {
         final MyAdapter adapter = new MyAdapter(getActivity(), R.layout.list_food, data);
 
 
-        ListView listView = (ListView)getView().findViewById(R.id.listView);
+        ListView listView = (ListView)rootView.findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
 
