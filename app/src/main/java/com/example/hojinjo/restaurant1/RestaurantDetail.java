@@ -29,13 +29,17 @@ import static android.R.attr.data;
 public class RestaurantDetail extends Fragment {
     int mCurCheckPosition = -1;
 
+
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
     }
     public RestaurantDetail() {
         // Required empty public constructor
     }
+    MyAdapter adapter;
+    ListView listview;
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -48,9 +52,9 @@ public class RestaurantDetail extends Fragment {
         data.add(new MyItem(R.drawable.omu, "오므라이스", "7500"));
         data.add(new MyItem(R.drawable.hamburg, "함박스테이크", "8500"));
 
-        final MyAdapter adapter = new MyAdapter(getActivity(), R.layout.list_food, data);
+         adapter = new MyAdapter(getActivity(), R.layout.list_food, data);
 
-        ListView listview = rootView.findViewById(R.id.listView);
+        listview = (ListView)rootView.findViewById(R.id.listView);
         listview.setAdapter(adapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override         //리스트에서 항목을 선택했을 때 호출
@@ -71,6 +75,7 @@ public class RestaurantDetail extends Fragment {
         listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         return rootView;
     }
+
 
     class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
         private Context mContext;
