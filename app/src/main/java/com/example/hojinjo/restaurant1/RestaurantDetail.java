@@ -32,9 +32,11 @@ public class RestaurantDetail extends Fragment {
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
     }
+
     public RestaurantDetail() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,10 +59,10 @@ public class RestaurantDetail extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mCurCheckPosition = i;
                 Activity activity = getActivity();
-                ((OnTitleSelectedListener)activity).onTitleSelected(i);    //TitlesFragment 와 연결된 액티비티
+                ((OnTitleSelectedListener) activity).onTitleSelected(i);    //TitlesFragment 와 연결된 액티비티
             }
         });
-        ImageButton btn = (ImageButton)rootView.findViewById(R.id.dialButton);
+        ImageButton btn = (ImageButton) rootView.findViewById(R.id.dialButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,6 +122,7 @@ public class RestaurantDetail extends Fragment {
             return convertView;
         }
     }
+
     class MyItem {
         int mIcon; // image
         String nMenu; // menu

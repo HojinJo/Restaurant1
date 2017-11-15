@@ -17,7 +17,8 @@
             android:layout_height="60dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:src="@drawable/dosirak" />
+            android:src="@drawable/dosirak"
+            />
 
         <TextView
             android:id="@+id/textItem1"

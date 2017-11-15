@@ -20,7 +20,8 @@
         </activity>
         <activity
             android:name=".MenuDetail"
-            android:parentActivityName=".MainActivity"> </activity>
+            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".RegisterR"></activity>
     </application>
 
 </manifest>
