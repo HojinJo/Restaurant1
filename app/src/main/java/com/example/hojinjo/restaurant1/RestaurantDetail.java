@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,7 +45,10 @@ public class RestaurantDetail extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+      /*  ActionBar actionBar = getActivity().getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }*/
         View rootView = inflater.inflate(R.layout.activity_restaurant_detail, container, false);
 
         final ArrayList<MyItem> data = new ArrayList<MyItem>();
@@ -81,18 +85,19 @@ public class RestaurantDetail extends Fragment {
    /*옵션메뉴*/
 //출처: hashcode.co.kr에서 프래그먼트일 경우 옵션메뉴 만들 때 onCreateOptionsMenu 함수 정의, setHasOptionsMenu(true) 코드 참조
 
-    @Override
+   @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
+    /*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         menu.add(0, 1, 0, "메뉴등록");
 
        super.onCreateOptionsMenu(menu, inflater);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -100,7 +105,7 @@ public class RestaurantDetail extends Fragment {
                 startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
-///**////
+/////
 
 
     class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
