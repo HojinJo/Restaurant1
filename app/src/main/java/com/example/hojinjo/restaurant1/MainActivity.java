@@ -52,28 +52,20 @@ public class MainActivity extends AppCompatActivity implements RestaurantDetail.
         });
 
     }
-    final int  REQUEST_EXTERNAL_STORAGE_FOR_MULTIMEDIA=1;
 
-    private void checkDangerousPermissions() {
-        String[] permissions = {
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.RECORD_AUDIO
-        };
-
-        int permissionCheck = PackageManager.PERMISSION_GRANTED;
-        for (int i = 0; i < permissions.length; i++) {
-            permissionCheck = ContextCompat.checkSelfPermission(this, permissions[i]);
-            if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-                break;
+/*    final int REQUEST_CODE_READ_CONTACTS = 1;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_READ_CONTACTS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getContacts();
+            } else {
+                Toast.makeText(getApplicationContext(), "READ_CONTACTS 접근 권한이 필요합니다", Toast.LENGTH_SHORT).show();
             }
         }
+    }*/
 
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, permissions, REQUEST_EXTERNAL_STORAGE_FOR_MULTIMEDIA);
-        }
-    }
-    
     private String currentDateFormat(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH_mm_ss");
         String  currentTimeStamp = dateFormat.format(new Date());
@@ -105,16 +97,17 @@ public class MainActivity extends AppCompatActivity implements RestaurantDetail.
     }
     private void insertRecord() {
         EditText name = (EditText)findViewById(R.id.edit_name);
+        EditText address = (EditText)findViewById(R.id.edit_address);
         EditText phone = (EditText)findViewById(R.id.edit_phone);
 
-        long nOfRows = mDbHelper.insertUserByMethod(name.getText().toString(),phone.getText().toString());
+        long nOfRows = mDbHelper.insertUserByMethod(name.getText().toString(),address.getText().toString(),phone.getText().toString());
         if (nOfRows >0)
             Toast.makeText(this,nOfRows+" Record Inserted", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this,"No Record Inserted", Toast.LENGTH_SHORT).show();
     }
 
-
+///////////////////////////프레그먼트 화면에따라
     public void onTitleSelected(int i) {
         if (getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE) {     //가로보기용

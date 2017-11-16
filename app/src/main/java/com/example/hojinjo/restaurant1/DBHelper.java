@@ -28,11 +28,11 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertUserByMethod(String name, String phone) {
+    public long insertUserByMethod(String name, String address ,String phone) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(RContract.Restaurant.KEY_NAME, name);
-        values.put(RContract.Restaurant.KEY_ADDRESS, name);
+        values.put(RContract.Restaurant.KEY_ADDRESS, address);
         values.put(RContract.Restaurant.KEY_PHONE,phone);
 
         return db.insert(RContract.Restaurant.TABLE_NAME,null,values);
