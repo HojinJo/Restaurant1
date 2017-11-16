@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,15 +31,17 @@ import static android.R.attr.data;
 public class RestaurantDetail extends Fragment {
     int mCurCheckPosition = -1;
 
+
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
     }
-
     public RestaurantDetail() {
         // Required empty public constructor
     }
-
+    MyAdapter adapter;
+    ListView listview;
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -50,19 +54,19 @@ public class RestaurantDetail extends Fragment {
         data.add(new MyItem(R.drawable.omu, "오므라이스", "7500"));
         data.add(new MyItem(R.drawable.hamburg, "함박스테이크", "8500"));
 
-        final MyAdapter adapter = new MyAdapter(getActivity(), R.layout.list_food, data);
+         adapter = new MyAdapter(getActivity(), R.layout.list_food, data);
 
-        ListView listview = rootView.findViewById(R.id.listView);
+        listview = (ListView)rootView.findViewById(R.id.listView);
         listview.setAdapter(adapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override         //리스트에서 항목을 선택했을 때 호출
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mCurCheckPosition = i;
                 Activity activity = getActivity();
-                ((OnTitleSelectedListener) activity).onTitleSelected(i);    //TitlesFragment 와 연결된 액티비티
+                ((OnTitleSelectedListener)activity).onTitleSelected(i);    //TitlesFragment 와 연결된 액티비티
             }
         });
-        ImageButton btn = (ImageButton) rootView.findViewById(R.id.dialButton);
+        ImageButton btn = (ImageButton)rootView.findViewById(R.id.dialButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +77,31 @@ public class RestaurantDetail extends Fragment {
         listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         return rootView;
     }
+
+   /*옵션메뉴*/
+//출처: hashcode.co.kr에서 프래그먼트일 경우 옵션메뉴 만들 때 onCreateOptionsMenu 함수 정의, setHasOptionsMenu(true) 코드 참조
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        menu.add(0, 1, 0, "메뉴등록");
+
+       super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+                Intent intent=new Intent(getContext(), RegisterM.class);
+                startActivity(intent);
+        return super.onOptionsItemSelected(item);
+    }
+///**////
+
 
     class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
         private Context mContext;
@@ -122,7 +151,6 @@ public class RestaurantDetail extends Fragment {
             return convertView;
         }
     }
-
     class MyItem {
         int mIcon; // image
         String nMenu; // menu
