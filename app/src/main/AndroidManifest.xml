@@ -23,7 +23,7 @@
             android:parentActivityName=".MainActivity" />
 
 
-        <activity android:name=".RegisterR"></activity>
+        <!--<activity android:name=".RegisterR"></activity>-->
 
         <activity android:name=".RegisterM"></activity>
         <provider
