@@ -26,8 +26,6 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements RestaurantDetail.OnTitleSelectedListener {
 
-    private DBHelper mDbHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantDetail.
 
             if (mVideoFile != null) {
                 //2. 생성된 파일 객체에 대한 Uri 객체를 얻기
-                Uri videoUri = FileProvider.getUriForFile(this, "com.example.hojinjo.practice10", mVideoFile);
+                Uri videoUri = FileProvider.getUriForFile(this, "com.example.hojinjo.restaurant1", mVideoFile);
 
                 //3. Uri 객체를 Extras를 통해 카메라 앱으로 전달
                 takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
@@ -95,7 +93,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantDetail.
             }
         }
     }
+    DBHelper mDbHelper;
     private void insertRecord() {
+        mDbHelper = new DBHelper(this);
         EditText name = (EditText)findViewById(R.id.edit_name);
         EditText address = (EditText)findViewById(R.id.edit_address);
         EditText phone = (EditText)findViewById(R.id.edit_phone);
