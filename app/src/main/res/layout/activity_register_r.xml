@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.hojinjo.restaurant1.RegisterR">
+    tools:context="com.example.hojinjo.restaurant1.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,10 +35,10 @@
                     android:text="업소 이름" />
 
                 <EditText
-                    android:id="@+id/_id"
+                    android:id="@+id/edit_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:focusable="false" />
+                    android:hint="업소 이름 입력" />
             </TableRow>
 
             <TableRow>
@@ -49,10 +49,10 @@
                     android:text="주소" />
 
                 <EditText
-                    android:id="@+id/edit_name"
+                    android:id="@+id/edit_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="이름 입력" />
+                    android:hint="주소 입력" />
             </TableRow>
 
             <TableRow>
