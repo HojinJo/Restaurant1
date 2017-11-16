@@ -1,12 +1,21 @@
 package com.example.hojinjo.restaurant1;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+<<<<<<< HEAD
 import android.support.v7.app.ActionBar;
+=======
+import android.support.v4.content.ContextCompat;
+>>>>>>> 22a85be24e54520b42b579d37a221ec2d4145772
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,7 +40,6 @@ import static android.R.attr.data;
 
 public class RestaurantDetail extends Fragment {
     int mCurCheckPosition = -1;
-
 
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
