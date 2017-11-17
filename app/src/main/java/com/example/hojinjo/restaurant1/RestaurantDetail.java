@@ -105,15 +105,14 @@ public class RestaurantDetail extends Fragment {
         setHasOptionsMenu(true);
     }
 
- /*   @Override
+ @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         menu.add(0, 1, 0, "메뉴등록");
-
        super.onCreateOptionsMenu(menu, inflater);
     }
-*/
- /*액션아이템 액티비티 전환*/
+
+ /*액션아이템 액티비티 전환=동작*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
                 Intent intent=new Intent(getContext(), RegisterM.class);
