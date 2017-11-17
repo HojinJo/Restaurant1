@@ -23,7 +23,6 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -31,16 +30,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import javax.crypto.spec.RC2ParameterSpec;
-
 
 public class RestaurantDetail extends Fragment {
     int mCurCheckPosition = -1;
     final int REQUEST_CODE_READ_CONTACTS = 1;
-    private MDBHelper mDbHelper;
+    private MDBHelper mDbHelper = new MDBHelper(getContext()) ;
     private DBHelper rDbHelper;
     Cursor c;
     View rootView;
+    RegisterM registerM = new RegisterM();
 
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
@@ -66,9 +64,9 @@ public class RestaurantDetail extends Fragment {
                     new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_READ_CONTACTS);
         } else // 권한 있음! 해당 데이터나 장치에 접근!
         {
-            getRestaurant();
+           // getRestaurant();
             getMenu();
-            //viewAllToListView();
+            viewAllToListView();
         }
 
         ImageButton btn = (ImageButton)rootView.findViewById(R.id.dialButton);
@@ -85,18 +83,7 @@ public class RestaurantDetail extends Fragment {
 
     private void getRestaurant() {
 
-        String[] projection = {
-                RContract.Restaurant.KEY_NAME,
-                RContract.Restaurant.KEY_ADDRESS,
-                RContract.Restaurant.KEY_PHONE
-        };
-        c=.query(RContract.Restaurant.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null);
-
+        c=rDbHelper.getAllRestaurantsByID();
         c.moveToLast();
 
         if(c.moveToLast()){
@@ -112,22 +99,8 @@ public class RestaurantDetail extends Fragment {
     }
 
     private void getMenu() {
-        String [] projection = {
-                MContract.Menu.KEY_NAME,
-                MContract.Menu.KEY_PRICE,
-                MContract.Menu.KEY_DESCRIPTION
-        };
 
-        String selection= MContract.Menu.KEY_RESTID + "=?";
-
-      /*  c = getActivity().query(
-              MContract.Menu.TABLE_NAME,  // 테이블이름
-                projection,         // 프로젝션
-                selection,    // 조건절=restid
-              RContract._ID,      // 조건절에 대한 값
-                null,
-                null,
-                null);*/
+        c = mDbHelper.getAllMenusByID(registerM.restid);
 //        while(c.moveToNext()) {
 //            mDbHelper.insertUserByMethod(c.getString(1), c.getString(2) ,c.getString(3));
 //        }
@@ -161,16 +134,16 @@ public class RestaurantDetail extends Fragment {
 /////
 
 /////////DB에 저장한거 불러오는 리스트뷰
-   /*private void viewAllToListView() {
+   private void viewAllToListView() {
 
         Cursor cursor = mDbHelper.getAllMenusByMethod();
 
         android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getContext(),
-                R.layout.activity_restaurant_detail, cursor, new String[]{
+                R.layout.list_food, cursor, new String[]{
+                registerM.mPhotoFile.toString(),
                 MContract.Menu.KEY_NAME,
-                MContract.Menu.KEY_PRICE,
-                MContract.Menu.KEY_DESCRIPTION},
-                new int[]{R.id.edit_name, R.id.edit_price, R.id.edit_menu}, 0);
+                MContract.Menu.KEY_PRICE},
+                new int[]{R.id.iconItem, R.id.textItem1, R.id.textItem2}, 0);
 
         ListView lv = (ListView)rootView.findViewById(R.id.listView);
         lv.setAdapter(adapter);
@@ -180,14 +153,22 @@ public class RestaurantDetail extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Adapter adapter = adapterView.getAdapter();
 
-                mName.setText(((Cursor)adapter.getItem(i)).getString(1));//넘겨준 값 써야함
-                mPrice.setText(((Cursor)adapter.getItem(i)).getString(2));
-                mMenu.setText(((Cursor)adapter.getItem(i)).getString(3));
+                ImageView imageView1 = rootView.findViewById(R.id.iconItem);
+                //imageView1.setImageResource();
+
+                TextView textView1 = rootView.findViewById(R.id.textItem1);
+                textView1.setText(((Cursor)adapter.getItem(i)).getString(1));
+
+                TextView textView2 = rootView.findViewById(R.id.textItem2);
+                textView2.setText(((Cursor)adapter.getItem(i)).getString(2));
+
+                //registerM.mName.setText(((Cursor)adapter.getItem(i)).getString(1));//넘겨준 값 써야함
+                //registerM.mPrice.setText(((Cursor)adapter.getItem(i)).getString(2));
+                //registerM.mDesc.setText(((Cursor)adapter.getItem(i)).getString(3));
             }
         });
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
-*/
 
 //////////////
 

@@ -41,4 +41,21 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         return db.query(RContract.Restaurant.TABLE_NAME,null,null,null,null,null,null);
     }
+
+    public Cursor getAllRestaurantsByID() {
+        String [] projection = {
+                RContract.Restaurant.KEY_NAME,
+                RContract.Restaurant.KEY_ADDRESS,
+                RContract.Restaurant.KEY_PHONE
+        };
+
+        SQLiteDatabase db = getReadableDatabase();
+        return db.query( RContract.Restaurant.TABLE_NAME,  // 테이블이름
+                projection,         // 프로젝션
+                null,    // 조건절=restid
+                null,      // 조건절에 대한 값
+                null,
+                null,
+                null);
+    }
 }

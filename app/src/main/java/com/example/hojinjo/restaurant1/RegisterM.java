@@ -1,15 +1,10 @@
 package com.example.hojinjo.restaurant1;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -29,7 +23,7 @@ public class RegisterM extends AppCompatActivity {
 
     EditText mName;
     EditText mPrice;
-    EditText mMenu;
+    EditText mDesc;
     Cursor c;
     String restid;
     final int REQUEST_CODE_READ_CONTACTS = 1;
@@ -47,7 +41,6 @@ public class RegisterM extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
         Button btn = (Button) findViewById(R.id.registerMenu);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,41 +49,31 @@ public class RegisterM extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
                 startActivity(intent);
 
-=======
-        Intent intent = getIntent();
-        restid=intent.getStringExtra("RESTID");
+
+        Intent it = getIntent();
+        restid=it.getStringExtra("RESTID");
 
         Button btn=(Button)findViewById(R.id.registerMenu);
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         insertRecord();
-                     Intent intent=new Intent(getApplicationContext(), RestaurantActivity.class);
+                     Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
                      startActivity(intent);
-
-
                     }
                 });
-
-
         mName= (EditText)findViewById(R.id.edit_name);
         mPrice = (EditText)findViewById(R.id.edit_price);
-        mMenu= (EditText)findViewById(R.id.edit_menu);
->>>>>>> eab583199fee21d35b95d161dbe3f6c7cd5690f8
-
+        mDesc = (EditText)findViewById(R.id.edit_menu);
             }
         });
     }
-<<<<<<< HEAD
-=======
 
 
         /*3.1, 3.2- sqlite에 저장하는 코드, 새로운거 추가하는코드*/
        /* while(c.moveToNext()) {
             mDbHelper.insertUserByMethod(c.getString(0), c.getString(1), c.getString(2));
         }*/
-
->>>>>>> eab583199fee21d35b95d161dbe3f6c7cd5690f8
     private void insertRecord() {
         EditText name = (EditText)findViewById(R.id.edit_name);
         EditText price = (EditText)findViewById(R.id.edit_price);

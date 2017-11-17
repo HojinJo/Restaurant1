@@ -119,16 +119,20 @@ public class MainActivity extends AppCompatActivity {
         EditText address = (EditText)findViewById(R.id.edit_address);
         EditText phone = (EditText)findViewById(R.id.edit_phone);
 
-        Cursor cursor=rDbHelper.getAllUsersByMethod();
 
-        Intent intentid = new Intent(getApplicationContext(), RegisterM.class);
-        intentid.putExtra("RESTID",cursor.getInt(0) );
 
         long nOfRows = rDbHelper.insertUserByMethod(name.getText().toString(),address.getText().toString(),phone.getText().toString());
         if (nOfRows >0)
             Toast.makeText(this,nOfRows+" Record Inserted", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this,"No Record Inserted", Toast.LENGTH_SHORT).show();
+
+
+        Cursor cursor=rDbHelper.getAllRestaurantsByMethod();  //rDbHelper.getRestaurantIDByName(name.getText().toString()) --> id
+
+        Intent intentid = new Intent(getApplicationContext(), RegisterM.class);
+        intentid.putExtra("RESTID",cursor.getInt(0) );  //커서존재하는지 다음으로
+        startActivity(intentid);
     }
 
 }
