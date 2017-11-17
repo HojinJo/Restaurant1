@@ -24,7 +24,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements RestaurantDetail.OnTitleSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantDetail.
             @Override
             public void onClick(View view) {
                 insertRecord();
-                Intent intent = new Intent(getApplicationContext(), RestaurantDetail.class);
+                Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
                 startActivity(intent);
             }
         });
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantDetail.
     }
 
 ///////////////////////////프레그먼트 화면에따라
-    public void onTitleSelected(int i) {
+    /*public void onTitleSelected(int i) {
         if (getResources().getConfiguration().orientation
                 == Configuration.ORIENTATION_LANDSCAPE) {     //가로보기용
             DetailsFragment detailsFragment = new DetailsFragment();
@@ -121,5 +121,5 @@ public class MainActivity extends AppCompatActivity implements RestaurantDetail.
             intent.putExtra("index", i);
             startActivity(intent);
         }
-    }
+    }*/
 }
