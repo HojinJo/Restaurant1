@@ -40,7 +40,7 @@ public class RegisterM extends AppCompatActivity {
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                     Intent intent=new Intent(getApplicationContext(), RestaurantDetail.class);
+                     Intent intent=new Intent(getApplicationContext(), RestaurantActivity.class);
                      startActivity(intent);
 
                      insertRecord();

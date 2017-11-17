@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dispatchTakeVideoIntent();
+                dispatchTakePictureIntent();
             }
         });
 
@@ -70,30 +71,47 @@ public class MainActivity extends AppCompatActivity {
         return currentTimeStamp;
     }
 
-    String mVideoFileName;
-    File mVideoFile;
+    String mPhotoFileName;
+    File mPhotoFile;
 
-    static final int REQUEST_VIDEO_CAPTURE = 2;
+    static final int REQUEST_IMAGE_CAPTURE = 2;
 
-    private void dispatchTakeVideoIntent() {
-        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+    private void dispatchTakePictureIntent() {
 
-        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
-            //1. 카메라 앱으로 찍은 동영상을 저장할 파일 객체 생성
-            mVideoFileName = "VIDEO"+currentDateFormat()+".mp4";
-            mVideoFile = new File(getExternalFilesDir(Environment.DIRECTORY_MOVIES), mVideoFileName);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-            if (mVideoFile != null) {
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            //1. 카메라 앱으로 찍은 이미지를 저장할 파일 객체 생성
+            mPhotoFileName = "IMG"+currentDateFormat()+".jpg";
+            mPhotoFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), mPhotoFileName);
+
+            if (mPhotoFile !=null) {
                 //2. 생성된 파일 객체에 대한 Uri 객체를 얻기
-                Uri videoUri = FileProvider.getUriForFile(this, "com.example.hojinjo.restaurant1", mVideoFile);
+                Uri imageUri = FileProvider.getUriForFile(this, "com.example.hojinjo.restaurant1", mPhotoFile);
 
                 //3. Uri 객체를 Extras를 통해 카메라 앱으로 전달
-                takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
-                startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
-            }
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            } else
+                Toast.makeText(getApplicationContext(), "file null", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            if (mPhotoFileName != null) {
+                mPhotoFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), mPhotoFileName);
+                Uri uri = Uri.fromFile(mPhotoFile);
+                ImageView imageView = (ImageView) findViewById(R.id.cameraButton);
+                imageView.setImageURI(uri);
+            } else
+                Toast.makeText(getApplicationContext(), "mPhotoFile is null", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     DBHelper mDbHelper;
+
     private void insertRecord() {
         mDbHelper = new DBHelper(this);
         EditText name = (EditText)findViewById(R.id.edit_name);
