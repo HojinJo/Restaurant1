@@ -37,7 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return db.insert(RContract.Restaurant.TABLE_NAME,null,values);
     }
-    public Cursor getAllUsersByMethod() {
+    public Cursor getAllRestaurantsByMethod() {
         SQLiteDatabase db = getReadableDatabase();
         return db.query(RContract.Restaurant.TABLE_NAME,null,null,null,null,null,null);
     }

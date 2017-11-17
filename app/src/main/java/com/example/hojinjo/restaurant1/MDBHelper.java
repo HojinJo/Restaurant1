@@ -37,7 +37,7 @@ public class MDBHelper extends SQLiteOpenHelper {
 
         return db.insert(MContract.Menu.TABLE_NAME,null,values);
     }
-    public Cursor getAllUsersByMethod() {
+    public Cursor getAllMenusByMethod() {
         SQLiteDatabase db = getReadableDatabase();
         return db.query(MContract.Menu.TABLE_NAME,null,null,null,null,null,null);
     }
