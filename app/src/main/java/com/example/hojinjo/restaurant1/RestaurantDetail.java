@@ -31,9 +31,11 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,8 +46,14 @@ import static android.R.attr.data;
 
 public class RestaurantDetail extends Fragment {
     int mCurCheckPosition = -1;
-
+    final int REQUEST_CODE_READ_CONTACTS = 1;
     private MDBHelper mDbHelper;
+    private DBHelper nDbHelper;
+    EditText mName;
+    EditText mPrice;
+    EditText mMenu;
+    Cursor c;
+
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
     }
@@ -54,8 +62,8 @@ public class RestaurantDetail extends Fragment {
     }
     MyAdapter adapter;
     ListView listview;
+    View rootView;
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /*액션바 생성*/
@@ -63,7 +71,22 @@ public class RestaurantDetail extends Fragment {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        View rootView = inflater.inflate(R.layout.activity_restaurant_detail, container, false);
+        rootView = inflater.inflate(R.layout.activity_restaurant_detail, container, false);
+        mName = (EditText)rootView.findViewById(R.id.edit_name);
+        mPrice = (EditText)rootView.findViewById(R.id.edit_price);
+        mMenu = (EditText)rootView.findViewById(R.id.edit_menu);
+
+        nDbHelper = new DBHelper(getActivity());
+
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS)
+                != PackageManager.PERMISSION_GRANTED) { // 권한이 없으므로, 사용자에게 권한 요청 다이얼로그 표시
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_READ_CONTACTS);
+        } else // 권한 있음! 해당 데이터나 장치에 접근!
+        {
+            getMenu();
+            viewAllToListView();
+        }
 
         final ArrayList<MyItem> data = new ArrayList<MyItem>();
         data.add(new MyItem(R.drawable.dosirak, "도시락 정식", "7500"));
@@ -96,6 +119,45 @@ public class RestaurantDetail extends Fragment {
         return rootView;
     }
 
+    private void getMenu() {
+        String [] projection = {
+                mName.getText().toString(),
+                mPrice.getText().toString(),
+                mMenu.getText().toString()
+        };
+
+        c = getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,  // 조회할 데이터 URI
+                projection,         // 조회할 컬럼 들
+                null,    // 선택될 행들에 대한선택될 행들에 대한 조건절
+                null,      // 조건절에 필요한 파라미터
+                null);              // 정렬 안    저장한 연락처를 가르키는 커서
+
+        while(c.moveToNext()) {
+            mDbHelper.insertUserByMethod(c.getString(1), c.getString(2) ,c.getString(3));
+        }
+    }
+
+    /*private void viewAllToListView() {
+
+        c = nDbHelper.getAllUsersByMethod();
+
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(),
+                R.layout.activity_restaurant_detail,c, new String[]{
+                RContract.Restaurant._ID,
+                RContract.Restaurant.KEY_NAME,
+                RContract.Restaurant.KEY_ADDRESS,
+                RContract.Restaurant.KEY_PHONE},
+                new int[]{R.id.textView4, R.id.textView3, R.id.textView2}, 0);
+
+                mId.setText(((Cursor)adapter.getItem(i)).getString(0));
+                nName.setText(((Cursor)adapter.getItem(i)).getString(1));
+                mPhone.setText(((Cursor)adapter.getItem(i)).getString(2));
+
+        lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    }*/
+
+
    /*옵션메뉴*/
 //출처: hashcode.co.kr에서 프래그먼트일 경우 옵션메뉴 만들 때 onCreateOptionsMenu 함수 정의, setHasOptionsMenu(true) 코드 참조
 
@@ -123,18 +185,18 @@ public class RestaurantDetail extends Fragment {
 /////
 
 /////////DB에 저장한거 불러오는 리스트뷰
-  /*  private void viewAllToListView() {
+   private void viewAllToListView() {
 
         Cursor cursor = mDbHelper.getAllUsersByMethod();
 
-        android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getApplicationContext(),
-                R.layout.item, cursor, new String[]{
+        android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getContext(),
+                R.layout.activity_restaurant_detail, cursor, new String[]{
                 MContract.Restaurant.KEY_NAME,
                 MContract.Restaurant.KEY_PRICE,
                 MContract.Restaurant.KEY_MENU},
-                new int[]{R.id.edit_id, R.id.name, R.id.phone}, 0);
+                new int[]{R.id.edit_name, R.id.edit_price, R.id.edit_menu}, 0);
 
-        ListView lv = (ListView)findViewById(R.id.listView);
+        ListView lv = (ListView)rootView.findViewById(R.id.listView);
         lv.setAdapter(adapter);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -142,14 +204,14 @@ public class RestaurantDetail extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Adapter adapter = adapterView.getAdapter();
 
-                mId.setText(((Cursor)adapter.getItem(i)).getString(0));//넘겨준 값 써야함
-                mName.setText(((Cursor)adapter.getItem(i)).getString(1));
-                mPhone.setText(((Cursor)adapter.getItem(i)).getString(2));
+                mName.setText(((Cursor)adapter.getItem(i)).getString(0));//넘겨준 값 써야함
+                mPrice.setText(((Cursor)adapter.getItem(i)).getString(1));
+                mMenu.setText(((Cursor)adapter.getItem(i)).getString(2));
             }
         });
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
-*/
+
 
 //////////////
 

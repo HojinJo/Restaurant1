@@ -110,34 +110,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    DBHelper mDbHelper;
+    DBHelper rDbHelper;
 
     private void insertRecord() {
-        mDbHelper = new DBHelper(this);
-        EditText name = (EditText)findViewById(R.id.edit_name);
+        rDbHelper = new DBHelper(this);
+        EditText name = (EditText)findViewById(R.id.edit_rname);
         EditText address = (EditText)findViewById(R.id.edit_address);
         EditText phone = (EditText)findViewById(R.id.edit_phone);
 
-        long nOfRows = mDbHelper.insertUserByMethod(name.getText().toString(),address.getText().toString(),phone.getText().toString());
+        long nOfRows = rDbHelper.insertUserByMethod(name.getText().toString(),address.getText().toString(),phone.getText().toString());
         if (nOfRows >0)
             Toast.makeText(this,nOfRows+" Record Inserted", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this,"No Record Inserted", Toast.LENGTH_SHORT).show();
     }
 
-///////////////////////////프레그먼트 화면에따라
-    /*public void onTitleSelected(int i) {
-        if (getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE) {     //가로보기용
-            DetailsFragment detailsFragment = new DetailsFragment();
-            detailsFragment.setSelection(i);
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, detailsFragment).commit();
-        }
-        else {          //세로보기용
-            Intent intent = new Intent(this, MenuDetail.class);
-            intent.putExtra("index", i);
-            startActivity(intent);
-        }
-    }*/
 }
