@@ -31,6 +31,7 @@ public class RegisterM extends AppCompatActivity {
     EditText mPrice;
     EditText mMenu;
     Cursor c;
+    String restid;
     final int REQUEST_CODE_READ_CONTACTS = 1;
     private MDBHelper mDbHelper;
     @Override
@@ -46,6 +47,7 @@ public class RegisterM extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
         Button btn = (Button) findViewById(R.id.registerMenu);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,16 +56,47 @@ public class RegisterM extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
                 startActivity(intent);
 
+=======
+        Intent intent = getIntent();
+        restid=intent.getStringExtra("RESTID");
+
+        Button btn=(Button)findViewById(R.id.registerMenu);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        insertRecord();
+                     Intent intent=new Intent(getApplicationContext(), RestaurantActivity.class);
+                     startActivity(intent);
+
+
+                    }
+                });
+
+
+        mName= (EditText)findViewById(R.id.edit_name);
+        mPrice = (EditText)findViewById(R.id.edit_price);
+        mMenu= (EditText)findViewById(R.id.edit_menu);
+>>>>>>> eab583199fee21d35b95d161dbe3f6c7cd5690f8
 
             }
         });
     }
+<<<<<<< HEAD
+=======
+
+
+        /*3.1, 3.2- sqlite에 저장하는 코드, 새로운거 추가하는코드*/
+       /* while(c.moveToNext()) {
+            mDbHelper.insertUserByMethod(c.getString(0), c.getString(1), c.getString(2));
+        }*/
+
+>>>>>>> eab583199fee21d35b95d161dbe3f6c7cd5690f8
     private void insertRecord() {
         EditText name = (EditText)findViewById(R.id.edit_name);
         EditText price = (EditText)findViewById(R.id.edit_price);
         EditText menu = (EditText)findViewById(R.id.edit_menu);
 
-        long nOfRows = mDbHelper.insertUserByMethod(name.getText().toString(),price.getText().toString(), menu.getText().toString());
+        long nOfRows = mDbHelper.insertUserByMethod(name.getText().toString(), price.getText().toString(), menu.getText().toString(), restid);
         if (nOfRows >0)
             Toast.makeText(this,nOfRows+" Record Inserted", Toast.LENGTH_SHORT).show();
         else

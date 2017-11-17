@@ -28,13 +28,13 @@ public class MDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertUserByMethod(String name, String price, String menu) {
+    public long insertUserByMethod(String name, String price, String menu, String restid) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(MContract.Menu.KEY_NAME, name);
         values.put(MContract.Menu.KEY_PRICE, price);
         values.put(MContract.Menu.KEY_DESCRIPTION,menu);
-
+        values.put(MContract.Menu.KEY_RESTID, restid);
         return db.insert(MContract.Menu.TABLE_NAME,null,values);
     }
     public Cursor getAllMenusByMethod() {

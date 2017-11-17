@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -117,6 +118,11 @@ public class MainActivity extends AppCompatActivity {
         EditText name = (EditText)findViewById(R.id.edit_rname);
         EditText address = (EditText)findViewById(R.id.edit_address);
         EditText phone = (EditText)findViewById(R.id.edit_phone);
+
+        Cursor cursor=rDbHelper.getAllUsersByMethod();
+
+        Intent intentid = new Intent(getApplicationContext(), RegisterM.class);
+        intentid.putExtra("RESTID",cursor.getInt(0) );
 
         long nOfRows = rDbHelper.insertUserByMethod(name.getText().toString(),address.getText().toString(),phone.getText().toString());
         if (nOfRows >0)

@@ -21,12 +21,20 @@ public final class MContract {
         public static final String KEY_NAME = "Name";
         public static final String KEY_PRICE = "Price";
         public static final String KEY_DESCRIPTION = "Description";
+<<<<<<< HEAD
         public static final String KEY_RESTNAME = "RestaurantName";
+=======
+        public static final String KEY_RESTID="RESTID";
+>>>>>>> eab583199fee21d35b95d161dbe3f6c7cd5690f8
 
         public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
                 KEY_NAME + TEXT_TYPE + COMMA_SEP + KEY_PRICE + TEXT_TYPE + COMMA_SEP +
+<<<<<<< HEAD
                 KEY_DESCRIPTION + TEXT_TYPE + KEY_RESTNAME + TEXT_TYPE + " )";
+=======
+                KEY_DESCRIPTION + TEXT_TYPE + KEY_RESTID + TEXT_TYPE + COMMA_SEP + " )";
+>>>>>>> eab583199fee21d35b95d161dbe3f6c7cd5690f8
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 }
