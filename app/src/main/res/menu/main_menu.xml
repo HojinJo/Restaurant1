@@ -5,5 +5,5 @@
         android:id="@+id/action"
         android:title="Quick1"
         android:icon="@drawable/plus"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 </menu>
