@@ -95,13 +95,16 @@ public class RestaurantDetail extends Fragment {
                 MContract.Menu.KEY_DESCRIPTION
         };
 
-//        c = getActivity().getContentResolver().query(
-//                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,  // 조회할 데이터 URI
-//                projection,         // 조회할 컬럼 들
-//                null,    // 선택될 행들에 대한선택될 행들에 대한 조건절
-//                null,      // 조건절에 필요한 파라미터
-//                null);              // 정렬 안    저장한 연락처를 가르키는 커서
-//
+        String selection= MContract.Menu.KEY_RESTID + "=?";
+
+      /*  c = getActivity().query(
+              MContract.Menu.TABLE_NAME,  // 테이블이름
+                projection,         // 프로젝션
+                selection,    // 조건절=restid
+              RContract._ID,      // 조건절에 대한 값
+                null,
+                null,
+                null);*/
 //        while(c.moveToNext()) {
 //            mDbHelper.insertUserByMethod(c.getString(1), c.getString(2) ,c.getString(3));
 //        }
