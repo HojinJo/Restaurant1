@@ -14,7 +14,7 @@ public final class RContract {
 
     /* Inner class that defines the table contents */
     public static class Restaurant implements BaseColumns {
-        public static final String TABLE_NAME="Restaurant";
+        public static final String TABLE_NAME="Restaurants";
         public static final String KEY_NAME = "Name";
         public static final String KEY_ADDRESS = "address";
         public static final String KEY_PHONE = "Phone";

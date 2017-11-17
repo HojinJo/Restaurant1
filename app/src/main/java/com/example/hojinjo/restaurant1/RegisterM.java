@@ -50,10 +50,11 @@ public class RegisterM extends AppCompatActivity {
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        insertRecord();
                      Intent intent=new Intent(getApplicationContext(), RestaurantActivity.class);
                      startActivity(intent);
 
-                     insertRecord();
+
                     }
                 });
 
@@ -93,10 +94,10 @@ public class RegisterM extends AppCompatActivity {
                 null,
                 null);//연락처 제공자에 저장된 이름과 전화번호를 읽기
 
-        String[] contactsColumns = { // 쿼리결과인 Cursor 객체로부터 출력할 열들
+        /*String[] contactsColumns = { // 쿼리결과인 Cursor 객체로부터 출력할 열들
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
                 ContactsContract.CommonDataKinds.Phone.NUMBER
-        };
+        };*/
 
         /*3.1, 3.2- sqlite에 저장하는 코드, 새로운거 추가하는코드*/
         while(c.moveToNext()) {

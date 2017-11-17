@@ -1,14 +1,11 @@
 package com.example.hojinjo.restaurant1;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 
@@ -17,12 +14,8 @@ import android.app.ActionBar;//버전에 맞게 v7제거 stackoverflow 사이트
 import android.support.v4.content.ContextCompat;
 
 
-import android.support.v4.content.ContextCompat;
-
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,18 +23,13 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-
-import static android.R.attr.data;
 
 
 public class RestaurantDetail extends Fragment {
@@ -88,25 +76,6 @@ public class RestaurantDetail extends Fragment {
             viewAllToListView();
         }
 
-        final ArrayList<MyItem> data = new ArrayList<MyItem>();
-        data.add(new MyItem(R.drawable.dosirak, "도시락 정식", "7500"));
-        data.add(new MyItem(R.drawable.chicken, "닭고기 정식", "7500"));
-        data.add(new MyItem(R.drawable.curry, "카레라이스", "7500"));
-        data.add(new MyItem(R.drawable.omu, "오므라이스", "7500"));
-        data.add(new MyItem(R.drawable.hamburg, "함박스테이크", "8500"));
-
-         adapter = new MyAdapter(getActivity(), R.layout.list_food, data);
-
-        listview = (ListView)rootView.findViewById(R.id.listView);
-        listview.setAdapter(adapter);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override         //리스트에서 항목을 선택했을 때 호출
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mCurCheckPosition = i;
-                Activity activity = getActivity();
-                ((OnTitleSelectedListener)activity).onTitleSelected(i);    //TitlesFragment 와 연결된 액티비티
-            }
-        });
         ImageButton btn = (ImageButton)rootView.findViewById(R.id.dialButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,27 +84,27 @@ public class RestaurantDetail extends Fragment {
                 startActivity(intent);
             }
         });
-        listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+       // listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         return rootView;
     }
 
     private void getMenu() {
         String [] projection = {
-                mName.getText().toString(),
-                mPrice.getText().toString(),
-                mMenu.getText().toString()
+                MContract.Menu.KEY_NAME,
+                MContract.Menu.KEY_PRICE,
+                MContract.Menu.KEY_DESCRIPTION
         };
 
-        c = getContentResolver().query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,  // 조회할 데이터 URI
-                projection,         // 조회할 컬럼 들
-                null,    // 선택될 행들에 대한선택될 행들에 대한 조건절
-                null,      // 조건절에 필요한 파라미터
-                null);              // 정렬 안    저장한 연락처를 가르키는 커서
-
-        while(c.moveToNext()) {
-            mDbHelper.insertUserByMethod(c.getString(1), c.getString(2) ,c.getString(3));
-        }
+//        c = getActivity().getContentResolver().query(
+//                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,  // 조회할 데이터 URI
+//                projection,         // 조회할 컬럼 들
+//                null,    // 선택될 행들에 대한선택될 행들에 대한 조건절
+//                null,      // 조건절에 필요한 파라미터
+//                null);              // 정렬 안    저장한 연락처를 가르키는 커서
+//
+//        while(c.moveToNext()) {
+//            mDbHelper.insertUserByMethod(c.getString(1), c.getString(2) ,c.getString(3));
+//        }
     }
 
     /*private void viewAllToListView() {
@@ -144,10 +113,10 @@ public class RestaurantDetail extends Fragment {
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(),
                 R.layout.activity_restaurant_detail,c, new String[]{
-                RContract.Restaurant._ID,
-                RContract.Restaurant.KEY_NAME,
-                RContract.Restaurant.KEY_ADDRESS,
-                RContract.Restaurant.KEY_PHONE},
+                RContract.Menu._ID,
+                RContract.Menu.KEY_NAME,
+                RContract.Menu.KEY_ADDRESS,
+                RContract.Menu.KEY_PHONE},
                 new int[]{R.id.textView4, R.id.textView3, R.id.textView2}, 0);
 
                 mId.setText(((Cursor)adapter.getItem(i)).getString(0));
@@ -166,7 +135,7 @@ public class RestaurantDetail extends Fragment {
     }
 
  @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(android.view.Menu menu, MenuInflater inflater) {
 
      MenuInflater minflater = getActivity().getMenuInflater();
      inflater.inflate(R.menu.main_menu, menu);
@@ -190,9 +159,9 @@ public class RestaurantDetail extends Fragment {
 
         android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getContext(),
                 R.layout.activity_restaurant_detail, cursor, new String[]{
-                MContract.Restaurant.KEY_NAME,
-                MContract.Restaurant.KEY_PRICE,
-                MContract.Restaurant.KEY_MENU},
+                MContract.Menu.KEY_NAME,
+                MContract.Menu.KEY_PRICE,
+                MContract.Menu.KEY_DESCRIPTION},
                 new int[]{R.id.edit_name, R.id.edit_price, R.id.edit_menu}, 0);
 
         ListView lv = (ListView)rootView.findViewById(R.id.listView);

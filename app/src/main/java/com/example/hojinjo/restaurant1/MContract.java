@@ -16,16 +16,16 @@ public final class MContract {
     private MContract() {}
 
     /* Inner class that defines the table contents */
-    public static class Restaurant implements BaseColumns {
+    public static class Menu implements BaseColumns {
         public static final String TABLE_NAME="Menu";
         public static final String KEY_NAME = "Name";
         public static final String KEY_PRICE = "Price";
-        public static final String KEY_MENU = "Menu";
+        public static final String KEY_DESCRIPTION = "Description";
 
         public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
                 KEY_NAME + TEXT_TYPE + COMMA_SEP + KEY_PRICE + TEXT_TYPE + COMMA_SEP +
-                KEY_MENU + TEXT_TYPE +  " )";
+                KEY_DESCRIPTION + TEXT_TYPE +  " )";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 }
