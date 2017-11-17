@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class RegisterM extends AppCompatActivity {
@@ -59,9 +60,9 @@ public class RegisterM extends AppCompatActivity {
     /*쿼리구성*/
     private void getContacts() {
         String[] projection = {//반환할 열들
-                ContactsContract.CommonDataKinds.Phone._ID,
-                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.NUMBER
+                mName.getText().toString(),
+                mPrice.getText().toString(),
+                mMenu.getText().toString()
         };
        /* *//*3.1*//*
         String selectionClause = ContactsContract.CommonDataKinds.Phone.TYPE + " = ? ";
@@ -84,6 +85,9 @@ public class RegisterM extends AppCompatActivity {
         while(c.moveToNext()) {
             mDbHelper.insertUserByMethod(c.getString(0), c.getString(1), c.getString(2));
         }}
+
+
+
     private void insertRecord() {
         EditText name = (EditText)findViewById(R.id.edit_name);
         EditText price = (EditText)findViewById(R.id.edit_price);

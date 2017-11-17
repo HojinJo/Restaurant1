@@ -11,11 +11,10 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-<<<<<<< HEAD
-import android.support.v7.app.ActionBar;
-=======
+import android.app.ActionBar;//버전에 맞게 v7제거 stackoverflow 사이트 참조
+
 import android.support.v4.content.ContextCompat;
->>>>>>> 22a85be24e54520b42b579d37a221ec2d4145772
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -41,6 +41,7 @@ import static android.R.attr.data;
 public class RestaurantDetail extends Fragment {
     int mCurCheckPosition = -1;
 
+    private MDBHelper mDbHelper;
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
     }
@@ -53,10 +54,11 @@ public class RestaurantDetail extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-      /*  ActionBar actionBar = getActivity().getActionBar();
+        /*액션바 생성*/
+       ActionBar actionBar = getActivity().getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-        }*/
+        }
         View rootView = inflater.inflate(R.layout.activity_restaurant_detail, container, false);
 
         final ArrayList<MyItem> data = new ArrayList<MyItem>();
@@ -98,15 +100,16 @@ public class RestaurantDetail extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
-    /*
-    @Override
+
+ /*   @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         menu.add(0, 1, 0, "메뉴등록");
 
        super.onCreateOptionsMenu(menu, inflater);
-    }*/
-
+    }
+*/
+ /*액션아이템 액티비티 전환*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
                 Intent intent=new Intent(getContext(), RegisterM.class);
@@ -115,6 +118,36 @@ public class RestaurantDetail extends Fragment {
     }
 /////
 
+/////////DB에 저장한거 불러오는 리스트뷰
+  /*  private void viewAllToListView() {
+
+        Cursor cursor = mDbHelper.getAllUsersByMethod();
+
+        android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getApplicationContext(),
+                R.layout.item, cursor, new String[]{
+                MContract.Restaurant.KEY_NAME,
+                MContract.Restaurant.KEY_PRICE,
+                MContract.Restaurant.KEY_MENU},
+                new int[]{R.id.edit_id, R.id.name, R.id.phone}, 0);
+
+        ListView lv = (ListView)findViewById(R.id.listView);
+        lv.setAdapter(adapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Adapter adapter = adapterView.getAdapter();
+
+                mId.setText(((Cursor)adapter.getItem(i)).getString(0));//넘겨준 값 써야함
+                mName.setText(((Cursor)adapter.getItem(i)).getString(1));
+                mPhone.setText(((Cursor)adapter.getItem(i)).getString(2));
+            }
+        });
+        lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    }
+*/
+
+//////////////
 
     class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
         private Context mContext;
