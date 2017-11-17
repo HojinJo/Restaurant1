@@ -157,8 +157,6 @@ public class RestaurantDetail extends Fragment {
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }*/
 
-
-   /*옵션메뉴*/
 //출처: hashcode.co.kr에서 프래그먼트일 경우 옵션메뉴 만들 때 onCreateOptionsMenu 함수 정의, setHasOptionsMenu(true) 코드 참조
 
    @Override
@@ -167,15 +165,16 @@ public class RestaurantDetail extends Fragment {
         setHasOptionsMenu(true);
     }
 
- /*   @Override
+ @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        menu.add(0, 1, 0, "메뉴등록");
+     MenuInflater minflater = getActivity().getMenuInflater();
+     inflater.inflate(R.menu.main_menu, menu);
 
-       super.onCreateOptionsMenu(menu, inflater);
+     super.onCreateOptionsMenu(menu, inflater);
     }
-*/
- /*액션아이템 액티비티 전환*/
+
+ /*액션아이템 액티비티 전환=동작*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
                 Intent intent=new Intent(getContext(), RegisterM.class);
