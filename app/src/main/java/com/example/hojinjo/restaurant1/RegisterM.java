@@ -27,7 +27,7 @@ public class RegisterM extends AppCompatActivity {
     Cursor c;
     String restid;
     final int REQUEST_CODE_READ_CONTACTS = 1;
-    private MDBHelper mDbHelper;
+    MDBHelper mDbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,16 +74,21 @@ public class RegisterM extends AppCompatActivity {
        /* while(c.moveToNext()) {
             mDbHelper.insertUserByMethod(c.getString(0), c.getString(1), c.getString(2));
         }*/
+
     private void insertRecord() {
         EditText name = (EditText)findViewById(R.id.edit_name);
         EditText price = (EditText)findViewById(R.id.edit_price);
         EditText menu = (EditText)findViewById(R.id.edit_menu);
 
+        mDbHelper = new MDBHelper(this);
+
         long nOfRows = mDbHelper.insertUserByMethod(name.getText().toString(), price.getText().toString(), menu.getText().toString(), restid);
-        if (nOfRows >0)
-            Toast.makeText(this,nOfRows+" Record Inserted", Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this,"No Record Inserted", Toast.LENGTH_SHORT).show();
+
+        if (nOfRows >0) {
+            Toast.makeText(this, nOfRows + " Record Inserted", Toast.LENGTH_SHORT).show();
+        }else
+            {Toast.makeText(this,"No Record Inserted", Toast.LENGTH_SHORT).show();
+            }
     }
 
 //// 카메라 앱 실행

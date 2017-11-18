@@ -43,13 +43,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAllRestaurantsByID() {
+        SQLiteDatabase db = getReadableDatabase();
         String [] projection = {
                 RContract.Restaurant.KEY_NAME,
                 RContract.Restaurant.KEY_ADDRESS,
                 RContract.Restaurant.KEY_PHONE
         };
-
-        SQLiteDatabase db = getReadableDatabase();
         return db.query( RContract.Restaurant.TABLE_NAME,  // 테이블이름
                 projection,         // 프로젝션
                 null,    // 조건절=restid
@@ -58,4 +57,13 @@ public class DBHelper extends SQLiteOpenHelper {
                 null,
                 null);
     }
+
+    public Cursor getRestaurantIDByName(String name){
+        SQLiteDatabase db = getReadableDatabase();
+        String[] projection = {RContract.Restaurant._ID};
+        String selection= MContract.Menu.KEY_NAME + "=?";
+        String[] selectionArgs ={name};
+     return db.query(RContract.Restaurant.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
+    }
 }
+

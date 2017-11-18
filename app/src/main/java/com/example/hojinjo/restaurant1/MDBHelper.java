@@ -35,6 +35,7 @@ public class MDBHelper extends SQLiteOpenHelper {
         values.put(MContract.Menu.KEY_PRICE, price);
         values.put(MContract.Menu.KEY_DESCRIPTION,menu);
         values.put(MContract.Menu.KEY_RESTID, restid);
+
         return db.insert(MContract.Menu.TABLE_NAME,null,values);
     }
     public Cursor getAllMenusByMethod() {
@@ -43,14 +44,15 @@ public class MDBHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAllMenusByID(String rest_id) {
+        Log.i("rest_id","rest_id="+rest_id);
         String [] projection = {
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE,
                 MContract.Menu.KEY_DESCRIPTION
         };
 
-        String selection= MContract.Menu.KEY_RESTID + "=?";
-        String[] selectionArgs ={rest_id};
+        String selection= MContract.Menu.KEY_RESTID + " = ? ";
+        String [] selectionArgs ={ rest_id };
 
         SQLiteDatabase db = getReadableDatabase();
         return db.query( MContract.Menu.TABLE_NAME,  // 테이블이름

@@ -25,8 +25,10 @@ public final class MContract {
 
         public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
-                KEY_NAME + TEXT_TYPE + COMMA_SEP + KEY_PRICE + TEXT_TYPE + COMMA_SEP +
-                KEY_DESCRIPTION + TEXT_TYPE + KEY_RESTID + TEXT_TYPE + COMMA_SEP + " )";
+                KEY_NAME + TEXT_TYPE + COMMA_SEP +
+                KEY_PRICE + TEXT_TYPE + COMMA_SEP +
+                KEY_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
+                KEY_RESTID + TEXT_TYPE+ " )";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 }

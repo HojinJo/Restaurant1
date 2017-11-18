@@ -34,11 +34,11 @@ import java.util.ArrayList;
 public class RestaurantDetail extends Fragment {
     int mCurCheckPosition = -1;
     final int REQUEST_CODE_READ_CONTACTS = 1;
-    private MDBHelper mDbHelper = new MDBHelper(getContext()) ;
-    private DBHelper rDbHelper;
+    MDBHelper mDbHelper;
+    DBHelper rDbHelper;
     Cursor c;
     View rootView;
-    RegisterM registerM = new RegisterM();
+    RegisterM registerM = new RegisterM();   //이렇게하면 안됌
 
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
@@ -54,20 +54,15 @@ public class RestaurantDetail extends Fragment {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        View rootView = inflater.inflate(R.layout.activity_restaurant_detail, container, false);
+         rootView = inflater.inflate(R.layout.activity_restaurant_detail, container, false);
 
-        rDbHelper = new DBHelper(getActivity());
+        rDbHelper = new DBHelper(getContext());
+        mDbHelper = new MDBHelper(getContext());
 
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) { // 권한이 없으므로, 사용자에게 권한 요청 다이얼로그 표시
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_READ_CONTACTS);
-        } else // 권한 있음! 해당 데이터나 장치에 접근!
-        {
-           // getRestaurant();
+            getRestaurant();
             getMenu();
             viewAllToListView();
-        }
+
 
         ImageButton btn = (ImageButton)rootView.findViewById(R.id.dialButton);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -84,23 +79,29 @@ public class RestaurantDetail extends Fragment {
     private void getRestaurant() {
 
         c=rDbHelper.getAllRestaurantsByID();
-        c.moveToLast();
+      //  c.moveToLast();
 
         if(c.moveToLast()){
             TextView tv1 = rootView.findViewById(R.id.textView4);
-            tv1.setText(c.getShort(1));
+            String s = c.getString(0);
+            tv1.setText(s);
+
 
             TextView tv2 = rootView.findViewById(R.id.textView3);
-            tv2.setText(c.getString(2));
+            String s2 = c.getString(1);
+            tv2.setText(s2);
 
             TextView tv3 = rootView.findViewById(R.id.textView2);
-            tv3.setText(c.getString(3));
+            String s3 = c.getString(2);
+            tv3.setText(s3);
         }
     }
 
     private void getMenu() {
+        c = mDbHelper.getAllMenusByID("1");
+//viewalltolist와야함        c = mDbHelper.getAllMenusByID(registerM.restid);
 
-        c = mDbHelper.getAllMenusByID(registerM.restid);
+
 //        while(c.moveToNext()) {
 //            mDbHelper.insertUserByMethod(c.getString(1), c.getString(2) ,c.getString(3));
 //        }
@@ -119,7 +120,7 @@ public class RestaurantDetail extends Fragment {
     public void onCreateOptionsMenu(android.view.Menu menu, MenuInflater inflater) {
 
      MenuInflater minflater = getActivity().getMenuInflater();
-     inflater.inflate(R.menu.main_menu, menu);
+     minflater.inflate(R.menu.main_menu, menu);
 
      super.onCreateOptionsMenu(menu, inflater);
     }
@@ -129,21 +130,24 @@ public class RestaurantDetail extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
                 Intent intent=new Intent(getContext(), RegisterM.class);
                 startActivity(intent);
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item); //여기로이사
     }
 /////
 
 /////////DB에 저장한거 불러오는 리스트뷰
    private void viewAllToListView() {
 
-        Cursor cursor = mDbHelper.getAllMenusByMethod();
+        c = mDbHelper.getAllMenusByMethod();
 
         android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getContext(),
-                R.layout.list_food, cursor, new String[]{
-                registerM.mPhotoFile.toString(),
+                R.layout.list_food, c, new String[]{
+               // registerM.mPhotoFile.toString(),
+
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE},
-                new int[]{R.id.iconItem, R.id.textItem1, R.id.textItem2}, 0);
+                new int[]{
+               // R.id.iconItem,
+                        R.id.textItem1, R.id.textItem2}, 0);
 
         ListView lv = (ListView)rootView.findViewById(R.id.listView);
         lv.setAdapter(adapter);
@@ -153,7 +157,7 @@ public class RestaurantDetail extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Adapter adapter = adapterView.getAdapter();
 
-                ImageView imageView1 = rootView.findViewById(R.id.iconItem);
+              //  ImageView imageView1 = rootView.findViewById(R.id.iconItem);
                 //imageView1.setImageResource();
 
                 TextView textView1 = rootView.findViewById(R.id.textItem1);
@@ -172,7 +176,7 @@ public class RestaurantDetail extends Fragment {
 
 //////////////
 
-    class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
+  /*  class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
         private Context mContext;
         private int mResource;
         private ArrayList<MyItem> mItems = new ArrayList<MyItem>();
@@ -219,7 +223,7 @@ public class RestaurantDetail extends Fragment {
 
             return convertView;
         }
-    }
+    }*/
     class MyItem {
         int mIcon; // image
         String nMenu; // menu

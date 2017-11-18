@@ -127,12 +127,12 @@ public class MainActivity extends AppCompatActivity {
         else
             Toast.makeText(this,"No Record Inserted", Toast.LENGTH_SHORT).show();
 
-
-        Cursor cursor=rDbHelper.getAllRestaurantsByMethod();  //rDbHelper.getRestaurantIDByName(name.getText().toString()) --> id
-
-        Intent intentid = new Intent(getApplicationContext(), RegisterM.class);
-        intentid.putExtra("RESTID",cursor.getInt(0) );  //커서존재하는지 다음으로
-        startActivity(intentid);
+        Cursor cursor=rDbHelper.getRestaurantIDByName(name.getText().toString());  //rDbHelper.getRestaurantIDByName(name.getText().toString()) --> id
+            if(cursor.moveToNext()){
+                Intent intentid = new Intent(getApplicationContext(), RegisterM.class);
+                intentid.putExtra("RESTID",cursor.getInt(0) );  //커서존재하는지 다음으로
+                startActivity(intentid);
+        }//아이템으로 이사
     }
 
 }
