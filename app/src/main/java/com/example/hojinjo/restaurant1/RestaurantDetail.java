@@ -1,6 +1,7 @@
 package com.example.hojinjo.restaurant1;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -91,6 +92,15 @@ public class RestaurantDetail extends Fragment {
       //  c.moveToLast();
 
         if(c.moveToLast()){
+            /*업소 등록 이미지 받기*/
+            Uri restUri;
+            Bundle getExtras=getActivity().getIntent().getExtras();
+            if(getExtras!=null){
+                restUri=Uri.parse(getExtras.getString("RESTIMG"));
+                ImageView restImg=rootView.findViewById(R.id.imageView2);
+                restImg.setImageURI(restUri);
+            }
+
             TextView tv1 = rootView.findViewById(R.id.textView4);
             String s = c.getString(0);
             tv1.setText(s);
@@ -206,30 +216,36 @@ public class RestaurantDetail extends Fragment {
                 MContract.Menu.KEY_MENUIMG,
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE},
+<<<<<<< HEAD
                 new int[]{R.id.iconItem, R.id.textItem1, R.id.textItem2}, 0);
+=======
+
+               new int[]{R.id.iconItem, R.id.textItem1, R.id.textItem2}, 0);
+>>>>>>> e5411633ef2055fa72e6df79d85287b69f066ac2
 
         ListView lv = (ListView)rootView.findViewById(R.id.listView);
         lv.setAdapter(adapter);
+
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Adapter adapter = adapterView.getAdapter();
 
+                mCurCheckPosition = i;
+                Activity activity = getActivity();
+                ((OnTitleSelectedListener)activity).onTitleSelected(i);
+                //Intent toMenuDetail = new Intent(getContext(), DetailsFragment.);
                 /*Bundle사용하는법은 stackoverflaw 사이트에서 참조*/
                 //링크: https://stackoverflow.com/questions/41381102/attempt-to-invoke-virtual-method-java-lang-string-android-os-bundle-getstringj
-                Uri myUri;
+                Uri menuUri;
                 Bundle extras = getActivity().getIntent().getExtras();
                 if (extras != null)
                 {
-                    myUri=Uri.parse(extras.getString("MENUIMG"));
+                    menuUri=Uri.parse(extras.getString("MENUIMG"));
                     ImageView imageView1 = rootView.findViewById(R.id.iconItem);
-                    imageView1.setImageURI(myUri);//저장한 uri를 보여줘야함
+                    imageView1.setImageURI(menuUri);//저장한 uri를 보여줘야함
                 }
-               // Uri myUri=Uri.parse(extras.getString("MENUIMG"));//uri 받았는데 안됨...
-
-              /* ImageView imageView1 = rootView.findViewById(R.id.iconItem);
-               imageView1.setImageURI(myUri);//저장한 uri를 보여줘야함*/
 
                 TextView textView1 = rootView.findViewById(R.id.textItem1);
                 textView1.setText(((Cursor)adapter.getItem(i)).getString(2));
@@ -245,7 +261,6 @@ public class RestaurantDetail extends Fragment {
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 
-//////////////
 
   /*  class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
         private Context mContext;

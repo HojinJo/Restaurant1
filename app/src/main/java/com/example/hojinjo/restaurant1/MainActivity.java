@@ -28,6 +28,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 insertRecord();
                 Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
+                intent.putExtra("RESTIMG",uri.toString());
                 startActivity(intent);
             }
         });
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             if (mPhotoFileName != null) {
                 mPhotoFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), mPhotoFileName);
-                Uri uri = Uri.fromFile(mPhotoFile);
+                uri = Uri.fromFile(mPhotoFile);
                 ImageView imageView = (ImageView) findViewById(R.id.cameraButton);
                 imageView.setImageURI(uri);
             } else
