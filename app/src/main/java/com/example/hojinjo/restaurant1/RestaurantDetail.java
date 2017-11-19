@@ -42,8 +42,8 @@ public class RestaurantDetail extends Fragment {
     DBHelper rDbHelper;
     Cursor c;
     View rootView;
-    Uri myUri;
-    RegisterM registerM = new RegisterM();   //이렇게하면 안됌
+
+    //RegisterM registerM = new RegisterM();   //이렇게하면 안됌
 
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
@@ -155,7 +155,7 @@ public class RestaurantDetail extends Fragment {
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE},
                 new int[]{
-               // R.id.iconItem,
+               R.id.iconItem,
                         R.id.textItem1, R.id.textItem2}, 0);
 
         ListView lv = (ListView)rootView.findViewById(R.id.listView);
@@ -166,10 +166,20 @@ public class RestaurantDetail extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Adapter adapter = adapterView.getAdapter();
 
+                /*Bundle사용하는법은 stackoverflaw 사이트에서 참조*/
+                //링크: https://stackoverflow.com/questions/41381102/attempt-to-invoke-virtual-method-java-lang-string-android-os-bundle-getstringj
+                Uri myUri;
                 Bundle extras = getActivity().getIntent().getExtras();
-                myUri=Uri.parse(extras.getString("MENUIMG"));//uri 받았는데 안됨...
-               ImageView imageView1 = rootView.findViewById(R.id.iconItem);
-               imageView1.setImageURI(myUri);//저장한 uri를 보여줘야함
+                if (extras != null)
+                {
+                    myUri=Uri.parse(extras.getString("MENUIMG"));
+                    ImageView imageView1 = rootView.findViewById(R.id.iconItem);
+                    imageView1.setImageURI(myUri);//저장한 uri를 보여줘야함
+                }
+               // Uri myUri=Uri.parse(extras.getString("MENUIMG"));//uri 받았는데 안됨...
+
+              /* ImageView imageView1 = rootView.findViewById(R.id.iconItem);
+               imageView1.setImageURI(myUri);//저장한 uri를 보여줘야함*/
 
                 TextView textView1 = rootView.findViewById(R.id.textItem1);
                 textView1.setText(((Cursor)adapter.getItem(i)).getString(2));
