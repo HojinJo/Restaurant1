@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -138,6 +139,15 @@ public class RestaurantDetail extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
                 Intent intent=new Intent(getContext(), RegisterM.class);
                 startActivity(intent);
+
+        EditText name = (EditText)rootView.findViewById(R.id.edit_rname);
+        Cursor cursor=rDbHelper.getRestaurantIDByName(name.getText().toString());  //rDbHelper.getRestaurantIDByName(name.getText().toString()) --> id
+        if(cursor.moveToNext()){
+            Intent intentid = new Intent(getContext(), RegisterM.class);
+            intentid.putExtra("RESTID",cursor.getInt(0) );
+            startActivity(intentid);
+        }//아이템으로 이사
+
         return super.onOptionsItemSelected(item); //여기로이사
     }
 /////
@@ -154,8 +164,7 @@ public class RestaurantDetail extends Fragment {
                 MContract.Menu.KEY_MENUIMG,
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE},
-                new int[]{
-               // R.id.iconItem,
+                new int[]{R.id.iconItem,
                         R.id.textItem1, R.id.textItem2}, 0);
 
         ListView lv = (ListView)rootView.findViewById(R.id.listView);
