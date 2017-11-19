@@ -24,7 +24,10 @@ public class RegisterM extends AppCompatActivity {
     EditText mName;
     EditText mPrice;
     EditText mDesc;
+    String mPhotoFileName;
+    File mPhotoFile;
     Cursor c;
+    Uri imageUri;
     String restid;
     final int REQUEST_CODE_READ_CONTACTS = 1;
     MDBHelper mDbHelper;
@@ -37,6 +40,7 @@ public class RegisterM extends AppCompatActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 dispatchTakePictureIntent();
             }
         });
@@ -47,13 +51,13 @@ public class RegisterM extends AppCompatActivity {
             public void onClick(View view) {
                 insertRecord();
                 Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
+                intent.putExtra("IMAGEURI", imageUri.toString());//URI 보내기...
                 startActivity(intent);
-
 
         Intent it = getIntent();
         restid=it.getStringExtra("RESTID");
 
-        Button btn=(Button)findViewById(R.id.registerMenu);
+       /* Button btn=(Button)findViewById(R.id.registerMenu);
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -61,7 +65,7 @@ public class RegisterM extends AppCompatActivity {
                      Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
                      startActivity(intent);
                     }
-                });
+                });*/
         mName= (EditText)findViewById(R.id.edit_name);
         mPrice = (EditText)findViewById(R.id.edit_price);
         mDesc = (EditText)findViewById(R.id.edit_menu);
@@ -79,10 +83,10 @@ public class RegisterM extends AppCompatActivity {
         EditText name = (EditText)findViewById(R.id.edit_name);
         EditText price = (EditText)findViewById(R.id.edit_price);
         EditText menu = (EditText)findViewById(R.id.edit_menu);
-
+        ImageView menuimg=(ImageView)findViewById(R.id.menuimg);
         mDbHelper = new MDBHelper(this);
 
-        long nOfRows = mDbHelper.insertUserByMethod(name.getText().toString(), price.getText().toString(), menu.getText().toString(), restid);
+        long nOfRows = mDbHelper.insertUserByMethod(imageUri.toString(), name.getText().toString(), price.getText().toString(), menu.getText().toString(), restid);
 
         if (nOfRows >0) {
             Toast.makeText(this, nOfRows + " Record Inserted", Toast.LENGTH_SHORT).show();
@@ -98,8 +102,6 @@ public class RegisterM extends AppCompatActivity {
         return currentTimeStamp;
     }
 
-    String mPhotoFileName;
-    File mPhotoFile;
 
     static final int REQUEST_IMAGE_CAPTURE = 2;
 
@@ -114,8 +116,8 @@ public class RegisterM extends AppCompatActivity {
 
             if (mPhotoFile !=null) {
                 //2. 생성된 파일 객체에 대한 Uri 객체를 얻기
-                Uri imageUri = FileProvider.getUriForFile(this, "com.example.hojinjo.restaurant1", mPhotoFile);
-
+                imageUri = FileProvider.getUriForFile(this, "com.example.hojinjo.restaurant1", mPhotoFile);
+                 //imageUri를 전역변수로 바꿨음
                 //3. Uri 객체를 Extras를 통해 카메라 앱으로 전달
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
