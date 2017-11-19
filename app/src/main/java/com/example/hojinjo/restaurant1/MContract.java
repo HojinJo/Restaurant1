@@ -4,6 +4,7 @@ package com.example.hojinjo.restaurant1;
  * Created by user on 2017-11-16.
  */
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 public final class MContract {
@@ -18,6 +19,7 @@ public final class MContract {
     /* Inner class that defines the table contents */
     public static class Menu implements BaseColumns {
         public static final String TABLE_NAME="Menu";
+        public static final String KEY_MENUIMG="MenuImg";//메뉴이미지 레코드
         public static final String KEY_NAME = "Name";
         public static final String KEY_PRICE = "Price";
         public static final String KEY_DESCRIPTION = "Description";
@@ -25,6 +27,7 @@ public final class MContract {
 
         public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY" + COMMA_SEP +
+                KEY_MENUIMG + TEXT_TYPE + COMMA_SEP +
                 KEY_NAME + TEXT_TYPE + COMMA_SEP +
                 KEY_PRICE + TEXT_TYPE + COMMA_SEP +
                 KEY_DESCRIPTION + TEXT_TYPE + COMMA_SEP +

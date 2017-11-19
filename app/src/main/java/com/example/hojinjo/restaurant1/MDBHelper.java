@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.util.Log;
 
 
@@ -28,9 +29,10 @@ public class MDBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertUserByMethod(String name, String price, String menu, String restid) {
+    public long insertUserByMethod(String menuimg, String name, String price, String menu, String restid) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(MContract.Menu.KEY_MENUIMG, menuimg);//uri형태로
         values.put(MContract.Menu.KEY_NAME, name);
         values.put(MContract.Menu.KEY_PRICE, price);
         values.put(MContract.Menu.KEY_DESCRIPTION,menu);
@@ -46,6 +48,7 @@ public class MDBHelper extends SQLiteOpenHelper {
     public Cursor getAllMenusByID(String rest_id) {
         Log.i("rest_id","rest_id="+rest_id);
         String [] projection = {
+                MContract.Menu.KEY_MENUIMG,//메뉴사진 추가
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE,
                 MContract.Menu.KEY_DESCRIPTION
