@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 
@@ -28,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 
@@ -38,6 +42,7 @@ public class RestaurantDetail extends Fragment {
     DBHelper rDbHelper;
     Cursor c;
     View rootView;
+    Uri myUri;
     RegisterM registerM = new RegisterM();   //이렇게하면 안됌
 
     public interface OnTitleSelectedListener {
@@ -49,6 +54,9 @@ public class RestaurantDetail extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+       /*myUri= Uri.parse(geturi);*/
+
         /*액션바 생성*/
        ActionBar actionBar = getActivity().getActionBar();
         if (actionBar != null) {
@@ -134,7 +142,7 @@ public class RestaurantDetail extends Fragment {
     }
 /////
 
-/////////DB에 저장한거 불러오는 리스트뷰
+      /*DB에 저장한거 불러오는 리스트뷰*/
    private void viewAllToListView() {
 
         c = mDbHelper.getAllMenusByMethod();
@@ -143,6 +151,7 @@ public class RestaurantDetail extends Fragment {
                 R.layout.list_food, c, new String[]{
                // registerM.mPhotoFile.toString(),
 
+                MContract.Menu.KEY_MENUIMG,
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE},
                 new int[]{
@@ -157,14 +166,16 @@ public class RestaurantDetail extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Adapter adapter = adapterView.getAdapter();
 
-              //  ImageView imageView1 = rootView.findViewById(R.id.iconItem);
-                //imageView1.setImageResource();
+                Bundle extras = getActivity().getIntent().getExtras();
+                myUri=Uri.parse(extras.getString("MENUIMG"));//uri 받았는데 안됨...
+               ImageView imageView1 = rootView.findViewById(R.id.iconItem);
+               imageView1.setImageURI(myUri);//저장한 uri를 보여줘야함
 
                 TextView textView1 = rootView.findViewById(R.id.textItem1);
-                textView1.setText(((Cursor)adapter.getItem(i)).getString(1));
+                textView1.setText(((Cursor)adapter.getItem(i)).getString(2));
 
                 TextView textView2 = rootView.findViewById(R.id.textItem2);
-                textView2.setText(((Cursor)adapter.getItem(i)).getString(2));
+                textView2.setText(((Cursor)adapter.getItem(i)).getString(3));
 
                 //registerM.mName.setText(((Cursor)adapter.getItem(i)).getString(1));//넘겨준 값 써야함
                 //registerM.mPrice.setText(((Cursor)adapter.getItem(i)).getString(2));
