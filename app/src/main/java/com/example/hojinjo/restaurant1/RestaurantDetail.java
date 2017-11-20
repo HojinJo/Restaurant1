@@ -71,7 +71,7 @@ public class RestaurantDetail extends Fragment {
         mDbHelper = new MDBHelper(getContext());
 
         getRestaurant();
-        getMenu();
+        //getMenu();
 
         ImageButton btn = (ImageButton)rootView.findViewById(R.id.dialButton);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -87,39 +87,45 @@ public class RestaurantDetail extends Fragment {
 
     private void getRestaurant() {
 
-        c=rDbHelper.getAllRestaurants();
+        c = rDbHelper.getAllRestaurants();
 
-        if(c.moveToLast()){
+        if (c.moveToLast()) {
             /*업소 등록 이미지 받기*/
             Uri restUri;
-            Bundle getExtras=getActivity().getIntent().getExtras();
-            if(getExtras!=null){
-                restUri=Uri.parse(getExtras.getString("RESTIMG"));
-                ImageView restImg=rootView.findViewById(R.id.imageView2);
+            /*Bundle getExtras = getActivity().getIntent().getExtras();
+            if (getExtras != null) {*/
+                restUri = Uri.parse(c.getString(4));
+                ImageView restImg = rootView.findViewById(R.id.imageView2);
+                restImg.setImageURI(null);
                 restImg.setImageURI(restUri);
+            /*Bitmap bitmap = BitmapFactory.decodeFile(c.getString(4));
+            ImageView restImg = rootView.findViewById(R.id.imageView2);
+            restImg.setImageBitmap(bitmap);*/
+
+
+                TextView tv1 = rootView.findViewById(R.id.textView4);
+                String s = c.getString(1);
+                tv1.setText(s);
+
+                TextView tv2 = rootView.findViewById(R.id.textView3);
+                String s2 = c.getString(2);
+                tv2.setText(s2);
+
+                TextView tv3 = rootView.findViewById(R.id.textView2);
+                String s3 = c.getString(3);
+                tv3.setText(s3);
             }
-
-            TextView tv1 = rootView.findViewById(R.id.textView4);
-            String s = c.getString(1);
-            tv1.setText(s);
-
-            TextView tv2 = rootView.findViewById(R.id.textView3);
-            String s2 = c.getString(2);
-            tv2.setText(s2);
-
-            TextView tv3 = rootView.findViewById(R.id.textView2);
-            String s3 = c.getString(3);
-            tv3.setText(s3);
         }
-    }
 
     private void getMenu() {
 
         Log.i("rest_id","getString(1)="+c.getString(1));
         Cursor cursor = mDbHelper.getAllMenusByID(c.getInt(0));
         ArrayList<MyItem> data= new ArrayList<MyItem>();
-        if (cursor.moveToNext()){
-        data.add( new MyItem(c.getString(1),c.getString(2),c.getString(3)));
+        if (cursor.moveToPosition(1)){
+            if (cursor.moveToNext()) {
+                data.add(new MyItem(cursor.getString(1), cursor.getString(2), cursor.getString(3)));
+            }
         }cursor.moveToLast();
         MyAdapter adapter = new MyAdapter(getContext(),R.layout.list_food,data);
 
@@ -189,7 +195,7 @@ public class RestaurantDetail extends Fragment {
 /////
 
       /*DB에 저장한거 불러오는 리스트뷰*/
-   private void viewAllToListView() {
+   /*private void viewAllToListView() {
 
         c = mDbHelper.getAllMenusByMethod();
 
@@ -213,7 +219,7 @@ public class RestaurantDetail extends Fragment {
                 Activity activity = getActivity();
                 ((OnTitleSelectedListener)activity).onTitleSelected(i);
                 //Intent toMenuDetail = new Intent(getContext(), DetailsFragment.);
-                /*Bundle사용하는법은 stackoverflaw 사이트에서 참조*/
+                *//*Bundle사용하는법은 stackoverflaw 사이트에서 참조*//*
                 //링크: https://stackoverflow.com/questions/41381102/attempt-to-invoke-virtual-method-java-lang-string-android-os-bundle-getstringj
                 Uri menuUri;
                 Bundle extras = getActivity().getIntent().getExtras();
@@ -233,7 +239,7 @@ public class RestaurantDetail extends Fragment {
             }
         });
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-    }
+    }*/
 
 
     class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
