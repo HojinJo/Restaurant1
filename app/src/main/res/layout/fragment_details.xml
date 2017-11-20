@@ -25,22 +25,13 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size2"
         android:text="Price" />
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size2"
-            android:text="평점: " />
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size2"
-            android:text="Score" />
-    </LinearLayout>
+        android:textSize="@dimen/text_size2"
+        android:text="description" />
+
 
 </LinearLayout>
