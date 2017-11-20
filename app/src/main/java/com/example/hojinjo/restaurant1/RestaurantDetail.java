@@ -10,15 +10,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 
 import android.app.ActionBar;//버전에 맞게 v7제거 stackoverflow 사이트 참조
 
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -45,8 +48,6 @@ public class RestaurantDetail extends Fragment {
     Cursor c;
     View rootView;
 
-    //RegisterM registerM = new RegisterM();   //이렇게하면 안됌
-
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
     }
@@ -69,26 +70,23 @@ public class RestaurantDetail extends Fragment {
         rDbHelper = new DBHelper(getContext());
         mDbHelper = new MDBHelper(getContext());
 
-            getRestaurant();
-            getMenu();
-            //viewAllToListView();
-
+        getRestaurant();
+        getMenu();
 
         ImageButton btn = (ImageButton)rootView.findViewById(R.id.dialButton);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:021234567"));
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(c.getString(2)));
                 startActivity(intent);
             }
         });
-       // listview.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         return rootView;
     }
 
     private void getRestaurant() {
 
-        c=rDbHelper.getAllRestaurantsByID();
+        c=rDbHelper.getAllRestaurants();
 
         if(c.moveToLast()){
             /*업소 등록 이미지 받기*/
@@ -101,30 +99,31 @@ public class RestaurantDetail extends Fragment {
             }
 
             TextView tv1 = rootView.findViewById(R.id.textView4);
-            String s = c.getString(0);
+            String s = c.getString(1);
             tv1.setText(s);
 
-
             TextView tv2 = rootView.findViewById(R.id.textView3);
-            String s2 = c.getString(1);
+            String s2 = c.getString(2);
             tv2.setText(s2);
 
             TextView tv3 = rootView.findViewById(R.id.textView2);
-            String s3 = c.getString(2);
+            String s3 = c.getString(3);
             tv3.setText(s3);
         }
     }
 
     private void getMenu() {
-        c = mDbHelper.getAllMenusByID("1");
-//viewalltolist와야함        c = mDbHelper.getAllMenusByID(registerM.restid);
-        android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getContext(),
+
+        Log.i("rest_id","getString(1)="+c.getString(1));
+        c = mDbHelper.getAllMenusByID(c.getInt(0));
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(),
                 R.layout.list_food, c, new String[]{
-                // registerM.mPhotoFile.toString(),
                 MContract.Menu.KEY_MENUIMG,
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE},
                 new int[]{R.id.iconItem, R.id.textItem1, R.id.textItem2}, 0);
+
+
 
         ListView lv = (ListView)rootView.findViewById(R.id.listView);
         lv.setAdapter(adapter);
@@ -146,26 +145,15 @@ public class RestaurantDetail extends Fragment {
                 }
                 // Uri myUri=Uri.parse(extras.getString("MENUIMG"));//uri 받았는데 안됨...
 
-              /* ImageView imageView1 = rootView.findViewById(R.id.iconItem);
-               imageView1.setImageURI(myUri);//저장한 uri를 보여줘야함*/
-
                 TextView textView1 = rootView.findViewById(R.id.textItem1);
                 textView1.setText(((Cursor)adapter.getItem(i)).getString(2));
 
                 TextView textView2 = rootView.findViewById(R.id.textItem2);
                 textView2.setText(((Cursor)adapter.getItem(i)).getString(3));
 
-                //registerM.mName.setText(((Cursor)adapter.getItem(i)).getString(1));//넘겨준 값 써야함
-                //registerM.mPrice.setText(((Cursor)adapter.getItem(i)).getString(2));
-                //registerM.mDesc.setText(((Cursor)adapter.getItem(i)).getString(3));
             }
         });
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
-
-//        while(c.moveToNext()) {
-//            mDbHelper.insertUserByMethod(c.getString(1), c.getString(2) ,c.getString(3));
-//        }
     }
 
 
@@ -211,7 +199,6 @@ public class RestaurantDetail extends Fragment {
 
         android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getContext(),
                 R.layout.list_food, c, new String[]{
-               // registerM.mPhotoFile.toString(),
                 MContract.Menu.KEY_MENUIMG,
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE},
@@ -247,16 +234,13 @@ public class RestaurantDetail extends Fragment {
                 TextView textView2 = rootView.findViewById(R.id.textItem2);
                 textView2.setText(((Cursor)adapter.getItem(i)).getString(3));
 
-                //registerM.mName.setText(((Cursor)adapter.getItem(i)).getString(1));//넘겨준 값 써야함
-                //registerM.mPrice.setText(((Cursor)adapter.getItem(i)).getString(2));
-                //registerM.mDesc.setText(((Cursor)adapter.getItem(i)).getString(3));
             }
         });
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 
 
-  /*  class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
+    class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
         private Context mContext;
         private int mResource;
         private ArrayList<MyItem> mItems = new ArrayList<MyItem>();
@@ -303,7 +287,7 @@ public class RestaurantDetail extends Fragment {
 
             return convertView;
         }
-    }*/
+    }
     class MyItem {
         int mIcon; // image
         String nMenu; // menu

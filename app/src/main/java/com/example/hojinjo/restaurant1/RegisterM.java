@@ -57,6 +57,10 @@ public class RegisterM extends AppCompatActivity {
         Intent it = getIntent();
         restid=it.getStringExtra("RESTID");
 
+        /*Intent itrestid = new Intent(getApplicationContext(),RestaurantDetail.class);
+        itrestid.getStringExtra(restid);
+        startActivity(itrestid);*/
+
        /* Button btn=(Button)findViewById(R.id.registerMenu);
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override

@@ -28,6 +28,8 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    Uri restUri;
     Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 insertRecord();
                 Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
-                intent.putExtra("RESTIMG",uri.toString());
+                intent.putExtra("RESTIMG",restUri.toString());
                 startActivity(intent);
             }
         });
@@ -77,10 +79,10 @@ public class MainActivity extends AppCompatActivity {
 
             if (mPhotoFile !=null) {
                 //2. 생성된 파일 객체에 대한 Uri 객체를 얻기
-                Uri imageUri = FileProvider.getUriForFile(this, "com.example.hojinjo.restaurant1", mPhotoFile);
+                restUri = FileProvider.getUriForFile(this, "com.example.hojinjo.restaurant1", mPhotoFile);
 
                 //3. Uri 객체를 Extras를 통해 카메라 앱으로 전달
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,restUri);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             } else
                 Toast.makeText(getApplicationContext(), "file null", Toast.LENGTH_SHORT).show();

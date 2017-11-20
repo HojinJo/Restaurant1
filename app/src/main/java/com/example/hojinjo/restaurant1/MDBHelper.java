@@ -45,18 +45,19 @@ public class MDBHelper extends SQLiteOpenHelper {
         return db.query(MContract.Menu.TABLE_NAME,null,null,null,null,null,null);
     }
 
-    public Cursor getAllMenusByID(String rest_id) {
+    public Cursor getAllMenusByID(int rest_id) {
         Log.i("rest_id","rest_id="+rest_id);
         SQLiteDatabase db = getReadableDatabase();
         String [] projection = {
                 MContract.Menu.KEY_MENUIMG,//메뉴사진 추가
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE,
-                MContract.Menu.KEY_DESCRIPTION
+                MContract.Menu.KEY_DESCRIPTION,
+                MContract.Menu.KEY_RESTID
         };
 
         String selection= MContract.Menu.KEY_RESTID + " = ? ";
-        String [] selectionArgs ={ rest_id };
+        String [] selectionArgs ={ ""+rest_id };
 
         return db.query( MContract.Menu.TABLE_NAME,  // 테이블이름
                 projection,         // 프로젝션
