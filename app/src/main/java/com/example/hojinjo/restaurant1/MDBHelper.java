@@ -56,8 +56,7 @@ public class MDBHelper extends SQLiteOpenHelper {
                 MContract.Menu.KEY_DESCRIPTION,
         };
 
-        String menuselection=/* MContract.Menu.KEY_RESTID + " =? "+*/
-                              MContract.Menu.KEY_NAME + " =? ";
+        String menuselection= MContract.Menu.KEY_NAME + " =? ";
         String [] menuArgs={/* ""+ rest_id, */""+ menuname};
 
         return db.query( MContract.Menu.TABLE_NAME,  // 테이블이름

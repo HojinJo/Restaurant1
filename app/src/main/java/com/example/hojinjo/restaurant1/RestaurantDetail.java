@@ -118,10 +118,14 @@ public class RestaurantDetail extends Fragment {
 
         Log.i("rest_id","getString(1)="+c.getString(1));
         Cursor cursor = mDbHelper.getAllMenusByID(c.getInt(0));
+
         ArrayList<MyItem> data= new ArrayList<MyItem>();
+
         if (cursor.moveToNext()){
         data.add( new MyItem(c.getString(1),c.getString(2),c.getString(3)));
-        }cursor.moveToLast();
+        }
+        cursor.moveToLast();
+
         MyAdapter adapter = new MyAdapter(getContext(),R.layout.list_food,data);
 
         ListView lv = (ListView)rootView.findViewById(R.id.listView);
@@ -129,6 +133,15 @@ public class RestaurantDetail extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //메뉴이름 디테일프래그먼트로 넘김
+                String menuname = (String)((TextView)view.findViewById(R.id.textItem1)).getText();
+                String menuprice=(String) ((TextView)view.findViewById(R.id.textItem2)).getText();
+                Intent todetail = new Intent(getContext(), MenuDetail.class);
+                todetail.putExtra("MENU", menuname);
+                todetail.putExtra("PRICE", menuprice);
+                //todetail.putExtra("IMG", data.getItem(position).iconItem);
+                //todetail.putExtra("MENUSELECTION", MyItem.);//디테일프래그로 선택된 이미지 넘기기
+                startActivity(todetail);
                 //Adapter adapter = adapterView.getAdapter();
 
                 /*Bundle사용하는법은 stackoverflaw 사이트에서 참조*/
@@ -177,11 +190,8 @@ public class RestaurantDetail extends Fragment {
                 Intent intent=new Intent(getContext(), RegisterM.class);
                 startActivity(intent);
 
-<<<<<<< HEAD
         EditText name = (EditText)rootView.findViewById(R.id.edit_rname);
 
-=======
->>>>>>> 4ec34a5b8e188c9b7b64bda33ab5f7788cbc5870
         Cursor cursor=rDbHelper.getRestaurantIDByName(c.getString(1));  //rDbHelper.getRestaurantIDByName(name.getText().toString()) --> id
         if(cursor.moveToNext()){
             Intent intentid = new Intent(getContext(), RegisterM.class);
@@ -194,7 +204,7 @@ public class RestaurantDetail extends Fragment {
 /////
 
       /*DB에 저장한거 불러오는 리스트뷰*/
-   private void viewAllToListView() {
+  /* private void viewAllToListView() {
 
         c = mDbHelper.getAllMenusByMethod();
 
@@ -219,7 +229,7 @@ public class RestaurantDetail extends Fragment {
                 ((OnTitleSelectedListener)activity).onTitleSelected(i);
                 //Intent toMenuDetail = new Intent(getContext(), DetailsFragment.);
 
-               /* Uri menuUri;
+               *//* Uri menuUri;
                 Bundle extras = getActivity().getIntent().getExtras();
                 if (extras != null)
                 {
@@ -227,7 +237,7 @@ public class RestaurantDetail extends Fragment {
                     ImageView imageView1 = rootView.findViewById(R.id.iconItem);
                     imageView1.setImageURI(menuUri);//저장한 uri를 보여줘야함
                 }
-*/
+*//*
                 TextView textView1 = rootView.findViewById(R.id.textItem1);
                 textView1.setText(((Cursor)adapter.getItem(i)).getString(2));
 
@@ -237,7 +247,7 @@ public class RestaurantDetail extends Fragment {
             }
         });
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-    }
+    }*/
 
 
     class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터

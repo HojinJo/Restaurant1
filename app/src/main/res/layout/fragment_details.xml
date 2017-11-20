@@ -26,12 +26,12 @@
         android:textSize="@dimen/text_size2"
         android:text="Price" />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size2"
-            android:text="description" />
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size2"
+        android:text="description" />
 
 
 </LinearLayout>
