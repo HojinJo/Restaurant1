@@ -77,7 +77,8 @@ public class RestaurantDetail extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse(c.getString(2)));
+                c.moveToLast();
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + c.getString(3)));
                 startActivity(intent);
             }
         });
@@ -116,27 +117,23 @@ public class RestaurantDetail extends Fragment {
     private void getMenu() {
 
         Log.i("rest_id","getString(1)="+c.getString(1));
-        c = mDbHelper.getAllMenusByID(c.getInt(0));
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(),
-                R.layout.list_food, c, new String[]{
-                MContract.Menu.KEY_MENUIMG,
-                MContract.Menu.KEY_NAME,
-                MContract.Menu.KEY_PRICE},
-                new int[]{R.id.iconItem, R.id.textItem1, R.id.textItem2}, 0);
-
-
+        Cursor cursor = mDbHelper.getAllMenusByID(c.getInt(0));
+        ArrayList<MyItem> data= new ArrayList<MyItem>();
+        if (cursor.moveToNext()){
+        data.add( new MyItem(c.getString(1),c.getString(2),c.getString(3)));
+        }cursor.moveToLast();
+        MyAdapter adapter = new MyAdapter(getContext(),R.layout.list_food,data);
 
         ListView lv = (ListView)rootView.findViewById(R.id.listView);
         lv.setAdapter(adapter);
-
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Adapter adapter = adapterView.getAdapter();
+                //Adapter adapter = adapterView.getAdapter();
 
                 /*Bundle사용하는법은 stackoverflaw 사이트에서 참조*/
                 //링크: https://stackoverflow.com/questions/41381102/attempt-to-invoke-virtual-method-java-lang-string-android-os-bundle-getstringj
-                Uri myUri;
+                /*Uri myUri;
                 Bundle extras = getActivity().getIntent().getExtras();
                 if (extras != null)
                 {
@@ -149,7 +146,7 @@ public class RestaurantDetail extends Fragment {
                 textView1.setText(((Cursor)adapter.getItem(i)).getString(2));
 
                 TextView textView2 = rootView.findViewById(R.id.textItem2);
-                textView2.setText(((Cursor)adapter.getItem(i)).getString(3));
+                textView2.setText(((Cursor)adapter.getItem(i)).getString(3));*/
 
             }
         });
@@ -180,8 +177,11 @@ public class RestaurantDetail extends Fragment {
                 Intent intent=new Intent(getContext(), RegisterM.class);
                 startActivity(intent);
 
+<<<<<<< HEAD
         EditText name = (EditText)rootView.findViewById(R.id.edit_rname);
 
+=======
+>>>>>>> 4ec34a5b8e188c9b7b64bda33ab5f7788cbc5870
         Cursor cursor=rDbHelper.getRestaurantIDByName(c.getString(1));  //rDbHelper.getRestaurantIDByName(name.getText().toString()) --> id
         if(cursor.moveToNext()){
             Intent intentid = new Intent(getContext(), RegisterM.class);
@@ -273,9 +273,16 @@ public class RestaurantDetail extends Fragment {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(mResource, parent, false);
             }
+
             // Set Icon
-            ImageView icon = (ImageView) convertView.findViewById(R.id.iconItem);
-            icon.setImageResource(mItems.get(position).mIcon);
+            Uri imgUri;
+            Bundle extras = getActivity().getIntent().getExtras();
+            if (extras != null)
+            {
+                imgUri=Uri.parse(mItems.get(position).mIcon);
+                ImageView icon = convertView.findViewById(R.id.iconItem);
+                icon.setImageURI(imgUri);
+            }
 
             // Set Text 01
             TextView name = (TextView) convertView.findViewById(R.id.textItem1);
@@ -289,12 +296,12 @@ public class RestaurantDetail extends Fragment {
         }
     }
     class MyItem {
-        int mIcon; // image
+        String mIcon; // image
         String nMenu; // menu
         String nPrice;  // price
 
 
-        MyItem(int aIcon, String aMenu, String aPrice) {
+        MyItem(String aIcon, String aMenu, String aPrice) {
             mIcon = aIcon;
             nMenu = aMenu;
             nPrice = aPrice;
