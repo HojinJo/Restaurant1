@@ -89,7 +89,6 @@ public class RestaurantDetail extends Fragment {
     private void getRestaurant() {
 
         c=rDbHelper.getAllRestaurantsByID();
-      //  c.moveToLast();
 
         if(c.moveToLast()){
             /*업소 등록 이미지 받기*/
@@ -216,12 +215,7 @@ public class RestaurantDetail extends Fragment {
                 MContract.Menu.KEY_MENUIMG,
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE},
-<<<<<<< HEAD
                 new int[]{R.id.iconItem, R.id.textItem1, R.id.textItem2}, 0);
-=======
-
-               new int[]{R.id.iconItem, R.id.textItem1, R.id.textItem2}, 0);
->>>>>>> e5411633ef2055fa72e6df79d85287b69f066ac2
 
         ListView lv = (ListView)rootView.findViewById(R.id.listView);
         lv.setAdapter(adapter);

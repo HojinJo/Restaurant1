@@ -28,9 +28,10 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertUserByMethod(String name, String address ,String phone) {
+    public long insertUserByMethod(String restimg, String name, String address ,String phone) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(RContract.Restaurant.KEY_RESTAURANTIMG,restimg);
         values.put(RContract.Restaurant.KEY_NAME, name);
         values.put(RContract.Restaurant.KEY_ADDRESS, address);
         values.put(RContract.Restaurant.KEY_PHONE,phone);
@@ -45,14 +46,15 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getAllRestaurantsByID() {
         SQLiteDatabase db = getReadableDatabase();
         String [] projection = {
+                RContract.Restaurant.KEY_RESTAURANTIMG,
                 RContract.Restaurant.KEY_NAME,
                 RContract.Restaurant.KEY_ADDRESS,
                 RContract.Restaurant.KEY_PHONE
         };
         return db.query( RContract.Restaurant.TABLE_NAME,  // 테이블이름
                 projection,         // 프로젝션
-                null,    // 조건절=restid
-                null,      // 조건절에 대한 값
+                null,
+                null,
                 null,
                 null,
                 null);
@@ -61,7 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor getRestaurantIDByName(String name){
         SQLiteDatabase db = getReadableDatabase();
         String[] projection = {RContract.Restaurant._ID};
-        String selection= MContract.Menu.KEY_NAME + "=?";
+        String selection= RContract.Restaurant.KEY_NAME + "=?";    //물어보기
         String[] selectionArgs ={name};
      return db.query(RContract.Restaurant.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
     }

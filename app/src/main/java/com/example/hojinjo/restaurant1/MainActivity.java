@@ -55,19 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-/*    final int REQUEST_CODE_READ_CONTACTS = 1;
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_READ_CONTACTS) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getContacts();
-            } else {
-                Toast.makeText(getApplicationContext(), "READ_CONTACTS 접근 권한이 필요합니다", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
-
     private String currentDateFormat(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH_mm_ss");
         String  currentTimeStamp = dateFormat.format(new Date());
@@ -117,11 +104,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void insertRecord() {
         rDbHelper = new DBHelper(this);
+        ImageView restimg = (ImageView)findViewById(R.id.cameraButton);
         EditText name = (EditText)findViewById(R.id.edit_rname);
         EditText address = (EditText)findViewById(R.id.edit_address);
         EditText phone = (EditText)findViewById(R.id.edit_phone);
 
-        long nOfRows = rDbHelper.insertUserByMethod(name.getText().toString(),address.getText().toString(),phone.getText().toString());
+        long nOfRows = rDbHelper.insertUserByMethod(restimg.getResources().toString(),name.getText().toString(),address.getText().toString(),phone.getText().toString());
         if (nOfRows >0)
             Toast.makeText(this,nOfRows+" Record Inserted", Toast.LENGTH_SHORT).show();
         else
