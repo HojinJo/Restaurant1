@@ -53,35 +53,15 @@ public class RegisterM extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
                 intent.putExtra("IMAGEURI", imageUri.toString());//URI 보내기...
                 startActivity(intent);
+                Intent it = getIntent();
+                restid=it.getStringExtra("RESTID");
 
-        Intent it = getIntent();
-        restid=it.getStringExtra("RESTID");
-
-        /*Intent itrestid = new Intent(getApplicationContext(),RestaurantDetail.class);
-        itrestid.getStringExtra(restid);
-        startActivity(itrestid);*/
-
-       /* Button btn=(Button)findViewById(R.id.registerMenu);
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        insertRecord();
-                     Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
-                     startActivity(intent);
-                    }
-                });*/
-        mName= (EditText)findViewById(R.id.edit_name);
-        mPrice = (EditText)findViewById(R.id.edit_price);
-        mDesc = (EditText)findViewById(R.id.edit_menu);
+                mName= (EditText)findViewById(R.id.edit_name);
+                mPrice = (EditText)findViewById(R.id.edit_price);
+                mDesc = (EditText)findViewById(R.id.edit_menu);
             }
         });
     }
-
-
-        /*3.1, 3.2- sqlite에 저장하는 코드, 새로운거 추가하는코드*/
-       /* while(c.moveToNext()) {
-            mDbHelper.insertUserByMethod(c.getString(0), c.getString(1), c.getString(2));
-        }*/
 
     private void insertRecord() {
         EditText name = (EditText)findViewById(R.id.edit_name);

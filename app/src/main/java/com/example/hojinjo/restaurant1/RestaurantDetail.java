@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -52,6 +53,9 @@ public class RestaurantDetail extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            return;
+        }
         restimg= getArguments().getString("RESTIMG");
 
     }
@@ -66,8 +70,6 @@ public class RestaurantDetail extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-       /*myUri= Uri.parse(geturi);*/
-
         /*액션바 생성*/
        ActionBar actionBar = getActivity().getActionBar();
         if (actionBar != null) {
@@ -79,7 +81,7 @@ public class RestaurantDetail extends Fragment {
         mDbHelper = new MDBHelper(getContext());
 
         getRestaurant();
-        //getMenu();
+        getMenu();
 
         ImageButton btn = (ImageButton)rootView.findViewById(R.id.dialButton);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -100,28 +102,21 @@ public class RestaurantDetail extends Fragment {
         if (c.moveToLast()) {
             /*업소 등록 이미지 받기*/
             Uri restUri;
-            /*Bundle getExtras = getActivity().getIntent().getExtras();
-            if (getExtras != null) {*/
-            //String REST_img = getArguments().getString("RESTIMG");
-                restUri = Uri.parse(c.getString(4));
-                ImageView restImg = rootView.findViewById(R.id.imageView2);
-                restImg.setImageURI(restUri);
-            /*Bitmap bitmap = BitmapFactory.decodeFile(c.getString(4));
+            restUri = Uri.parse(c.getString(4));
             ImageView restImg = rootView.findViewById(R.id.imageView2);
-            restImg.setImageBitmap(bitmap);*/
+            restImg.setImageURI(restUri);
 
+            TextView tv1 = rootView.findViewById(R.id.textView4);
+            String s = c.getString(1);
+            tv1.setText(s);
 
-                TextView tv1 = rootView.findViewById(R.id.textView4);
-                String s = c.getString(1);
-                tv1.setText(s);
+            TextView tv2 = rootView.findViewById(R.id.textView3);
+            String s2 = c.getString(2);
+            tv2.setText(s2);
 
-                TextView tv2 = rootView.findViewById(R.id.textView3);
-                String s2 = c.getString(2);
-                tv2.setText(s2);
-
-                TextView tv3 = rootView.findViewById(R.id.textView2);
-                String s3 = c.getString(3);
-                tv3.setText(s3);
+            TextView tv3 = rootView.findViewById(R.id.textView2);
+            String s3 = c.getString(3);
+            tv3.setText(s3);
             }
         }
 
@@ -150,28 +145,7 @@ public class RestaurantDetail extends Fragment {
                 Intent todetail = new Intent(getContext(), MenuDetail.class);
                 todetail.putExtra("MENU", menuname);
                 todetail.putExtra("PRICE", menuprice);
-                //todetail.putExtra("IMG", data.getItem(position).iconItem);
-                //todetail.putExtra("MENUSELECTION", MyItem.);//디테일프래그로 선택된 이미지 넘기기
                 startActivity(todetail);
-                //Adapter adapter = adapterView.getAdapter();
-
-                /*Bundle사용하는법은 stackoverflaw 사이트에서 참조*/
-                //링크: https://stackoverflow.com/questions/41381102/attempt-to-invoke-virtual-method-java-lang-string-android-os-bundle-getstringj
-                /*Uri myUri;
-                Bundle extras = getActivity().getIntent().getExtras();
-                if (extras != null)
-                {
-                    myUri=Uri.parse(extras.getString("MENUIMG"));
-                    ImageView imageView1 = rootView.findViewById(R.id.iconItem);
-                    imageView1.setImageURI(myUri);//저장한 uri를 보여줘야함
-                }
-
-                TextView textView1 = rootView.findViewById(R.id.textItem1);
-                textView1.setText(((Cursor)adapter.getItem(i)).getString(2));
-
-                TextView textView2 = rootView.findViewById(R.id.textItem2);
-                textView2.setText(((Cursor)adapter.getItem(i)).getString(3));*/
-
             }
         });
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -201,70 +175,16 @@ public class RestaurantDetail extends Fragment {
                 Intent intent=new Intent(getContext(), RegisterM.class);
                 startActivity(intent);
 
-        //EditText name = (EditText)rootView.findViewById(R.id.edit_rname);
-
-        Cursor cursor=rDbHelper.getRestaurantIDByName(c.getString(1));  //rDbHelper.getRestaurantIDByName(name.getText().toString()) --> id
+        Cursor cursor=rDbHelper.getRestaurantIDByName(c.getString(1));
         if(cursor.moveToNext()){
             Intent intentid = new Intent(getContext(), RegisterM.class);
             intentid.putExtra("RESTID",cursor.getInt(0) );
             startActivity(intentid);
-        }//아이템으로 이사
+        }
 
-        return super.onOptionsItemSelected(item); //여기로이사
+        return super.onOptionsItemSelected(item);
     }
-/////
 
-      /*DB에 저장한거 불러오는 리스트뷰*/
-  /* private void viewAllToListView() {
-
-        c = mDbHelper.getAllMenusByMethod();
-
-        android.widget.SimpleCursorAdapter adapter = new android.widget.SimpleCursorAdapter(getContext(),
-                R.layout.list_food, c, new String[]{
-                MContract.Menu.KEY_MENUIMG,
-                MContract.Menu.KEY_NAME,
-                MContract.Menu.KEY_PRICE},
-                new int[]{R.id.iconItem, R.id.textItem1, R.id.textItem2}, 0);
-
-        ListView lv = (ListView)rootView.findViewById(R.id.listView);
-        lv.setAdapter(adapter);
-
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Adapter adapter = adapterView.getAdapter();
-
-                mCurCheckPosition = i;
-                Activity activity = getActivity();
-                ((OnTitleSelectedListener)activity).onTitleSelected(i);
-                //Intent toMenuDetail = new Intent(getContext(), DetailsFragment.);
-<<<<<<< HEAD
-                *//*Bundle사용하는법은 stackoverflaw 사이트에서 참조*//*
-                //링크: https://stackoverflow.com/questions/41381102/attempt-to-invoke-virtual-method-java-lang-string-android-os-bundle-getstringj
-                Uri menuUri;
-=======
-
-               *//* Uri menuUri;
->>>>>>> 8fb88080dd2cf3fa7a8afcd10765edf5c56a9cc5
-                Bundle extras = getActivity().getIntent().getExtras();
-                if (extras != null)
-                {
-                    menuUri=Uri.parse(extras.getString("MENUIMG"));
-                    ImageView imageView1 = rootView.findViewById(R.id.iconItem);
-                    imageView1.setImageURI(menuUri);//저장한 uri를 보여줘야함
-                }
-*//*
-                TextView textView1 = rootView.findViewById(R.id.textItem1);
-                textView1.setText(((Cursor)adapter.getItem(i)).getString(2));
-
-                TextView textView2 = rootView.findViewById(R.id.textItem2);
-                textView2.setText(((Cursor)adapter.getItem(i)).getString(3));
-
-            }
-        });
-        lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-    }*/
 
 
     class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터

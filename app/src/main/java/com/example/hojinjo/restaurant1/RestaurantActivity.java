@@ -14,11 +14,10 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantD
         setContentView(R.layout.activity_main);
         Intent intent = getIntent();
         String restimg = intent.getStringExtra("RESTIMG");
-        //RestaurantDetail restaurantDetail = new RestaurantDetail();
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
-        Bundle imgBundle = new Bundle();
-        imgBundle.putString("RESTIMG",restimg);
-        fragment.setArguments(imgBundle);
+        Bundle rimgBundle = new Bundle();
+        rimgBundle.putString("RESTIMG",restimg);
+        fragment.setArguments(rimgBundle);
         //출처: http://jizard.tistory.com/66 [JIZARD]
     }
     public void onTitleSelected(int i) {
