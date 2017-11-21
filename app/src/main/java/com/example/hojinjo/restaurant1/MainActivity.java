@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -27,14 +28,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-
-
     Uri restUri;
     Uri uri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_r);
+
 
         ImageButton cameraBtn = (ImageButton) findViewById(R.id.cameraButton);
         cameraBtn.setOnClickListener(new View.OnClickListener() {
@@ -49,8 +49,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 insertRecord();
+                /*Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
+                Bundle imgBundle = new Bundle();
+                imgBundle.putString("RESTIMG",restUri.toString());
+                fragment.setArguments(imgBundle);
+                //출처: http://jizard.tistory.com/66 [JIZARD]*/
+                String restimg = restUri.toString();
                 Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
-                intent.putExtra("RESTIMG",restUri.toString());
+                intent.putExtra("RESTIMG",restimg);
                 startActivity(intent);
             }
         });

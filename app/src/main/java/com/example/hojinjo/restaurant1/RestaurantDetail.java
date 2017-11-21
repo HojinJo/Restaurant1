@@ -47,6 +47,14 @@ public class RestaurantDetail extends Fragment {
     DBHelper rDbHelper;
     Cursor c;
     View rootView;
+    String restimg;
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        restimg= getArguments().getString("RESTIMG");
+
+    }
 
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
@@ -91,21 +99,12 @@ public class RestaurantDetail extends Fragment {
 
         if (c.moveToLast()) {
             /*업소 등록 이미지 받기*/
-<<<<<<< HEAD
             Uri restUri;
             /*Bundle getExtras = getActivity().getIntent().getExtras();
             if (getExtras != null) {*/
-                restUri = Uri.parse(c.getString(4));
+            //String REST_img = getArguments().getString("RESTIMG");
+                restUri = Uri.parse(restimg);
                 ImageView restImg = rootView.findViewById(R.id.imageView2);
-                restImg.setImageURI(null);
-=======
-           /* Uri restUri;*/
-            Bundle getExtras=getActivity().getIntent().getExtras();
-            Uri restUri;
-            if(getExtras!=null){
-                restUri=Uri.parse(getExtras.getString("RESTIMG"));
-                ImageView restImg=rootView.findViewById(R.id.imageView2);
->>>>>>> 8fb88080dd2cf3fa7a8afcd10765edf5c56a9cc5
                 restImg.setImageURI(restUri);
             /*Bitmap bitmap = BitmapFactory.decodeFile(c.getString(4));
             ImageView restImg = rootView.findViewById(R.id.imageView2);
@@ -132,20 +131,12 @@ public class RestaurantDetail extends Fragment {
         Cursor cursor = mDbHelper.getAllMenusByID(c.getInt(0));
 
         ArrayList<MyItem> data= new ArrayList<MyItem>();
-<<<<<<< HEAD
-        if (cursor.moveToPosition(1)){
-            if (cursor.moveToNext()) {
-                data.add(new MyItem(cursor.getString(1), cursor.getString(2), cursor.getString(3)));
-            }
-        }cursor.moveToLast();
-=======
 
         if (cursor.moveToNext()){
         data.add( new MyItem(c.getString(1),c.getString(2),c.getString(3)));
         }
         cursor.moveToLast();
 
->>>>>>> 8fb88080dd2cf3fa7a8afcd10765edf5c56a9cc5
         MyAdapter adapter = new MyAdapter(getContext(),R.layout.list_food,data);
 
         ListView lv = (ListView)rootView.findViewById(R.id.listView);
@@ -210,7 +201,7 @@ public class RestaurantDetail extends Fragment {
                 Intent intent=new Intent(getContext(), RegisterM.class);
                 startActivity(intent);
 
-        EditText name = (EditText)rootView.findViewById(R.id.edit_rname);
+        //EditText name = (EditText)rootView.findViewById(R.id.edit_rname);
 
         Cursor cursor=rDbHelper.getRestaurantIDByName(c.getString(1));  //rDbHelper.getRestaurantIDByName(name.getText().toString()) --> id
         if(cursor.moveToNext()){
@@ -224,11 +215,7 @@ public class RestaurantDetail extends Fragment {
 /////
 
       /*DB에 저장한거 불러오는 리스트뷰*/
-<<<<<<< HEAD
-   /*private void viewAllToListView() {
-=======
   /* private void viewAllToListView() {
->>>>>>> 8fb88080dd2cf3fa7a8afcd10765edf5c56a9cc5
 
         c = mDbHelper.getAllMenusByMethod();
 
