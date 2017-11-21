@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
@@ -34,6 +35,7 @@ public class DetailsFragment extends Fragment {
         index = i;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class DetailsFragment extends Fragment {
 
         menudbhelper=new MDBHelper(getContext());
         restdbhelper = new DBHelper(getContext());
+
 
 
         Intent getmenu=getActivity().getIntent();

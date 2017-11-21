@@ -49,7 +49,7 @@ public class RestaurantDetail extends Fragment {
     Cursor c;
     View rootView;
     String restimg;
-
+    String menuimg;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -57,6 +57,7 @@ public class RestaurantDetail extends Fragment {
             return;
         }
         restimg= getArguments().getString("RESTIMG");
+        menuimg= getArguments().getString("IMAGEURI");//메뉴 이미지 받기
 
     }
 
@@ -123,7 +124,8 @@ public class RestaurantDetail extends Fragment {
     private void getMenu() {
 
         Log.i("rest_id","getString(1)="+c.getString(1));
-        Cursor cursor = mDbHelper.getAllMenusByID(c.getInt(0));
+        final Cursor cursor = mDbHelper.getAllMenusByID(c.getInt(0));
+
 
         ArrayList<MyItem> data= new ArrayList<MyItem>();
 
@@ -139,6 +141,12 @@ public class RestaurantDetail extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Uri menuUri;
+                menuUri=Uri.parse(cursor.getString(1));
+                ImageView menuImg=rootView.findViewById(R.id.iconItem);
+                menuImg.setImageURI(menuUri);
+
                 //메뉴이름 디테일프래그먼트로 넘김
                 String menuname = (String)((TextView)view.findViewById(R.id.textItem1)).getText();
                 String menuprice=(String) ((TextView)view.findViewById(R.id.textItem2)).getText();

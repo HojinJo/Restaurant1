@@ -90,9 +90,7 @@ public class RegisterM extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 2;
 
     private void dispatchTakePictureIntent() {
-
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             //1. 카메라 앱으로 찍은 이미지를 저장할 파일 객체 생성
             mPhotoFileName = "IMG"+currentDateFormat()+".jpg";
@@ -109,7 +107,6 @@ public class RegisterM extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "file null", Toast.LENGTH_SHORT).show();
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
