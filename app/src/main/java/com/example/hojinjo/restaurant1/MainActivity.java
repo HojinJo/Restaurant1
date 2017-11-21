@@ -49,11 +49,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 insertRecord();
-                /*Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
-                Bundle imgBundle = new Bundle();
-                imgBundle.putString("RESTIMG",restUri.toString());
-                fragment.setArguments(imgBundle);
-                //출처: http://jizard.tistory.com/66 [JIZARD]*/
                 String restimg = restUri.toString();
                 Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
                 intent.putExtra("RESTIMG",restimg);
@@ -74,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 2;
 
-    private void dispatchTakePictureIntent() {
+    public void dispatchTakePictureIntent() {
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -117,18 +112,12 @@ public class MainActivity extends AppCompatActivity {
         EditText address = (EditText)findViewById(R.id.edit_address);
         EditText phone = (EditText)findViewById(R.id.edit_phone);
 
-        long nOfRows = rDbHelper.insertUserByMethod(restimg.getResources().toString(),name.getText().toString(),address.getText().toString(),phone.getText().toString());
+        long nOfRows = rDbHelper.insertUserByMethod(uri.toString(),name.getText().toString(),
+                                                      address.getText().toString(),phone.getText().toString());
         if (nOfRows >0)
             Toast.makeText(this,nOfRows+" Record Inserted", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this,"No Record Inserted", Toast.LENGTH_SHORT).show();
-
-       /* Cursor cursor=rDbHelper.getRestaurantIDByName(name.getText().toString());  //rDbHelper.getRestaurantIDByName(name.getText().toString()) --> id
-            if(cursor.moveToNext()){
-                Intent intentid = new Intent(getApplicationContext(), RegisterM.class);
-                intentid.putExtra("RESTID",cursor.getInt(0) );  //커서존재하는지 다음으로
-                startActivity(intentid);
-        }//아이템으로 이사*/
     }
 
 }

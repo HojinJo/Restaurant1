@@ -103,7 +103,7 @@ public class RestaurantDetail extends Fragment {
             /*Bundle getExtras = getActivity().getIntent().getExtras();
             if (getExtras != null) {*/
             //String REST_img = getArguments().getString("RESTIMG");
-                restUri = Uri.parse(restimg);
+                restUri = Uri.parse(c.getString(4));
                 ImageView restImg = rootView.findViewById(R.id.imageView2);
                 restImg.setImageURI(restUri);
             /*Bitmap bitmap = BitmapFactory.decodeFile(c.getString(4));
