@@ -134,11 +134,18 @@ public class RestaurantDetail extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+<<<<<<< HEAD
                 mCurCheckPosition = i;
                 Activity activity = getActivity();
                 ((OnTitleSelectedListener)activity).onTitleSelected(i);
 
                /* Uri menuUri;
+=======
+                mCurCheckPosition=-1;
+                Activity activity=getActivity();
+                ((OnTitleSelectedListener)activity).onTitleSelected(i);
+                Uri menuUri;
+>>>>>>> 37f5f6d2e337e172149a4954dbb074719b289879
                 menuUri = Uri.parse(cursor.getString(1));
                 ImageView menuImg = rootView.findViewById(R.id.iconItem);
                 menuImg.setImageURI(menuUri);*/

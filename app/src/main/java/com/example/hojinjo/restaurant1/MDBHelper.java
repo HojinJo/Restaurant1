@@ -50,6 +50,7 @@ public class MDBHelper extends SQLiteOpenHelper {
     public Cursor getOneMenuByName(String menuname){
         SQLiteDatabase db=getReadableDatabase();
         String [] onemenu={
+                MContract.Menu._ID,
                 MContract.Menu.KEY_MENUIMG,//메뉴사진 추가
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE,
