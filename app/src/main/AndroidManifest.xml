@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name=".MenuDetail"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".RestaurantActivity" />
         <activity android:name=".RegisterM" />
 
         <provider

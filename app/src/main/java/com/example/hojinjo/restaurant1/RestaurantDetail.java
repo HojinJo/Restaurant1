@@ -1,6 +1,7 @@
 package com.example.hojinjo.restaurant1;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -40,16 +41,6 @@ public class RestaurantDetail extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            return;
-        }
-        restimg = getArguments().getString("RESTIMG");
-        menuimg = getArguments().getString("IMAGEURI");//메뉴 이미지 받기
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -145,6 +136,9 @@ public class RestaurantDetail extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                mCurCheckPosition=-1;
+                Activity activity=getActivity();
+                ((OnTitleSelectedListener)activity).onTitleSelected(i);
                 Uri menuUri;
                 menuUri = Uri.parse(cursor.getString(1));
                 ImageView menuImg = rootView.findViewById(R.id.iconItem);

@@ -33,5 +33,7 @@ public class MenuDetail extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
     }
+
 }
