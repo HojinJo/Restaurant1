@@ -9,12 +9,8 @@
         android:id="@+id/imageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
-<<<<<<< HEAD
         android:layout_gravity="center"/>
-=======
-        android:layout_gravity="center"
-         />
->>>>>>> 37f5f6d2e337e172149a4954dbb074719b289879
+
 
     <TextView
         android:id="@+id/textView1"

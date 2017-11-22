@@ -134,7 +134,7 @@ public class RestaurantDetail extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-<<<<<<< HEAD
+
                 mCurCheckPosition = i;
                 Activity activity = getActivity();
                 ((OnTitleSelectedListener)activity).onTitleSelected(i);

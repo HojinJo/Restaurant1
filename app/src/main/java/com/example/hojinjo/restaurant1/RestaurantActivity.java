@@ -13,10 +13,6 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-<<<<<<< HEAD
-=======
-
->>>>>>> 37f5f6d2e337e172149a4954dbb074719b289879
     }
     public void onTitleSelected(int i) {
         if (getResources().getConfiguration().orientation
