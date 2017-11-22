@@ -1,6 +1,7 @@
 package com.example.hojinjo.restaurant1;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -40,16 +41,6 @@ public class RestaurantDetail extends Fragment {
         // Required empty public constructor
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            return;
-        }
-        restimg = getArguments().getString("RESTIMG");
-        menuimg = getArguments().getString("IMAGEURI");//메뉴 이미지 받기
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,26 +128,29 @@ public class RestaurantDetail extends Fragment {
             }
         });
         //https://stackoverflow.com/questions/26627258/simplecursoradapter-with-imageview-and-textview-from-sqlite
-        
-
         ListView lv = (ListView) rootView.findViewById(R.id.listView);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Uri menuUri;
+                mCurCheckPosition = i;
+                Activity activity = getActivity();
+                ((OnTitleSelectedListener)activity).onTitleSelected(i);
+
+               /* Uri menuUri;
                 menuUri = Uri.parse(cursor.getString(1));
                 ImageView menuImg = rootView.findViewById(R.id.iconItem);
-                menuImg.setImageURI(menuUri);
+                menuImg.setImageURI(menuUri);*/
 
                 //메뉴이름 디테일프래그먼트로 넘김
                 String menuname = (String) ((TextView) view.findViewById(R.id.textItem1)).getText();
                 String menuprice = (String) ((TextView) view.findViewById(R.id.textItem2)).getText();
-                Intent todetail = new Intent(getContext(), MenuDetail.class);
+
+                /*Intent todetail = new Intent(getContext(), MenuDetail.class);
                 todetail.putExtra("MENU", menuname);
                 todetail.putExtra("PRICE", menuprice);
-                startActivity(todetail);
+                startActivity(todetail);*/
             }
         });
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
