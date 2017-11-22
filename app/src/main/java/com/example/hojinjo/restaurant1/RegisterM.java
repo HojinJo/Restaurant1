@@ -56,18 +56,11 @@ public class RegisterM extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-
-
                 insertRecord();
 
                 Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
                 intent.putExtra("IMAGEURI", imageUri.toString());//URI 보내기...
                 startActivity(intent);
-//
-//                mName= (EditText)findViewById(R.id.edit_name);
-//                mPrice = (EditText)findViewById(R.id.edit_price);
-//                mDesc = (EditText)findViewById(R.id.edit_menu);
             }
         });
     }
