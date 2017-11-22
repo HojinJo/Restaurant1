@@ -52,42 +52,20 @@ public class DetailsFragment extends Fragment {
         cursor=menudbhelper.getAllMenusByID(c.getInt(0));
         menucursor=menudbhelper.getOneMenuByName(cursor.getString(2));
 
-
-                ImageView menuImage = view.findViewById(R.id.imageView);
-                menuImage.setImageURI(Uri.parse(menucursor.getString(1)));
-
-                TextView description = (TextView) view.findViewById(R.id.textView6);
-                description.setText(menucursor.getString(4));//맞는지모르겠음..
-
-            //이미지랑 설명은 커서로
-
-        Intent getmenu=getActivity().getIntent();
-        String name=getmenu.getStringExtra("MENU");
-        String price=getmenu.getStringExtra("PRICE");
-       // menudbhelper.getOneMenuByName(name);
-
-
-        Cursor c=restdbhelper.getAllRestaurants();
-        Cursor cursor = menudbhelper.getAllMenusByID(c.getColumnIndex(name));
-        Cursor menucursor = menudbhelper.getOneMenuByName(cursor.getString(0));
-
-        /*이 부분이 되지 않아 주석 처리 했습니다*/
-    /*if(menucursor.getColumnName(0)==name) {*/
-        /* ImageView menuImage = view.findViewById(R.id.imageView);
+    if(menucursor.getColumnName(0)==name) {
+        /ImageView menuImage = view.findViewById(R.id.imageView);
          menuImage.setImageURI(Uri.parse(uri*//*menucursor.getString(1)*//*));
 
         TextView description = (TextView) view.findViewById(R.id.textView6);
-        description.setText(menucursor.getString(4));//맞는지모르겠음..*/
-    //}
+        description.setText(menucursor.getString(4));//맞는지모르겠음..
+    }
 
-           /* TextView menuName = (TextView) view.findViewById(R.id.textView1);
+            TextView menuName = (TextView) view.findViewById(R.id.textView1);
             menuName.setText(menucursor.getString(1));
 
 
             TextView menuPrice = (TextView) view.findViewById(R.id.textView2);
             menuPrice.setText(menucursor.getString(2));*/
-
-
         return view;
     }
 
