@@ -74,6 +74,7 @@ public class MDBHelper extends SQLiteOpenHelper {
         Log.i("rest_id","rest_id="+rest_id);
         SQLiteDatabase db = getReadableDatabase();
         String [] projection = {
+                MContract.Menu._ID,
                 MContract.Menu.KEY_MENUIMG,//메뉴사진 추가
                 MContract.Menu.KEY_NAME,
                 MContract.Menu.KEY_PRICE,

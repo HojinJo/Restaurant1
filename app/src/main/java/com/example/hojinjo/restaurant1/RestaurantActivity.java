@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class RestaurantActivity extends AppCompatActivity implements RestaurantDetail.OnTitleSelectedListener {
 
@@ -15,6 +16,7 @@ public class RestaurantActivity extends AppCompatActivity implements RestaurantD
         Intent intent = getIntent();
         String restimg = intent.getStringExtra("RESTIMG");
         String menuimg=intent.getStringExtra("IMAGEURI");
+        Log.i("Restaurant1","RestaurantActivity: restimg="+restimg);
         //RestaurantDetail restaurantDetail = new RestaurantDetail();
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
         Bundle imgBundle = new Bundle();
