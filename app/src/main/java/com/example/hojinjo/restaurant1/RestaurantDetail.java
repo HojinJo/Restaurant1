@@ -139,25 +139,6 @@ public class RestaurantDetail extends Fragment {
                 Activity activity = getActivity();
                 ((OnTitleSelectedListener)activity).onTitleSelected(i);
 
-               /* Uri menuUri;
-=======
-                mCurCheckPosition=-1;
-                Activity activity=getActivity();
-                ((OnTitleSelectedListener)activity).onTitleSelected(i);
-                Uri menuUri;
->>>>>>> 37f5f6d2e337e172149a4954dbb074719b289879
-                menuUri = Uri.parse(cursor.getString(1));
-                ImageView menuImg = rootView.findViewById(R.id.iconItem);
-                menuImg.setImageURI(menuUri);*/
-
-                //메뉴이름 디테일프래그먼트로 넘김
-                String menuname = (String) ((TextView) view.findViewById(R.id.textItem1)).getText();
-                String menuprice = (String) ((TextView) view.findViewById(R.id.textItem2)).getText();
-
-                /*Intent todetail = new Intent(getContext(), MenuDetail.class);
-                todetail.putExtra("MENU", menuname);
-                todetail.putExtra("PRICE", menuprice);
-                startActivity(todetail);*/
             }
         });
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -202,74 +183,5 @@ public class RestaurantDetail extends Fragment {
 
     public interface OnTitleSelectedListener {
         public void onTitleSelected(int i);          //액티비티로 전달할 메세지 인터페이스
-    }
-
-    class MyAdapter extends BaseAdapter {    //리스트 뷰 어댑터
-        private Context mContext;
-        private int mResource;
-        private ArrayList<MyItem> mItems = new ArrayList<MyItem>();
-
-        public MyAdapter(Context context, int resource, ArrayList<MyItem> items) {
-            mContext = context;
-            mItems = items;
-            mResource = resource;
-        }
-
-        @Override
-        public int getCount() {
-            return mItems.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mItems.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(mResource, parent, false);
-            }
-
-            // Set Icon
-            Uri imgUri;
-            Bundle extras = getActivity().getIntent().getExtras();
-            if (extras != null) {
-                imgUri = Uri.parse(mItems.get(position).mIcon);
-                ImageView icon = convertView.findViewById(R.id.iconItem);
-                icon.setImageURI(imgUri);
-            }
-
-            // Set Text 01
-            TextView name = (TextView) convertView.findViewById(R.id.textItem1);
-            name.setText(mItems.get(position).nMenu);
-
-            // Set Text 02
-            TextView age = (TextView) convertView.findViewById(R.id.textItem2);
-            age.setText(mItems.get(position).nPrice);
-
-            return convertView;
-        }
-    }
-
-    class MyItem {
-        String mIcon; // image
-        String nMenu; // menu
-        String nPrice;  // price
-
-
-        MyItem(String aIcon, String aMenu, String aPrice) {
-            mIcon = aIcon;
-            nMenu = aMenu;
-            nPrice = aPrice;
-
-        }
     }
 }
