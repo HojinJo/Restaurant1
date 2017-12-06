@@ -4,10 +4,19 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
@@ -27,15 +36,74 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     ImageView mFirework;
     int mScreenHeight;
 
+    SharedPreferences setting;
+    public static final String PREFERENCES_GROUP = "LoginInfo";//키값=xml파일이름
+    public static final String PREFERENCES_ATTR1 = "selected";//키값
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_map);
+        setting = getSharedPreferences(PREFERENCES_GROUP, MODE_PRIVATE);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.maps);
         mapFragment.getMapAsync(this);
         mFirework = (ImageView) findViewById(R.id.fire);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.map_menu, menu);
+
+        String text= setting.getString(PREFERENCES_ATTR1, "");
+
+        if(text.equals("1km")) {
+            menu.findItem(R.id.option1).setChecked(true);
+        }else if (text.equals("2km")){
+            menu.findItem(R.id.option2).setChecked(true);
+        }else if (text.equals("3km")){
+            menu.findItem(R.id.option3).setChecked(true);
+        }return super.onCreateOptionsMenu(menu);
+    }
+
+    /*액션아이템 액티비티 전환=동작*/
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_location:
+                ///////////////////////////////////눌렀을떄 마커뜨기
+                return true;
+            case R.id.option1:
+                item.setChecked(true);
+                saveName("1km");
+                /////////////////////////1km
+                break;
+            case R.id.option2:
+                item.setChecked(true);
+                saveName("2km");
+                /////////////////////////2km
+                break;
+            case R.id.option3:
+                item.setChecked(true);
+                saveName("3km");
+                /////////////////////////3km
+                break;
+        }return super.onOptionsItemSelected(item);
+    }
+
+    private void saveName(String text) {
+        SharedPreferences.Editor editor = setting.edit();
+        editor.putString(PREFERENCES_ATTR1, text);
+        editor.commit();
+
     }
 
     @Override
