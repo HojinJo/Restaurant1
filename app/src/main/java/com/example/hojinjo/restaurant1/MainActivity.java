@@ -82,9 +82,8 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         mScreenHeight = displaymetrics.heightPixels;
 
-        startFireValuePropertyAnimation();
-        // startFireObjectPropertyAnimation();
-        startFireTweenAnimation();
+        //startFireValuePropertyAnimation();
+        startFireObjectPropertyAnimation();
     }
 
 //    private void startCountDownFrameAnimation() {

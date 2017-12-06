@@ -11,14 +11,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/fragment" />
 
-    <ImageView
-        android:id="@+id/fire"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center"
-        android:src="@drawable/star"
 
-        />
 
 </LinearLayout>
 
