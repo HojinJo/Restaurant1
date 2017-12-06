@@ -4,26 +4,38 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 //지도 추가
 public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallback {
 
-////////////////////////////////////////////////////////////
+    GoogleMap mGoogleMap;
     final String TAG = "AnimationTest";
-
+    EditText edit;
+    Address bestResult;
     ImageView mFirework;
     int mScreenHeight;
 
@@ -35,9 +47,47 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.maps);
         mapFragment.getMapAsync(this);
-        mFirework = (ImageView) findViewById(R.id.fire);
-    }
 
+        mFirework = (ImageView) findViewById(R.id.fire);
+
+        final Geocoder geocoder = new Geocoder(this);
+        Button btn = (Button)findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //주소로부터 위치 얻기
+                TextView txt = (TextView) findViewById(R.id.result);
+                edit = (EditText) findViewById(R.id.edit_text);
+                String str = edit.getText().toString();
+                try {
+                    Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.KOREA);
+                    List<Address> addresses = geocoder.getFromLocationName(str, 1);
+                    if (addresses.size() > 0) {
+                        bestResult = (Address) addresses.get(0);
+
+                        txt.setText(String.format("[ %s , %s ]",
+                                bestResult.getLatitude(),
+                                bestResult.getLongitude()));
+                    }
+                } catch (IOException e) {
+                    Log.e(getClass().toString(), "Failed in using Geocoder.", e);
+                    return;
+                }
+
+                LatLng location = new LatLng(bestResult.getLatitude(), bestResult.getLongitude());
+                mGoogleMap.addMarker(
+                        new MarkerOptions().
+                                position(location).
+                                title(str).
+                                alpha(0.8f)/*.
+                                snippet("4호선")*/
+                );
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15));
+
+            }
+        });
+            }
+      
     @Override
     protected void onResume() {
         super.onResume();
@@ -91,10 +141,9 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());//가속 후 감속
         animatorSet.play(alphaAnimator).after(scaleAnimator); //scale alpha 순서
-        // animatorSet.setStartDelay(2000);//2초후에 시작
         animatorSet.setDuration(2000);//2초동안 지속
         animatorSet.start();
-        //필요x   animatorSet.addListener(animatorListener);
+
 
     }
 
@@ -124,10 +173,12 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
 
 
     public void onMapReady(GoogleMap googleMap) {
-        LatLng hansung = new LatLng(37.5817891, 127.008175);
+
+        mGoogleMap=googleMap;
+       /* LatLng hansung = new LatLng(37.5817891, 127.008175);
         googleMap.addMarker(new MarkerOptions().position(hansung).title("한성대학교"));
         // move the camera
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(hansung));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(hansung));*/
 
     }
 }
