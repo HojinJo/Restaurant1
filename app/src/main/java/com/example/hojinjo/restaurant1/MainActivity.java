@@ -1,6 +1,10 @@
 package com.example.hojinjo.restaurant1;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -16,7 +20,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,11 +39,18 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
     Uri restUri;
     Uri uri;
+
+    final String TAG = "AnimationTest";
+
+    ImageView mFirework;
+    ImageView mCountDown;
+    int mScreenHeight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_r);
 
+        mFirework = (ImageView) findViewById(R.id.fire);
 
         ImageButton cameraBtn = (ImageButton) findViewById(R.id.cameraButton);
         cameraBtn.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +73,117 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        mScreenHeight = displaymetrics.heightPixels;
+
+        startFireValuePropertyAnimation();
+        // startFireObjectPropertyAnimation();
+        startFireTweenAnimation();
+    }
+
+//    private void startCountDownFrameAnimation() {
+//        mFirework.setBackgroundResource(R.anim.fire);
+//        AnimationDrawable countdownAnim = (AnimationDrawable) mFirework.getBackground();
+//        countdownAnim.start();
+//    }
+
+    private void startFireTweenAnimation(){
+        Animation fire_anim= AnimationUtils.loadAnimation(this, R.anim.star);
+        mFirework.startAnimation(fire_anim);
+    }
+
+    //objectanimator
+    private void startFireObjectPropertyAnimation() {
+        ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(mFirework,//타켓
+                "alpha",//변화시킬 프로퍼티
+                1, 0);//값의 범위
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(mFirework,"scaleX",0,1.0f);
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(mFirework,"scaleY",0,1.0f);
+
+        AnimatorSet animatorSet=new AnimatorSet();
+
+        AnimatorSet scaleanimatorset = new AnimatorSet();
+        scaleanimatorset.playTogether(scaleXAnimator,scaleYAnimator);//두개는 동시에
+        animatorSet.play(alphaAnimator).after(scaleanimatorset);
+
+        animatorSet.setDuration(2000);//2초 동안 수행
+
+        animatorSet.start();
+
+    }
+/*    private void startRocketPropertyAnimationByXML() {
+        AnimatorSet rocketDogSet = new AnimatorSet();
+
+        AnimatorSet rocketAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(this,R.animator.fire);
+        rocketAnimator.setTarget(mRocket);
+
+        rocketAnimator.setStartDelay(2000);
+        rocketAnimator.start();
+        rocketAnimator.addListener(animatorListener);
+
+
+    }*/
+
+    private void startFireValuePropertyAnimation() {
+        ValueAnimator alphaAnimator = ValueAnimator.ofFloat(1, 0);//1~0
+        alphaAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {//값이 변경될 때마다 호출
+            public void onAnimationUpdate(ValueAnimator valueAnimator){
+                float value = (float) valueAnimator.getAnimatedValue();//애니메이션 값 획득
+                mFirework.setAlpha(value);//값 적용
+            }
+        });
+
+        ValueAnimator scaleAnimator = ValueAnimator.ofFloat(0.0f, 1.0f);
+        scaleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float value = (float) valueAnimator.getAnimatedValue();
+                mFirework.setScaleX(value);
+                mFirework.setScaleY(value);
+            }
+        });
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());//가속 후 감속
+        animatorSet.play(alphaAnimator).after(scaleAnimator); //scale alpha 순서
+        // animatorSet.setStartDelay(2000);//2초후에 시작
+        animatorSet.setDuration(2000);//2초동안 지속
+        animatorSet.start();
+        //필요x   animatorSet.addListener(animatorListener);
+
+    }
+
+
+    Animator.AnimatorListener animatorListener = new Animator.AnimatorListener() {
+
+        @Override
+        public void onAnimationStart(Animator animator) {
+            Log.i(TAG, "onAnimationStart");
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animator) {
+            Log.i(TAG, "onAnimationEnd");
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animator) {
+            Log.i(TAG, "onAnimationCancel");
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animator) {
+            Log.i(TAG, "onAnimationRepeat");
+        }
+    };
+
+
 
     private String currentDateFormat(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH_mm_ss");
