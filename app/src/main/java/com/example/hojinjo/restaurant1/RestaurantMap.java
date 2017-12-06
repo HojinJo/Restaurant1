@@ -14,9 +14,11 @@ import android.widget.ImageView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+//지도 추가
 public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallback {
 
 
@@ -30,6 +32,9 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_map);
 
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.maps);
+        mapFragment.getMapAsync(this);
         mFirework = (ImageView) findViewById(R.id.fire);
     }
 
