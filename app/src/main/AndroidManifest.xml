@@ -13,14 +13,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDJMcZNwh-JzFHbx4O0xDsCUVfsoKNOsVw" >
+        </meta-data>
 
+        <activity android:name=".MainActivity">
      <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
                 <action android:name="android.intent.action.DIAL" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MenuDetail"
             android:parentActivityName=".RestaurantActivity" />
@@ -38,10 +43,6 @@
 
         <activity android:name=".RestaurantActivity" />
         <activity android:name=".RestaurantMap">
-            <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyDJMcZNwh-JzFHbx4O0xDsCUVfsoKNOsVw" >
-            </meta-data>
 
             <intent-filter>
 
