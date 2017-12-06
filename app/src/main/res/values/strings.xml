@@ -5,6 +5,7 @@
     <string name="address">서울특별시 성북구 삼선교로16길 54</string>
     <string name="time">오전11시~오후10시</string>
     <string name="type">식사류</string>
+    <string name="no_location_detected">No location!</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

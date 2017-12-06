@@ -1,9 +1,11 @@
 package com.example.hojinjo.restaurant1;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.content.Intent;
@@ -11,6 +13,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,7 +29,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -33,6 +40,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,6 +61,10 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     public static final String PREFERENCES_GROUP = "LoginInfo";//키값=xml파일이름
     public static final String PREFERENCES_ATTR1 = "selected";//키값
 
+    final private int REQUEST_PERMISSIONS_FOR_LAST_KNOWN_LOCATION = 0;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private Location mCurrentLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,14 +75,15 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.maps);
         mapFragment.getMapAsync(this);
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         mFirework = (ImageView) findViewById(R.id.fire);
 
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        if (!checkLocationPermissions()) {
+            requestLocationPermissions(REQUEST_PERMISSIONS_FOR_LAST_KNOWN_LOCATION);
+        } else {
+            getLastLocation();
         }
-
 
         final Geocoder geocoder = new Geocoder(this);
         Button btn = (Button) findViewById(R.id.button);
@@ -159,6 +173,41 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
         editor.putString(PREFERENCES_ATTR1, text);
         editor.commit();
 
+    }
+
+    private boolean checkLocationPermissions() {
+        int permissionState = ActivityCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestLocationPermissions(int requestCode) {
+        ActivityCompat.requestPermissions(
+                RestaurantMap.this,            // MainActivity 액티비티의 객체 인스턴스를 나타냄
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},        // 요청할 권한 목록을 설정한 String 배열
+                requestCode    // 사용자 정의 int 상수. 권한 요청 결과를 받을 때
+        );
+    }
+
+    @SuppressWarnings("MissingPermission")
+    private void getLastLocation() {
+        Task task = mFusedLocationClient.getLastLocation();       // Task<Location> 객체 반환
+        task.addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    mCurrentLocation = location;
+                    LatLng curlocation = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curlocation, 15));
+                    //updateUI();
+                } else
+                    Toast.makeText(getApplicationContext(),
+                            getString(R.string.no_location_detected),
+                            Toast.LENGTH_SHORT)
+                            .show();
+            }
+        });
     }
 
    /* final Geocoder geocoder = new Geocoder(this);
