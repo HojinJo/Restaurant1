@@ -21,7 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 //지도 추가
 public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallback {
 
-
+////////////////////////////////////////////////////////////
     final String TAG = "AnimationTest";
 
     ImageView mFirework;
