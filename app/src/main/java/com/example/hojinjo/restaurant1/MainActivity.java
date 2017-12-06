@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     final String TAG = "AnimationTest";
 
     ImageView mFirework;
-    ImageView mCountDown;
     int mScreenHeight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,19 +81,7 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         mScreenHeight = displaymetrics.heightPixels;
 
-        //startFireValuePropertyAnimation();
         startFireObjectPropertyAnimation();
-    }
-
-//    private void startCountDownFrameAnimation() {
-//        mFirework.setBackgroundResource(R.anim.fire);
-//        AnimationDrawable countdownAnim = (AnimationDrawable) mFirework.getBackground();
-//        countdownAnim.start();
-//    }
-
-    private void startFireTweenAnimation(){
-        Animation fire_anim= AnimationUtils.loadAnimation(this, R.anim.star);
-        mFirework.startAnimation(fire_anim);
     }
 
     //objectanimator
@@ -116,18 +103,6 @@ public class MainActivity extends AppCompatActivity {
         animatorSet.start();
 
     }
-/*    private void startRocketPropertyAnimationByXML() {
-        AnimatorSet rocketDogSet = new AnimatorSet();
-
-        AnimatorSet rocketAnimator = (AnimatorSet) AnimatorInflater.loadAnimator(this,R.animator.fire);
-        rocketAnimator.setTarget(mRocket);
-
-        rocketAnimator.setStartDelay(2000);
-        rocketAnimator.start();
-        rocketAnimator.addListener(animatorListener);
-
-
-    }*/
 
     private void startFireValuePropertyAnimation() {
         ValueAnimator alphaAnimator = ValueAnimator.ofFloat(1, 0);//1~0
