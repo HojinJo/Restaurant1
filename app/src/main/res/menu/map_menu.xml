@@ -8,15 +8,11 @@
         app:showAsAction="always"/>
     <item
         android:id="@+id/option1"
-        android:title="1km"
-        app:showAsAction="never"/>
+        android:title="1km" />
     <item
         android:id="@+id/option2"
-        android:title="2km"
-        app:showAsAction="never"/>
+        android:title="2km" />
     <item
         android:id="@+id/option3"
-        android:title="3km"
-        app:showAsAction="never"/>
-
+        android:title="3km" />
 </menu>
