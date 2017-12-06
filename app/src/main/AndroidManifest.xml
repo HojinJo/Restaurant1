@@ -18,9 +18,8 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyDJMcZNwh-JzFHbx4O0xDsCUVfsoKNOsVw" >
             </meta-data>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
+     <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
                 <action android:name="android.intent.action.DIAL" />
@@ -42,7 +41,16 @@
         </provider>
 
         <activity android:name=".RestaurantActivity" />
-        <activity android:name=".RestaurantMap"></activity>
+        <activity android:name=".RestaurantMap">
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>
