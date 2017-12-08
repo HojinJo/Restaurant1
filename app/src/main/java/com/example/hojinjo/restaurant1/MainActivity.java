@@ -140,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
 
         long nOfRows = rDbHelper.insertUserByMethod(uri.toString(),name.getText().toString(),
                                                       address.getText().toString(),phone.getText().toString(), restLatitude, restLongitude);
+
+
         if (nOfRows >0)
             Toast.makeText(this,nOfRows+" Record Inserted", Toast.LENGTH_SHORT).show();
         else
