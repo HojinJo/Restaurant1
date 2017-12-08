@@ -121,13 +121,25 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 }
 
                 LatLng location = new LatLng(bestResult.getLatitude(), bestResult.getLongitude());
-                mGoogleMap.addMarker(
-                        new MarkerOptions().
-                                position(location).
-                                title(str).
-                                alpha(0.8f)/*.
+                if() {
+                    mGoogleMap.addMarker(
+                            new MarkerOptions().
+                                    position(location).
+                                    title(str).
+                                    icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
+                                    alpha(0.8f)/*.
                                 snippet("4호선")*/
-                );
+                    );
+                   /* mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+                    mGoogleMap.setOnMarkerClickListener(new MyMarkerClickListener());*/
+                }
+                else{
+                    mGoogleMap.addMarker(
+                            new MarkerOptions().
+                                    position(location).
+                                    title(str).
+                                    alpha(0.8f).
+                }
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
                 mGoogleMap.setOnMarkerClickListener(new MyMarkerClickListener());
             }
