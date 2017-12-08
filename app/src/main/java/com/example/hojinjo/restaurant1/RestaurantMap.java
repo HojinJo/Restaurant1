@@ -303,12 +303,13 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
         }
 
         public void getAllMaker(){
+            rDbHelper=new DBHelper(getApplicationContext());
             Cursor c=rDbHelper.getLocation();
-            Log.i("RestaurantMap", "getLocation Lat=" + c.getString(2));
-            Log.i("RestaurantMap", "getLocation Lon=" + c.getString(3));
-            c.moveToFirst();
-            while(c.moveToNext()) {
-                LatLng location = new LatLng(Double.parseDouble(c.getString(2)) , Double.parseDouble(c.getString(3)));
+            if (c.getCount() > 0) {
+                while (c.moveToNext()) {
+                    Log.i("RestaurantMap", "getLocation Lat=" + c.getString(1));
+                    Log.i("RestaurantMap", "getLocation Lon=" + c.getString(2));
+                    LatLng location = new LatLng(Double.parseDouble(c.getString(1)), Double.parseDouble(c.getString(2)));
                     mGoogleMap.addMarker(
                             new MarkerOptions().
                                     position(location).
@@ -316,6 +317,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                     icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
                                     alpha(0.8f)
                     );
+                }
             }
         }
 
