@@ -70,14 +70,14 @@ public class DBHelper extends SQLiteOpenHelper {
      return db.query(RContract.Restaurant.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
     }
 
-    public  Cursor getLocationByName(String name){
+    public  Cursor getLocationByAddress(String address){
         SQLiteDatabase db = getReadableDatabase();
         String [] projection = {
                 RContract.Restaurant.KEY_LATITUDE,
                 RContract.Restaurant.KEY_LATITUDE
         };
-        String selection = RContract.Restaurant.KEY_NAME + "=?";
-        String[] selectionArgs = {name};
+        String selection = RContract.Restaurant.KEY_ADDRESS + "=?";
+        String[] selectionArgs = {address};
         return db.query(RContract.Restaurant.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
     }
 }
