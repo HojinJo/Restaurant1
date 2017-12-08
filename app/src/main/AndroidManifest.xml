@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hojinjo.restaurant1">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -15,17 +15,15 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDJMcZNwh-JzFHbx4O0xDsCUVfsoKNOsVw" >
-        </meta-data>
+            android:value="AIzaSyDJMcZNwh-JzFHbx4O0xDsCUVfsoKNOsVw" />
 
         <activity android:name=".MainActivity">
-     <intent-filter>
+            <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
                 <action android:name="android.intent.action.DIAL" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MenuDetail"
             android:parentActivityName=".RestaurantActivity" />
@@ -43,15 +41,12 @@
 
         <activity android:name=".RestaurantActivity" />
         <activity android:name=".RestaurantMap">
-
+        </activity>
+        <activity android:name=".Animation">
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
-
         </activity>
     </application>
 
