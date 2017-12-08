@@ -61,7 +61,9 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     Address bestResult;
     ImageView mFirework;
     int mScreenHeight;
-
+    String str;
+    Double latitude, longitude;
+    int request_code=1;
     SharedPreferences setting;
     public static final String PREFERENCES_GROUP = "LoginInfo";//키값=xml파일이름
     public static final String PREFERENCES_ATTR1 = "selected";//키값
@@ -101,13 +103,14 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 //주소로부터 위치 얻기
                 TextView txt = (TextView) findViewById(R.id.result);
                 edit = (EditText) findViewById(R.id.edit_text);
-                String str = edit.getText().toString();
+                 str = edit.getText().toString();
                 try {
                     Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.KOREA);
                     List<Address> addresses = geocoder.getFromLocationName(str, 1);
                     if (addresses.size() > 0) {
                         bestResult = (Address) addresses.get(0);
-
+                        latitude=bestResult.getLatitude();
+                        longitude=bestResult.getLongitude();
                         txt.setText(String.format("[ %s , %s ]",
                                 bestResult.getLatitude(),
                                 bestResult.getLongitude()));
@@ -315,13 +318,19 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 AlertDialog.Builder alertdialog = new AlertDialog.Builder(activity);
                 // 다이얼로그 메세지
                 alertdialog.setMessage("맛집을 등록하시겠습니까?");
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // 확인버튼
                 alertdialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(activity, MainActivity.class);
-                        startActivity(intent);
+                        edit = (EditText) findViewById(R.id.edit_text);
+                        str = edit.getText().toString();
+                        Intent toMain = new Intent(getApplicationContext(), MainActivity.class);
+                        toMain.putExtra("address", str);/////////////////////////////////
+                        toMain.putExtra("latitude", latitude.toString());
+                        toMain.putExtra("longitude", longitude.toString());
+                        //에딧텍스트창 스트링도 같이 넘김, 위도경도도 같이 넘거야함
+                        startActivity(toMain);
                     }
                 });
 

@@ -39,6 +39,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
     Uri restUri;
     Uri uri;
+    String restAddress, restLatitude, restLongitude;
 
 
     @Override
@@ -46,7 +47,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_r);
 
+       /* Intent fromMap=getIntent();
+        restAddress = fromMap.getStringExtra("address");*/
+        EditText address = (EditText)findViewById(R.id.edit_address);
+        rDbHelper = new DBHelper(this);
+        Intent fromMap=getIntent();
+        restAddress = fromMap.getStringExtra("address");//받은 주소 스트링
+        restLatitude=fromMap.getStringExtra("latitude");//받은 위도
+        restLongitude=fromMap.getStringExtra("longitude");//받은 경도
 
+        Log.i("MainActivity", "getFromMapIntent=" + restAddress);
+        address.setText(restAddress);//주소스트링 설정
 
         ImageButton cameraBtn = (ImageButton) findViewById(R.id.cameraButton);
         cameraBtn.setOnClickListener(new View.OnClickListener() {
@@ -120,11 +131,12 @@ public class MainActivity extends AppCompatActivity {
     DBHelper rDbHelper;
 
     private void insertRecord() {
-        rDbHelper = new DBHelper(this);
+
         ImageView restimg = (ImageView)findViewById(R.id.cameraButton);
         EditText name = (EditText)findViewById(R.id.edit_rname);
         EditText address = (EditText)findViewById(R.id.edit_address);
         EditText phone = (EditText)findViewById(R.id.edit_phone);
+
 
         long nOfRows = rDbHelper.insertUserByMethod(uri.toString(),name.getText().toString(),
                                                       address.getText().toString(),phone.getText().toString());
