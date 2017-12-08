@@ -122,27 +122,28 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
 
                 LatLng location = new LatLng(bestResult.getLatitude(), bestResult.getLongitude());
                 rDbHelper=new DBHelper(getApplicationContext());
-                Cursor c=rDbHelper.getLocationByName(str);
-                if(c.moveToNext()) {
-                    mGoogleMap.addMarker(
-                            new MarkerOptions().
-                                    position(location).
-                                    title(str).
-                                    icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
-                                    alpha(0.8f)/*.
+                Cursor c=rDbHelper.getLocation();
+                c.moveToFirst();
+                while(c.moveToNext()) {
+                    if (latitude.equals(c.getString(2)) && longitude.equals(c.getString(3))) {
+                        mGoogleMap.addMarker(
+                                new MarkerOptions().
+                                        position(location).
+                                        title(str).
+                                        icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
+                                        alpha(0.8f)/*.
                                 snippet("4호선")*/
-                    );
+                        );
                    /* mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
                     mGoogleMap.setOnMarkerClickListener(new MyMarkerClickListener());*/
+                    }
                 }
-                else{
                     mGoogleMap.addMarker(
                             new MarkerOptions().
                                     position(location).
                                     title(str).
                                     alpha(0.8f)
                     );
-                }
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
                 mGoogleMap.setOnMarkerClickListener(new MyMarkerClickListener());
             }
@@ -171,33 +172,25 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_location:
+                getAllMaker();
                 ///////////////////////////////////눌렀을떄 마커뜨기
                 return true;
             case R.id.option1:
                 item.setChecked(true);
-                saveName("1km");
                 /////////////////////////1km
                 break;
             case R.id.option2:
                 item.setChecked(true);
-                saveName("2km");
                 /////////////////////////2km
                 break;
             case R.id.option3:
                 item.setChecked(true);
-                saveName("3km");
                 /////////////////////////3km
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveName(String text) {
-        SharedPreferences.Editor editor = setting.edit();
-        editor.putString(PREFERENCES_ATTR1, text);
-        editor.commit();
-
-    }
 
     private boolean checkLocationPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(getApplicationContext(),
@@ -372,4 +365,22 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 return false;
             }
         }
+
+        public void getAllMaker(){
+            Cursor c=rDbHelper.getLocation();
+            Log.i("RestaurantMap", "getLocation Lat=" + c.getString(2));
+            Log.i("RestaurantMap", "getLocation Lon=" + c.getString(3));
+            c.moveToFirst();
+            while(c.moveToNext()) {
+                LatLng location = new LatLng(Double.parseDouble(c.getString(2)) , Double.parseDouble(c.getString(3)));
+                    mGoogleMap.addMarker(
+                            new MarkerOptions().
+                                    position(location).
+                                    title(c.getString(1)).
+                                    icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
+                                    alpha(0.8f)
+                    );
+            }
+        }
+
       }

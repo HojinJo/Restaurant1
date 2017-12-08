@@ -20,12 +20,13 @@ public final class RContract {
         public static final String KEY_ADDRESS = "address";
         public static final String KEY_PHONE = "Phone";
         public static final String KEY_LATITUDE = "Latitude";
-        public static final String KEY_LONGTITUDE = "Longtitude";
+        public static final String KEY_LONGITUDE = "Longtitude";
 
         public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY" + COMMA_SEP + KEY_RESTAURANTIMG + TEXT_TYPE + COMMA_SEP +
                 KEY_NAME + TEXT_TYPE + COMMA_SEP + KEY_ADDRESS + TEXT_TYPE + COMMA_SEP +
-                KEY_PHONE + TEXT_TYPE + COMMA_SEP + KEY_LATITUDE + TEXT_TYPE + COMMA_SEP +KEY_LONGTITUDE + TEXT_TYPE +  " )";
+                KEY_PHONE + TEXT_TYPE + COMMA_SEP + KEY_LATITUDE + TEXT_TYPE + COMMA_SEP + KEY_LONGITUDE + TEXT_TYPE +  " )";
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 }
+

@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         restLatitude=fromMap.getStringExtra("latitude");//받은 위도
         restLongitude=fromMap.getStringExtra("longitude");//받은 경도
 
-        Log.i("MainActivity", "getFromMapIntent=" + restAddress);
         address.setText(restAddress);//주소스트링 설정
+        Log.i("MainActivity", "getFromMapIntent=" + restAddress);
 
         ImageButton cameraBtn = (ImageButton) findViewById(R.id.cameraButton);
         cameraBtn.setOnClickListener(new View.OnClickListener() {

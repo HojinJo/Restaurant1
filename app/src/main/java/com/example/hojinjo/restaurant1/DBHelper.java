@@ -35,7 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(RContract.Restaurant.KEY_ADDRESS, address);
         values.put(RContract.Restaurant.KEY_PHONE,phone);
         values.put(RContract.Restaurant.KEY_LATITUDE,lat);
-        values.put(RContract.Restaurant.KEY_LONGTITUDE,lon);
+        values.put(RContract.Restaurant.KEY_LONGITUDE,lon);
 
         return db.insert(RContract.Restaurant.TABLE_NAME,null,values);
     }
@@ -70,15 +70,16 @@ public class DBHelper extends SQLiteOpenHelper {
      return db.query(RContract.Restaurant.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
     }
 
-    public  Cursor getLocationByAddress(String address){
+    public  Cursor getLocation(){
         SQLiteDatabase db = getReadableDatabase();
         String [] projection = {
-                RContract.Restaurant.KEY_LATITUDE,
-                RContract.Restaurant.KEY_LATITUDE
+                RContract.Restaurant.KEY_NAME,
+                RContract.Restaurant.KEY_LATITUDE ,
+                RContract.Restaurant.KEY_LONGITUDE
         };
-        String selection = RContract.Restaurant.KEY_ADDRESS + "=?";
-        String[] selectionArgs = {address};
-        return db.query(RContract.Restaurant.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
+        /*String selection = RContract.Restaurant.KEY_ADDRESS + "=?";
+        String[] selectionArgs = {address};*/
+        return db.query(RContract.Restaurant.TABLE_NAME,projection,null,null,null,null,null);
     }
 }
 
