@@ -27,13 +27,15 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertUserByMethod(String restimg, String name, String address ,String phone) {
+    public long insertUserByMethod(String restimg, String name, String address ,String phone , String lat ,String lon) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(RContract.Restaurant.KEY_RESTAURANTIMG,restimg);
         values.put(RContract.Restaurant.KEY_NAME, name);
         values.put(RContract.Restaurant.KEY_ADDRESS, address);
         values.put(RContract.Restaurant.KEY_PHONE,phone);
+        values.put(RContract.Restaurant.KEY_LATITUDE,lat);
+        values.put(RContract.Restaurant.KEY_LONGTITUDE,lon);
 
         return db.insert(RContract.Restaurant.TABLE_NAME,null,values);
     }
