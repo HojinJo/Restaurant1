@@ -10,7 +10,7 @@
         android:pivotX="50%" android:pivotY="50%"/>
 
     <translate
-        android:startOffset="2000" android:duration="5000"
-        android:fromYDelta="0" android:toYDelta="-100%p" />
+        android:startOffset="1000" android:duration="5000"
+        android:fromYDelta="-100" android:toYDelta="100%p" />
 
 </set>
