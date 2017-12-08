@@ -71,7 +71,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     final private int REQUEST_PERMISSIONS_FOR_LAST_KNOWN_LOCATION = 0;
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mCurrentLocation;
-
+    DBHelper rDbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = this;
@@ -121,13 +121,28 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 }
 
                 LatLng location = new LatLng(bestResult.getLatitude(), bestResult.getLongitude());
-                mGoogleMap.addMarker(
-                        new MarkerOptions().
-                                position(location).
-                                title(str).
-                                alpha(0.8f)/*.
+                rDbHelper=new DBHelper(getApplicationContext());
+                Cursor c=rDbHelper.getLocationByName(str);
+                if(c.moveToNext()) {
+                    mGoogleMap.addMarker(
+                            new MarkerOptions().
+                                    position(location).
+                                    title(str).
+                                    icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
+                                    alpha(0.8f)/*.
                                 snippet("4호선")*/
-                );
+                    );
+                   /* mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+                    mGoogleMap.setOnMarkerClickListener(new MyMarkerClickListener());*/
+                }
+                else{
+                    mGoogleMap.addMarker(
+                            new MarkerOptions().
+                                    position(location).
+                                    title(str).
+                                    alpha(0.8f)
+                    );
+                }
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
                 mGoogleMap.setOnMarkerClickListener(new MyMarkerClickListener());
             }
