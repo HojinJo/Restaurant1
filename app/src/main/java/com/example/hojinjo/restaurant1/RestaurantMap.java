@@ -54,10 +54,10 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     final String TAG = "AnimationTest";
     EditText edit;
     Address bestResult;
-    ImageView hamburger;
+ /*   ImageView hamburger;
     ImageView cola;
-    ImageView pizza;
-    int mScreenHeight;
+    ImageView pizza;*/
+   // int mScreenHeight;
     String str;
     Double latitude, longitude;
     int request_code=1;
@@ -82,9 +82,9 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        hamburger = (ImageView) findViewById(R.id.hamburger);
+     /*   hamburger = (ImageView) findViewById(R.id.hamburger);
         cola=(ImageView)findViewById(R.id.cola);
-        pizza=(ImageView)findViewById(R.id.pizza);
+        pizza=(ImageView)findViewById(R.id.pizza);*/
         if (!checkLocationPermissions()) {
             requestLocationPermissions(REQUEST_PERMISSIONS_FOR_LAST_KNOWN_LOCATION);
         } else {
@@ -227,7 +227,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     }
 
 
-        @Override
+       /* @Override
         protected void onResume () {
             super.onResume();
 
@@ -245,7 +245,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
          cola.startAnimation(animation);
          pizza.startAnimation(animation);
     }
-
+*/
 
 
         public void onMapReady (GoogleMap googleMap){

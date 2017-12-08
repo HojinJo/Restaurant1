@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.hojinjo.restaurant1.Animation"
+    android:orientation="horizontal"
+    android:background="#000000">
+
+        <ImageView
+            android:id="@+id/hamburger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:src="@drawable/hamburger"
+            />
+        <ImageView
+            android:id="@+id/cola"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:src="@drawable/cola"
+            />
+        <ImageView
+            android:id="@+id/pizza"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:src="@drawable/pizza"
+            />
+</LinearLayout>
