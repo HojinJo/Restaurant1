@@ -46,6 +46,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import static java.lang.Double.parseDouble;
+
 //지도 추가
 public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallback {
     private Activity activity;
@@ -54,21 +56,19 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     final String TAG = "AnimationTest";
     EditText edit;
     Address bestResult;
- /*   ImageView hamburger;
-    ImageView cola;
-    ImageView pizza;*/
-   // int mScreenHeight;
     String str;
     Double latitude, longitude;
     int request_code=1;
     SharedPreferences setting;
     public static final String PREFERENCES_GROUP = "LoginInfo";//키값=xml파일이름
     public static final String PREFERENCES_ATTR1 = "selected";//키값
-
+    double distance;
+    double meter;
     final private int REQUEST_PERMISSIONS_FOR_LAST_KNOWN_LOCATION = 0;
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mCurrentLocation;
     DBHelper rDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         activity = this;
@@ -82,9 +82,6 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-     /*   hamburger = (ImageView) findViewById(R.id.hamburger);
-        cola=(ImageView)findViewById(R.id.cola);
-        pizza=(ImageView)findViewById(R.id.pizza);*/
         if (!checkLocationPermissions()) {
             requestLocationPermissions(REQUEST_PERMISSIONS_FOR_LAST_KNOWN_LOCATION);
         } else {
@@ -176,8 +173,9 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 return true;
             case R.id.option1:
                 item.setChecked(true);
+                getOnekm();
                 /////////////////////////1km
-                break;
+               /* break;*/
             case R.id.option2:
                 item.setChecked(true);
                 /////////////////////////2km
@@ -226,26 +224,6 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
         });
     }
 
-
-       /* @Override
-        protected void onResume () {
-            super.onResume();
-
-            DisplayMetrics displaymetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-            mScreenHeight = displaymetrics.heightPixels;
-          //  startFireValuePropertyAnimation();
-            //startFireObjectPropertyAnimation();
-            startTweenAnimation();//트윈 에니메이션 사용
-        }
-
-     private void startTweenAnimation() {
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.star);
-        hamburger.startAnimation(animation);
-         cola.startAnimation(animation);
-         pizza.startAnimation(animation);
-    }
-*/
 
 
         public void onMapReady (GoogleMap googleMap){
@@ -309,7 +287,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 while (c.moveToNext()) {
                     Log.i("RestaurantMap", "getLocation Lat=" + c.getString(1));
                     Log.i("RestaurantMap", "getLocation Lon=" + c.getString(2));
-                    LatLng location = new LatLng(Double.parseDouble(c.getString(1)), Double.parseDouble(c.getString(2)));
+                    LatLng location = new LatLng(parseDouble(c.getString(1)), parseDouble(c.getString(2)));
                     mGoogleMap.addMarker(
                             new MarkerOptions().
                                     position(location).
@@ -317,6 +295,57 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                     icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
                                     alpha(0.8f)
                     );
+                }
+            }
+        }
+        /*1km 반경*/
+        public void getOnekm(){
+            rDbHelper=new DBHelper(getApplicationContext());
+            Cursor cur=rDbHelper.getLocation();
+            Location baseLoc = new Location("base");
+            Location limitLoc = new Location("limit");
+            //db의 위도, 경도 배열로 저장
+          /*  Double[] latitude= new Double[cur.getCount()];
+            if (cur.getCount() > 0) {
+                while (cur.moveToNext()) {
+                    for(int i = 0; i<latitude.length ; i++){
+                        latitude[i]= parseDouble(cur.getString(1));
+                    }
+                }
+            }
+            Double[] longitude= new Double[cur.getCount()];
+            if (cur.getCount() > 0) {
+                while (cur.moveToNext()) {
+                    for(int i = 0; i<latitude.length ; i++){
+                        latitude[i]= parseDouble(cur.getString(2));
+                    }
+                }
+            }*/
+
+            Cursor cur2=rDbHelper.getLocation();
+            if(cur.getCount()>0){
+                while(cur.moveToNext()) {
+                    //모든 등록된 행마다 distanceTo 검사(while) if 1000보다 작으면 마커 띄우기
+                    baseLoc.setLatitude(parseDouble(cur.getString(1)));
+                    baseLoc.setLongitude(parseDouble(cur.getString(2)));
+                    if (cur2.getCount() > 0) {
+                        while (cur2.moveToNext()) {//1번째와 나머지들 비교->2번째와 나머지들 비교
+                            LatLng location2 = new LatLng(parseDouble(cur2.getString(1)), parseDouble(cur2.getString(2)));
+                            limitLoc.setLatitude(parseDouble(cur2.getString(1)));
+                            limitLoc.setLongitude(parseDouble(cur2.getString(2)));
+                            distance = baseLoc.distanceTo(limitLoc);
+                            if (distance < 1000) {
+                                mGoogleMap.addMarker(
+                                        new MarkerOptions().
+                                                position(location2).
+                                                title(cur.getString(1)).
+                                                icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
+                                                alpha(0.8f)
+                                );
+                            }
+
+                        }
+                    }
                 }
             }
         }
