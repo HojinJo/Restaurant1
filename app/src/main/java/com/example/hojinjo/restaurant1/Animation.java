@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class Animation extends AppCompatActivity {
     ImageView hamburger;
@@ -22,6 +23,7 @@ public class Animation extends AppCompatActivity {
         hamburger = (ImageView) findViewById(R.id.hamburger);
         cola=(ImageView)findViewById(R.id.cola);
         pizza=(ImageView)findViewById(R.id.pizza);
+
     }
 
     @Override
