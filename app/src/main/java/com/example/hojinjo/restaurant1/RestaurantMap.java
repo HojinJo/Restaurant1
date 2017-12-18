@@ -53,6 +53,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     private Activity activity;
 
     GoogleMap mGoogleMap;
+    Marker marker;
     final String TAG = "AnimationTest";
     EditText edit;
     Address bestResult;
@@ -166,7 +167,34 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     /*액션아이템 액티비티 전환=동작*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        if(item.getItemId()==R.id.action_location){
+            if(item.getItemId()==R.id.option1){
+                item.setChecked(true);
+                getOnekm();
+            }
+
+            if(item.getItemId()==R.id.option2){
+                item.setChecked(true);
+            }
+            if(item.getItemId()==R.id.option3){
+                item.setChecked(true);
+            }
+            getAllMaker();
+
+        }
+        if(item.getItemId()==R.id.option1){
+            item.setChecked(true);
+            getOnekm();
+        }
+        if(item.getItemId()==R.id.option2){
+            item.setChecked(true);
+            getTwokm();
+        }
+        if(item.getItemId()==R.id.option3){
+            item.setChecked(true);
+            getThreekm();
+        }
+       /* switch (item.getItemId()) {
             case R.id.action_location:
                 getAllMaker();
                 ///////////////////////////////////눌렀을떄 마커뜨기
@@ -186,7 +214,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 getThreekm();
                 /////////////////////////3km
                 break;
-        }
+        }*/
         return super.onOptionsItemSelected(item);
     }
 
@@ -290,7 +318,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                     Log.i("RestaurantMap", "getLocation Lat=" + c.getString(1));
                     Log.i("RestaurantMap", "getLocation Lon=" + c.getString(2));
                     LatLng location = new LatLng(parseDouble(c.getString(1)), parseDouble(c.getString(2)));
-                    mGoogleMap.addMarker(
+                    marker=mGoogleMap.addMarker(
                             new MarkerOptions().
                                     position(location).
                                     title(c.getString(1)).
@@ -324,6 +352,9 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                         alpha(0.8f)
                         );
                     }
+                    else{
+                        marker.remove();
+                    }
                 }
             }
         }
@@ -351,10 +382,14 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                     alpha(0.8f)
                     );
                 }
+                else{
+                    marker.remove();
+                }
             }
         }
     }
     public void getThreekm() {
+
         rDbHelper = new DBHelper(getApplicationContext());
         Cursor cur = rDbHelper.getLocation();
         Location baseLoc = new Location("base");
@@ -376,6 +411,8 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                     icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
                                     alpha(0.8f)
                     );
+                }else{
+                    marker.remove();
                 }
             }
         }
