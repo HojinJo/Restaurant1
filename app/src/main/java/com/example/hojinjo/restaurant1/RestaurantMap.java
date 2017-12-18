@@ -175,13 +175,15 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 item.setChecked(true);
                 getOnekm();
                 /////////////////////////1km
-               /* break;*/
+                break;
             case R.id.option2:
                 item.setChecked(true);
+                getTwokm();
                 /////////////////////////2km
                 break;
             case R.id.option3:
                 item.setChecked(true);
+                getThreekm();
                 /////////////////////////3km
                 break;
         }
@@ -299,11 +301,86 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
             }
         }
         /*1km 반경*/
-        public void getOnekm(){
-            rDbHelper=new DBHelper(getApplicationContext());
-            Cursor cur=rDbHelper.getLocation();
+        public void getOnekm() {
+            rDbHelper = new DBHelper(getApplicationContext());
+            Cursor cur = rDbHelper.getLocation();
             Location baseLoc = new Location("base");
+            baseLoc.setLatitude(mCurrentLocation.getLatitude());
+            baseLoc.setLongitude(mCurrentLocation.getLongitude());
+
             Location limitLoc = new Location("limit");
+            if (cur.getCount() > 0) {
+                while (cur.moveToNext()) {
+                    limitLoc.setLatitude(parseDouble(cur.getString(1)));
+                    limitLoc.setLongitude(parseDouble(cur.getString(2)));
+                    LatLng location = new LatLng(parseDouble(cur.getString(1)), parseDouble(cur.getString(2)));
+                    float distance = baseLoc.distanceTo(limitLoc);
+                    if (distance < 1000) {
+                        mGoogleMap.addMarker(
+                                new MarkerOptions().
+                                        position(location).
+                                        title(cur.getString(1)).
+                                        icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
+                                        alpha(0.8f)
+                        );
+                    }
+                }
+            }
+        }
+
+        public void getTwokm() {
+        rDbHelper = new DBHelper(getApplicationContext());
+        Cursor cur = rDbHelper.getLocation();
+        Location baseLoc = new Location("base");
+        baseLoc.setLatitude(mCurrentLocation.getLatitude());
+        baseLoc.setLongitude(mCurrentLocation.getLongitude());
+
+        Location limitLoc = new Location("limit");
+        if (cur.getCount() > 0) {
+            while (cur.moveToNext()) {
+                limitLoc.setLatitude(parseDouble(cur.getString(1)));
+                limitLoc.setLongitude(parseDouble(cur.getString(2)));
+                LatLng location = new LatLng(parseDouble(cur.getString(1)), parseDouble(cur.getString(2)));
+                float distance = baseLoc.distanceTo(limitLoc);
+                if (distance < 2000) {
+                    mGoogleMap.addMarker(
+                            new MarkerOptions().
+                                    position(location).
+                                    title(cur.getString(1)).
+                                    icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
+                                    alpha(0.8f)
+                    );
+                }
+            }
+        }
+    }
+    public void getThreekm() {
+        rDbHelper = new DBHelper(getApplicationContext());
+        Cursor cur = rDbHelper.getLocation();
+        Location baseLoc = new Location("base");
+        baseLoc.setLatitude(mCurrentLocation.getLatitude());
+        baseLoc.setLongitude(mCurrentLocation.getLongitude());
+
+        Location limitLoc = new Location("limit");
+        if (cur.getCount() > 0) {
+            while (cur.moveToNext()) {
+                limitLoc.setLatitude(parseDouble(cur.getString(1)));
+                limitLoc.setLongitude(parseDouble(cur.getString(2)));
+                LatLng location = new LatLng(parseDouble(cur.getString(1)), parseDouble(cur.getString(2)));
+                float distance = baseLoc.distanceTo(limitLoc);
+                if (distance < 3000) {
+                    mGoogleMap.addMarker(
+                            new MarkerOptions().
+                                    position(location).
+                                    title(cur.getString(1)).
+                                    icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
+                                    alpha(0.8f)
+                    );
+                }
+            }
+        }
+    }
+
             //db의 위도, 경도 배열로 저장
           /*  Double[] latitude= new Double[cur.getCount()];
             if (cur.getCount() > 0) {
@@ -322,7 +399,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 }
             }*/
 
-            Cursor cur2=rDbHelper.getLocation();
+            /*Cursor cur2=rDbHelper.getLocation();
             if(cur.getCount()>0){
                 while(cur.moveToNext()) {
                     //모든 등록된 행마다 distanceTo 검사(while) if 1000보다 작으면 마커 띄우기
@@ -347,7 +424,6 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                         }
                     }
                 }
-            }
-        }
+            }*/
 
       }
