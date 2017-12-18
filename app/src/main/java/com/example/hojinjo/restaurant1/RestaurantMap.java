@@ -321,7 +321,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                     marker=mGoogleMap.addMarker(
                             new MarkerOptions().
                                     position(location).
-                                    title(c.getString(1)).
+                                    title(c.getString(0)).
                                     icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
                                     alpha(0.8f)
                     );
@@ -347,7 +347,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                         mGoogleMap.addMarker(
                                 new MarkerOptions().
                                         position(location).
-                                        title(cur.getString(1)).
+                                        title(cur.getString(0)).
                                         icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
                                         alpha(0.8f)
                         );
@@ -377,7 +377,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                     mGoogleMap.addMarker(
                             new MarkerOptions().
                                     position(location).
-                                    title(cur.getString(1)).
+                                    title(cur.getString(0)).
                                     icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
                                     alpha(0.8f)
                     );
@@ -407,7 +407,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                     mGoogleMap.addMarker(
                             new MarkerOptions().
                                     position(location).
-                                    title(cur.getString(1)).
+                                    title(cur.getString(0)).
                                     icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
                                     alpha(0.8f)
                     );
