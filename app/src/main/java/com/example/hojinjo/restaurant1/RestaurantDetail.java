@@ -41,7 +41,6 @@ public class RestaurantDetail extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -98,7 +97,6 @@ public class RestaurantDetail extends Fragment {
     }
 
     private void getMenu() {
-
         Log.i("Restaurant1", "getMuenu(): [Name] getString(1)=" + c.getString(1));
         Log.i("Restaurant1", "getMuenu(): [ID] getString(0)=" + c.getString(0));
         final Cursor cursor = mDbHelper.getAllMenusByID(c.getInt(0));
@@ -133,8 +131,6 @@ public class RestaurantDetail extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
                 mCurCheckPosition = i;
                 Activity activity = getActivity();
                 ((OnTitleSelectedListener)activity).onTitleSelected(i);

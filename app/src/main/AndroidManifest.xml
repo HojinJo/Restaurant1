@@ -40,14 +40,15 @@
         </provider>
 
         <activity android:name=".RestaurantActivity" />
-        <activity android:name=".RestaurantMap">
-        </activity>
+        <activity android:name=".RestaurantMap"></activity>
         <activity android:name=".Animation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ToRestaurantDetail"></activity>
     </application>
 
 </manifest>

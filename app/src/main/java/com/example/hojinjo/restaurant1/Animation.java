@@ -33,8 +33,6 @@ public class Animation extends AppCompatActivity {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         mScreenHeight = displaymetrics.heightPixels;
-        //  startFireValuePropertyAnimation();
-        //startFireObjectPropertyAnimation();
         startTweenAnimation();//트윈 에니메이션 사용
 
     }
@@ -55,25 +53,6 @@ public class Animation extends AppCompatActivity {
 
         }
     };
-
-    /*Animation.AnimationListener animationListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {
-
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-
-            finish();
-            startActivity(new Intent(getApplicationContext(), RestaurantMap.class));
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
-    };*/
 
     private void startTweenAnimation() {
         android.view.animation.Animation animation = AnimationUtils.loadAnimation(this, R.anim.star);

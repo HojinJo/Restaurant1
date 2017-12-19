@@ -52,6 +52,7 @@ import static java.lang.Double.parseDouble;
 public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallback {
     private Activity activity;
 
+    float distance1, distance2, distance3;
     GoogleMap mGoogleMap;
     Marker marker;
     final String TAG = "AnimationTest";
@@ -91,9 +92,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
 
         final Geocoder geocoder = new Geocoder(this);
         Button btn = (Button) findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener()
-
-        {
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //주소로부터 위치 얻기
@@ -111,6 +110,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                 bestResult.getLatitude(),
                                 bestResult.getLongitude()));
                     }
+                    getAllMaker();
                 } catch (IOException e) {
                     Log.e(getClass().toString(), "Failed in using Geocoder.", e);
                     return;
@@ -126,15 +126,11 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                 new MarkerOptions().
                                         position(location).
                                         title(str).
-                                        icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
+                                        icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).//초록색마커
                                         alpha(0.8f)
-                                /*snippet("4호선")*/
                         );
-                   /* mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
-                    mGoogleMap.setOnMarkerClickListener(new MyMarkerClickListener());*/
                     }
                 }
-
                     mGoogleMap.addMarker(
                             new MarkerOptions().
                                     position(location).
@@ -167,34 +163,8 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     /*액션아이템 액티비티 전환=동작*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.action_location){
-            if(item.getItemId()==R.id.option1){
-                item.setChecked(true);
-                getOnekm();
-            }
 
-            if(item.getItemId()==R.id.option2){
-                item.setChecked(true);
-            }
-            if(item.getItemId()==R.id.option3){
-                item.setChecked(true);
-            }
-            getAllMaker();
-
-        }
-        if(item.getItemId()==R.id.option1){
-            item.setChecked(true);
-            getOnekm();
-        }
-        if(item.getItemId()==R.id.option2){
-            item.setChecked(true);
-            getTwokm();
-        }
-        if(item.getItemId()==R.id.option3){
-            item.setChecked(true);
-            getThreekm();
-        }
-       /* switch (item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_location:
                 getAllMaker();
                 ///////////////////////////////////눌렀을떄 마커뜨기
@@ -214,7 +184,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 getThreekm();
                 /////////////////////////3km
                 break;
-        }*/
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -254,23 +224,32 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
         });
     }
 
-
-
         public void onMapReady (GoogleMap googleMap){
         mGoogleMap = googleMap;
     }
-
-
         class MyMarkerClickListener implements GoogleMap.OnMarkerClickListener {
-
             @Override
             public boolean onMarkerClick(Marker marker) {
+                Cursor c=rDbHelper.getRestNameByLatLng(latitude);
+                c.moveToFirst();
+                while(c.moveToNext()) {
+                    if (latitude.equals(c.getString(5))) {
+                       //restaurantdetail로 이동하기
+                        String restName=c.getString(2);
+                        Intent toRestDetail= new Intent(getApplicationContext(), ToRestaurantDetail.class);
+                        toRestDetail.putExtra("restName",restName);/////////////////////////////////
+                      /*  toRestDetail.putExtra("latitude", latitude.toString());
+                        toRestDetail.putExtra("longitude", longitude.toString());*/
+                        startActivity(toRestDetail);
+                    }
+                }
+
 
                 // 다이얼로그 바디
                 AlertDialog.Builder alertdialog = new AlertDialog.Builder(activity);
                 // 다이얼로그 메세지
                 alertdialog.setMessage("맛집을 등록하시겠습니까?");
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                 // 확인버튼
                 alertdialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
@@ -302,9 +281,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 // 다이얼로그 보기
                 alert.show();
 
-
                 //  출처: http://taehyun71.tistory.com/4 [코딩하는 블로그]
-
 
                 return false;
             }
@@ -342,8 +319,8 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                     limitLoc.setLatitude(parseDouble(cur.getString(1)));
                     limitLoc.setLongitude(parseDouble(cur.getString(2)));
                     LatLng location = new LatLng(parseDouble(cur.getString(1)), parseDouble(cur.getString(2)));
-                    float distance = baseLoc.distanceTo(limitLoc);
-                    if (distance < 1000) {
+                    distance1 = baseLoc.distanceTo(limitLoc);
+                    if (distance1 < 1000) {
                         mGoogleMap.addMarker(
                                 new MarkerOptions().
                                         position(location).
@@ -353,7 +330,12 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                         );
                     }
                     else{
-                        marker.remove();
+                        //if(marker!=null){
+                            marker.remove();
+                       // }
+                       /* else{
+                            Toast.makeText(this, "Select", Toast.LENGTH_SHORT);
+                        }*/
                     }
                 }
             }
@@ -372,8 +354,8 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 limitLoc.setLatitude(parseDouble(cur.getString(1)));
                 limitLoc.setLongitude(parseDouble(cur.getString(2)));
                 LatLng location = new LatLng(parseDouble(cur.getString(1)), parseDouble(cur.getString(2)));
-                float distance = baseLoc.distanceTo(limitLoc);
-                if (distance < 2000) {
+                 distance2 = baseLoc.distanceTo(limitLoc);
+                if (distance2 < 2000) {
                     mGoogleMap.addMarker(
                             new MarkerOptions().
                                     position(location).
@@ -383,7 +365,12 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                     );
                 }
                 else{
-                    marker.remove();
+                    if(marker!=null){
+                        marker.remove();
+                    }
+                    else{
+                        Toast.makeText(this, "Select", Toast.LENGTH_SHORT);
+                    }
                 }
             }
         }
@@ -402,8 +389,8 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 limitLoc.setLatitude(parseDouble(cur.getString(1)));
                 limitLoc.setLongitude(parseDouble(cur.getString(2)));
                 LatLng location = new LatLng(parseDouble(cur.getString(1)), parseDouble(cur.getString(2)));
-                float distance = baseLoc.distanceTo(limitLoc);
-                if (distance < 3000) {
+                distance3 = baseLoc.distanceTo(limitLoc);
+                if (distance3 < 3000) {
                     mGoogleMap.addMarker(
                             new MarkerOptions().
                                     position(location).
@@ -412,55 +399,15 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                     alpha(0.8f)
                     );
                 }else{
-                    marker.remove();
+                    if(marker!=null){
+                        marker.remove();
+                    }
+                    else{
+                        Toast.makeText(this, "Select", Toast.LENGTH_SHORT);
+                    }
                 }
             }
         }
     }
 
-            //db의 위도, 경도 배열로 저장
-          /*  Double[] latitude= new Double[cur.getCount()];
-            if (cur.getCount() > 0) {
-                while (cur.moveToNext()) {
-                    for(int i = 0; i<latitude.length ; i++){
-                        latitude[i]= parseDouble(cur.getString(1));
-                    }
-                }
-            }
-            Double[] longitude= new Double[cur.getCount()];
-            if (cur.getCount() > 0) {
-                while (cur.moveToNext()) {
-                    for(int i = 0; i<latitude.length ; i++){
-                        latitude[i]= parseDouble(cur.getString(2));
-                    }
-                }
-            }*/
-
-            /*Cursor cur2=rDbHelper.getLocation();
-            if(cur.getCount()>0){
-                while(cur.moveToNext()) {
-                    //모든 등록된 행마다 distanceTo 검사(while) if 1000보다 작으면 마커 띄우기
-                    baseLoc.setLatitude(parseDouble(cur.getString(1)));
-                    baseLoc.setLongitude(parseDouble(cur.getString(2)));
-                    if (cur2.getCount() > 0) {
-                        while (cur2.moveToNext()) {//1번째와 나머지들 비교->2번째와 나머지들 비교
-                            LatLng location2 = new LatLng(parseDouble(cur2.getString(1)), parseDouble(cur2.getString(2)));
-                            limitLoc.setLatitude(parseDouble(cur2.getString(1)));
-                            limitLoc.setLongitude(parseDouble(cur2.getString(2)));
-                            distance = baseLoc.distanceTo(limitLoc);
-                            if (distance < 1000) {
-                                mGoogleMap.addMarker(
-                                        new MarkerOptions().
-                                                position(location2).
-                                                title(cur.getString(1)).
-                                                icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
-                                                alpha(0.8f)
-                                );
-                            }
-
-                        }
-                    }
-                }
-            }*/
-
-      }
+}

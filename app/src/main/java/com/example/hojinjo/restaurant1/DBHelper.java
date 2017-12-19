@@ -44,6 +44,16 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.query(RContract.Restaurant.TABLE_NAME,null,null,null,null,null,null);
     }
 
+
+    public Cursor getRestNameByLatLng(Double lat){//위도 경도를 통해서 맛집이름 알아내기
+        SQLiteDatabase db= getReadableDatabase();
+        String[] projection = {RContract.Restaurant.KEY_NAME};
+        String selection= RContract.Restaurant.KEY_LATITUDE + "=?";//물어보기
+        String[] selectionArgs ={lat.toString()};
+        return db.query(RContract.Restaurant.TABLE_NAME,projection,selection,selectionArgs,null,null,null);
+    }
+
+
     public Cursor getAllRestaurants() {
         SQLiteDatabase db = getReadableDatabase();
         String [] projection = {
