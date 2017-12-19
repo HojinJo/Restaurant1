@@ -47,7 +47,7 @@ public class MDBHelper extends SQLiteOpenHelper {
 
 
 
-    public Cursor getOneMenuByName(String menuname){
+    public Cursor getOneMenuByID(String id){
         SQLiteDatabase db=getReadableDatabase();
         String [] onemenu={
                 MContract.Menu._ID,
@@ -57,8 +57,8 @@ public class MDBHelper extends SQLiteOpenHelper {
                 MContract.Menu.KEY_DESCRIPTION,
         };
 
-        String menuselection= MContract.Menu.KEY_NAME + " =? ";
-        String [] menuArgs={menuname};
+        String menuselection= MContract.Menu._ID + " =? ";
+        String [] menuArgs={id};
 
         return db.query( MContract.Menu.TABLE_NAME,  // 테이블이름
                 onemenu,         // 프로젝션

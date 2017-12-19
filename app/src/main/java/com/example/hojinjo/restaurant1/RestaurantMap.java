@@ -2,6 +2,7 @@ package com.example.hojinjo.restaurant1;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.app.Fragment;
 import android.content.pm.PackageManager;
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -43,6 +44,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,8 +65,6 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     SharedPreferences setting;
     public static final String PREFERENCES_GROUP = "LoginInfo";//키값=xml파일이름
     public static final String PREFERENCES_ATTR1 = "selected";//키값
-    double distance;
-    double meter;
     final private int REQUEST_PERMISSIONS_FOR_LAST_KNOWN_LOCATION = 0;
     private FusedLocationProviderClient mFusedLocationClient;
     private Location mCurrentLocation;
@@ -111,6 +111,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                 bestResult.getLatitude(),
                                 bestResult.getLongitude()));
                     }
+                    getAllMaker();
                 } catch (IOException e) {
                     Log.e(getClass().toString(), "Failed in using Geocoder.", e);
                     return;
@@ -119,7 +120,6 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 LatLng location = new LatLng(bestResult.getLatitude(), bestResult.getLongitude());
                 rDbHelper=new DBHelper(getApplicationContext());
                 Cursor c=rDbHelper.getLocation();
-                c.moveToFirst();
                 while(c.moveToNext()) {
                     if (latitude.equals(c.getString(2)) && longitude.equals(c.getString(3))) {
                         mGoogleMap.addMarker(
@@ -128,10 +128,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                         title(str).
                                         icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
                                         alpha(0.8f)
-                                /*snippet("4호선")*/
                         );
-                   /* mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
-                    mGoogleMap.setOnMarkerClickListener(new MyMarkerClickListener());*/
                     }
                 }
 
@@ -167,38 +164,11 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     /*액션아이템 액티비티 전환=동작*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.action_location){
-            if(item.getItemId()==R.id.option1){
-                item.setChecked(true);
-                getOnekm();
-            }
-
-            if(item.getItemId()==R.id.option2){
-                item.setChecked(true);
-            }
-            if(item.getItemId()==R.id.option3){
-                item.setChecked(true);
-            }
-            getAllMaker();
-
-        }
-        if(item.getItemId()==R.id.option1){
-            item.setChecked(true);
-            getOnekm();
-        }
-        if(item.getItemId()==R.id.option2){
-            item.setChecked(true);
-            getTwokm();
-        }
-        if(item.getItemId()==R.id.option3){
-            item.setChecked(true);
-            getThreekm();
-        }
-       /* switch (item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_location:
                 getAllMaker();
                 ///////////////////////////////////눌렀을떄 마커뜨기
-                return true;
+                break;
             case R.id.option1:
                 item.setChecked(true);
                 getOnekm();
@@ -214,7 +184,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                 getThreekm();
                 /////////////////////////3km
                 break;
-        }*/
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -253,10 +223,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
             }
         });
     }
-
-
-
-        public void onMapReady (GoogleMap googleMap){
+    public void onMapReady (GoogleMap googleMap){
         mGoogleMap = googleMap;
     }
 
@@ -266,50 +233,52 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
             @Override
             public boolean onMarkerClick(Marker marker) {
 
-                // 다이얼로그 바디
-                AlertDialog.Builder alertdialog = new AlertDialog.Builder(activity);
-                // 다이얼로그 메세지
-                alertdialog.setMessage("맛집을 등록하시겠습니까?");
+                    // 다이얼로그 바디
+                    AlertDialog.Builder alertdialog = new AlertDialog.Builder(activity);
+                    // 다이얼로그 메세지
+                    alertdialog.setMessage("맛집을 등록하시겠습니까?");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                // 확인버튼
-                alertdialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        edit = (EditText) findViewById(R.id.edit_text);
-                        str = edit.getText().toString();
-                        Intent toMain = new Intent(getApplicationContext(), MainActivity.class);
-                        toMain.putExtra("address", str);/////////////////////////////////
-                        toMain.putExtra("latitude", latitude.toString());
-                        toMain.putExtra("longitude", longitude.toString());
-                        //에딧텍스트창 스트링도 같이 넘김, 위도경도도 같이 넘거야함
-                        startActivity(toMain);
-                    }
-                });
+                    // 확인버튼
+                    alertdialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            edit = (EditText) findViewById(R.id.edit_text);
+                            str = edit.getText().toString();
+                            Intent toMain = new Intent(getApplicationContext(), MainActivity.class);
+                            toMain.putExtra("address", str);/////////////////////////////////
+                            toMain.putExtra("latitude", latitude.toString());
+                            toMain.putExtra("longitude", longitude.toString());
+                            //에딧텍스트창 스트링도 같이 넘김, 위도경도도 같이 넘거야함
+                            startActivity(toMain);
+                        }
+                    });
 
-                // 취소버튼
-                alertdialog.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                    // 취소버튼
+                    alertdialog.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                // 메인 다이얼로그 생성
-                AlertDialog alert = alertdialog.create();
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    // 메인 다이얼로그 생성
+                    AlertDialog alert = alertdialog.create();
 
-                // 타이틀
-                alert.setTitle("맛집 등록");
-                // 다이얼로그 보기
-                alert.show();
-
-
-                //  출처: http://taehyun71.tistory.com/4 [코딩하는 블로그]
+                    // 타이틀
+                    alert.setTitle("맛집 등록");
+                    // 다이얼로그 보기
+                    alert.show();
 
 
-                return false;
+                    //  출처: http://taehyun71.tistory.com/4 [코딩하는 블로그]
+
+
+                  return false;
+                }
             }
-        }
 
+
+        //모든 마커 표시
         public void getAllMaker(){
             rDbHelper=new DBHelper(getApplicationContext());
             Cursor c=rDbHelper.getLocation();
@@ -330,12 +299,12 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
         }
         /*1km 반경*/
         public void getOnekm() {
+            mGoogleMap.clear();
             rDbHelper = new DBHelper(getApplicationContext());
             Cursor cur = rDbHelper.getLocation();
             Location baseLoc = new Location("base");
             baseLoc.setLatitude(mCurrentLocation.getLatitude());
             baseLoc.setLongitude(mCurrentLocation.getLongitude());
-
             Location limitLoc = new Location("limit");
             if (cur.getCount() > 0) {
                 while (cur.moveToNext()) {
@@ -352,9 +321,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                         alpha(0.8f)
                         );
                     }
-                    else{
-                        marker.remove();
-                    }
+
                 }
             }
         }
@@ -383,7 +350,9 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                     );
                 }
                 else{
-                    marker.remove();
+                    if (marker != null) {
+                        marker.remove();
+                    }
                 }
             }
         }
@@ -412,7 +381,9 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                     alpha(0.8f)
                     );
                 }else{
-                    marker.remove();
+                    if (marker != null) {
+                        marker.remove();
+                    }
                 }
             }
         }
