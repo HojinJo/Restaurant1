@@ -223,91 +223,70 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
     }
 
         public void onMapReady (GoogleMap googleMap){
-    public void onMapReady (GoogleMap googleMap){
+
         mGoogleMap = googleMap;
     }
         class MyMarkerClickListener implements GoogleMap.OnMarkerClickListener {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Cursor c=rDbHelper.getRestNameByLatLng(latitude);
-                c.moveToFirst();
-                while(c.moveToNext()) {
-                    if (latitude.equals(c.getString(5))) {
-                       //restaurantdetail로 이동하기
-                        String restName=c.getString(2);
-                        Intent toRestDetail= new Intent(getApplicationContext(), ToRestaurantDetail.class);
-                        toRestDetail.putExtra("restName",restName);/////////////////////////////////
+                rDbHelper=new DBHelper(getApplicationContext());
+                Cursor cursor = rDbHelper.getLocation();
+                Cursor c = rDbHelper.getRestNameByLatLng(latitude);
+
+                while(cursor.moveToNext()) {
+                    if (latitude.equals(cursor.getString(1)) && longitude.equals(cursor.getString(2))) {
+                        //restaurantdetail로 이동하기
+                        String restName = cursor.getString(0);
+                        DetailsFragment detailsFragment = new DetailsFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("rest_name", restName);
+                        detailsFragment.setArguments(bundle);
                       /*  toRestDetail.putExtra("latitude", latitude.toString());
                         toRestDetail.putExtra("longitude", longitude.toString());*/
+                        Intent toRestDetail = new Intent();
                         startActivity(toRestDetail);
+                    } else {
+
+                        // 다이얼로그 바디
+                        AlertDialog.Builder alertdialog = new AlertDialog.Builder(activity);
+                        // 다이얼로그 메세지
+                        alertdialog.setMessage("맛집을 등록하시겠습니까?");
+
+                        // 확인버튼
+                        alertdialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                edit = (EditText) findViewById(R.id.edit_text);
+                                str = edit.getText().toString();
+                                Intent toMain = new Intent(getApplicationContext(), MainActivity.class);
+                                toMain.putExtra("address", str);/////////////////////////////////
+                                toMain.putExtra("latitude", latitude.toString());
+                                toMain.putExtra("longitude", longitude.toString());
+                                //에딧텍스트창 스트링도 같이 넘김, 위도경도도 같이 넘거야함
+                                startActivity(toMain);
+                            }
+                        });
+                        // 취소버튼
+                        alertdialog.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        // 메인 다이얼로그 생성
+                        AlertDialog alert = alertdialog.create();
+
+                        // 타이틀
+                        alert.setTitle("맛집 등록");
+                        // 다이얼로그 보기
+                        alert.show();
+
                     }
-                }
-
-                // 다이얼로그 바디
-                AlertDialog.Builder alertdialog = new AlertDialog.Builder(activity);
-                // 다이얼로그 메세지
-                alertdialog.setMessage("맛집을 등록하시겠습니까?");
-
-                // 확인버튼
-                alertdialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        edit = (EditText) findViewById(R.id.edit_text);
-                        str = edit.getText().toString();
-                        Intent toMain = new Intent(getApplicationContext(), MainActivity.class);
-                        toMain.putExtra("address", str);/////////////////////////////////
-                        toMain.putExtra("latitude", latitude.toString());
-                        toMain.putExtra("longitude", longitude.toString());
-                        //에딧텍스트창 스트링도 같이 넘김, 위도경도도 같이 넘거야함
-                        startActivity(toMain);
-                    }
-                });
-                    // 다이얼로그 바디
-                    AlertDialog.Builder alertdialog = new AlertDialog.Builder(activity);
-                    // 다이얼로그 메세지
-                    alertdialog.setMessage("맛집을 등록하시겠습니까?");
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    // 확인버튼
-                    alertdialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            edit = (EditText) findViewById(R.id.edit_text);
-                            str = edit.getText().toString();
-                            Intent toMain = new Intent(getApplicationContext(), MainActivity.class);
-                            toMain.putExtra("address", str);/////////////////////////////////
-                            toMain.putExtra("latitude", latitude.toString());
-                            toMain.putExtra("longitude", longitude.toString());
-                            //에딧텍스트창 스트링도 같이 넘김, 위도경도도 같이 넘거야함
-                            startActivity(toMain);
-                        }
-                    });
-
-                    // 취소버튼
-                    alertdialog.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-                    // 메인 다이얼로그 생성
-                    AlertDialog alert = alertdialog.create();
-
-                    // 타이틀
-                    alert.setTitle("맛집 등록");
-                    // 다이얼로그 보기
-                    alert.show();
-
-                //  출처: http://taehyun71.tistory.com/4 [코딩하는 블로그]
-
-                return false;
-
-                    //  출처: http://taehyun71.tistory.com/4 [코딩하는 블로그]
-
-
-                  return false;
-                }
+                }return false;
             }
+        }
+
 
 
         //모든 마커 표시
@@ -353,20 +332,11 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                         alpha(0.8f)
                         );
                     }
-                    else{
-                        //if(marker!=null){
-                            marker.remove();
-                       // }
-                       /* else{
-                            Toast.makeText(this, "Select", Toast.LENGTH_SHORT);
-                        }*/
-                    }
-
                 }
             }
         }
-
-        public void getTwokm() {
+    public void getTwokm() {
+        mGoogleMap.clear();
         rDbHelper = new DBHelper(getApplicationContext());
         Cursor cur = rDbHelper.getLocation();
         Location baseLoc = new Location("base");
@@ -389,22 +359,11 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                     alpha(0.8f)
                     );
                 }
-                else{
-                    if(marker!=null){
-                        marker.remove();
-                    }
-                    else{
-                        Toast.makeText(this, "Select", Toast.LENGTH_SHORT);
-                    }
-                    if (marker != null) {
-                        marker.remove();
-                    }
-                }
             }
         }
     }
     public void getThreekm() {
-
+        mGoogleMap.clear();
         rDbHelper = new DBHelper(getApplicationContext());
         Cursor cur = rDbHelper.getLocation();
         Location baseLoc = new Location("base");
@@ -426,16 +385,6 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                                     icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).
                                     alpha(0.8f)
                     );
-                }else{
-                    if(marker!=null){
-                        marker.remove();
-                    }
-                    else{
-                        Toast.makeText(this, "Select", Toast.LENGTH_SHORT);
-                    }
-                    if (marker != null) {
-                        marker.remove();
-                    }
                 }
             }
         }

@@ -45,12 +45,12 @@ public class DetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_details, container, false);
 
-
+        String restName = getArguments().getString("rest_name");    //맛집이름을 넘겨받음
 
         menudbhelper=new MDBHelper(getContext());
         restdbhelper = new DBHelper(getContext());
+        c=restdbhelper.getRestaurantIDByName(restName);
 
-        c=restdbhelper.getRestaurantIDByName(rest_name);
         if (c.moveToNext()) {
             cursor = menudbhelper.getAllMenusByID(c.getInt(0));
             if (cursor.moveToNext())
