@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 insertRecord();
                 String restimg = restUri.toString();
                 Intent intent = new Intent(getApplicationContext(), RestaurantActivity.class);
-                intent.putExtra("RESTIMG",restimg);
                 startActivity(intent);
             }
         });

@@ -231,22 +231,19 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
             public boolean onMarkerClick(Marker marker) {
                 rDbHelper=new DBHelper(getApplicationContext());
                 Cursor cursor = rDbHelper.getLocation();
-                Cursor c = rDbHelper.getRestNameByLatLng(latitude);
 
                 while(cursor.moveToNext()) {
                     if (latitude.equals(cursor.getString(1)) && longitude.equals(cursor.getString(2))) {
                         //restaurantdetail로 이동하기
-                        String restName = cursor.getString(0);
+                        /*String restName = cursor.getString(0);
                         DetailsFragment detailsFragment = new DetailsFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("rest_name", restName);
-                        detailsFragment.setArguments(bundle);
-                      /*  toRestDetail.putExtra("latitude", latitude.toString());
-                        toRestDetail.putExtra("longitude", longitude.toString());*/
-                        Intent toRestDetail = new Intent();
+                        detailsFragment.setArguments(bundle);*/
+                        Intent toRestDetail = new Intent(getApplicationContext() , ToRestaurantDetail.class);
                         startActivity(toRestDetail);
-                    } else {
-
+                    }
+                }
                         // 다이얼로그 바디
                         AlertDialog.Builder alertdialog = new AlertDialog.Builder(activity);
                         // 다이얼로그 메세지
@@ -281,9 +278,7 @@ public class RestaurantMap extends AppCompatActivity implements OnMapReadyCallba
                         alert.setTitle("맛집 등록");
                         // 다이얼로그 보기
                         alert.show();
-
-                    }
-                }return false;
+                return false;
             }
         }
 

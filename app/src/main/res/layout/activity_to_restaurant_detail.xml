@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.hojinjo.restaurant1.ToRestaurantDetail">
+
     <fragment
-        android:name="com.example.hojinjo.restaurant1.RestaurantDetail"
         android:id="@+id/titles"
-        android:layout_weight="1"
+        android:name="com.example.hojinjo.restaurant1.RestaurantDetail"
         android:layout_width="0px"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
     <FrameLayout
         android:id="@+id/container"
-        android:layout_weight="1"
         android:layout_width="0px"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 </LinearLayout>
